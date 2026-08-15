@@ -3,7 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Aniwatch List</title>
+  <title>My Anime Notebook</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
     * {
@@ -15,93 +17,117 @@
 
     body {
       background: #0b0b12;
-      color: #ffffff;
+      color: white;
       min-height: 100vh;
     }
 
-    .app {
+    button {
+      cursor: pointer;
+    }
+
+    .container {
       max-width: 1100px;
       margin: auto;
-      padding: 20px;
+      padding: 18px;
     }
 
     header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 15px 0 25px;
+      margin-bottom: 25px;
     }
 
     .logo {
-      font-size: 25px;
+      font-size: 24px;
       font-weight: bold;
     }
 
-    .login-btn,
-    .add-btn {
-      border: none;
-      border-radius: 10px;
-      padding: 11px 17px;
-      background: #ffffff;
-      color: #000000;
+    button {
+      border: 0;
+      border-radius: 9px;
+      padding: 10px 15px;
       font-weight: bold;
-      cursor: pointer;
+    }
+
+    .primary {
+      background: white;
+      color: black;
+    }
+
+    .secondary {
+      background: #292936;
+      color: white;
+    }
+
+    .danger {
+      background: #8d3030;
+      color: white;
     }
 
     .hero {
       background: #151520;
       border-radius: 18px;
-      padding: 25px;
-      margin-bottom: 22px;
+      padding: 24px;
+      margin-bottom: 20px;
     }
 
     .hero h1 {
-      font-size: 30px;
-      margin-bottom: 8px;
+      margin-bottom: 7px;
     }
 
-    .hero p {
-      color: #aaaab8;
+    .muted {
+      color: #9999a8;
     }
 
     .stats {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 12px;
+      gap: 10px;
       margin-top: 20px;
     }
 
     .stat {
-      background: #1b1b28;
-      border-radius: 14px;
-      padding: 18px;
+      background: #1d1d29;
+      padding: 15px;
+      border-radius: 12px;
     }
 
-    .stat-number {
-      font-size: 25px;
+    .number {
+      font-size: 24px;
       font-weight: bold;
     }
 
-    .stat-name {
+    .label {
       color: #9999a8;
-      margin-top: 5px;
-      font-size: 14px;
+      font-size: 13px;
+      margin-top: 4px;
     }
 
-    .section-title {
+    .toolbar {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin: 25px 0 15px;
+      margin: 20px 0 15px;
+      gap: 10px;
     }
 
-    .anime-grid {
+    .search {
+      background: #151520;
+      color: white;
+      border: 1px solid #30303c;
+      padding: 11px;
+      border-radius: 9px;
+      width: 220px;
+    }
+
+    .grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 15px;
     }
 
-    .anime-card {
+    .card {
       background: #151520;
       border-radius: 15px;
       overflow: hidden;
@@ -109,45 +135,61 @@
 
     .poster {
       height: 220px;
-      background: #252532;
+      background: #242431;
       display: flex;
-      align-items: center;
       justify-content: center;
-      color: #777788;
-      font-size: 14px;
+      align-items: center;
+      color: #777;
+      overflow: hidden;
     }
 
-    .anime-info {
-      padding: 14px;
+    .poster img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
 
-    .anime-info h3 {
-      font-size: 16px;
+    .info {
+      padding: 13px;
+    }
+
+    .info h3 {
       margin-bottom: 7px;
     }
 
-    .anime-info p {
-      color: #9999a8;
+    .info p {
+      color: #aaa;
       font-size: 13px;
-      margin-top: 5px;
+      margin: 5px 0;
     }
 
     .badge {
       display: inline-block;
-      margin-top: 8px;
+      background: #282834;
       padding: 5px 8px;
-      border-radius: 7px;
-      background: #252532;
-      color: #ccccd5;
+      border-radius: 6px;
       font-size: 11px;
+      margin-top: 5px;
+    }
+
+    .card-buttons {
+      display: flex;
+      gap: 7px;
+      margin-top: 10px;
+    }
+
+    .card-buttons button {
+      flex: 1;
+      font-size: 12px;
+      padding: 8px;
     }
 
     .empty {
       background: #151520;
-      border-radius: 15px;
       padding: 35px;
       text-align: center;
-      color: #9999a8;
+      border-radius: 15px;
+      color: #999;
       grid-column: 1 / -1;
     }
 
@@ -155,82 +197,94 @@
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,.75);
-      align-items: center;
+      background: rgba(0,0,0,.78);
       justify-content: center;
-      padding: 20px;
+      align-items: center;
+      padding: 18px;
+      z-index: 10;
     }
 
     .modal-box {
       width: 100%;
       max-width: 430px;
       background: #151520;
-      border-radius: 18px;
       padding: 22px;
+      border-radius: 17px;
     }
 
     .modal-box h2 {
-      margin-bottom: 18px;
+      margin-bottom: 15px;
     }
 
     input,
     select,
     textarea {
       width: 100%;
-      background: #0e0e16;
+      background: #0d0d14;
       color: white;
-      border: 1px solid #30303d;
-      border-radius: 9px;
+      border: 1px solid #333341;
+      border-radius: 8px;
       padding: 11px;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
       outline: none;
     }
 
     textarea {
-      min-height: 100px;
+      min-height: 90px;
       resize: vertical;
     }
 
-    .modal-actions {
+    .modal-buttons {
       display: flex;
-      gap: 10px;
+      gap: 8px;
     }
 
-    .close-btn {
-      border: none;
-      background: #292934;
-      color: white;
-      border-radius: 9px;
-      padding: 11px 17px;
-      cursor: pointer;
+    .modal-buttons button {
+      flex: 1;
+    }
+
+    #userArea {
+      display: none;
+      align-items: center;
+      gap: 8px;
+    }
+
+    #loginArea {
+      display: flex;
+    }
+
+    .message {
+      text-align: center;
+      padding: 10px;
+      color: #ff8b8b;
     }
 
     @media (max-width: 800px) {
-      .stats {
+      .grid {
         grid-template-columns: repeat(2, 1fr);
       }
 
-      .anime-grid {
+      .stats {
         grid-template-columns: repeat(2, 1fr);
       }
     }
 
-    @media (max-width: 450px) {
-      .app {
-        padding: 14px;
+    @media (max-width: 500px) {
+      .toolbar {
+        align-items: stretch;
+        flex-direction: column;
       }
 
-      .hero h1 {
-        font-size: 24px;
-      }
-
-      .anime-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 10px;
+      .search {
+        width: 100%;
       }
 
       .poster {
-        height: 180px;
+        height: 190px;
+      }
+
+      .logo {
+        font-size: 19px;
       }
     }
   </style>
@@ -238,133 +292,698 @@
 
 <body>
 
-  <div class="app">
+<div class="container">
 
-    <header>
-      <div class="logo">🎬 Aniwatch List</div>
-      <button class="login-btn" onclick="openLogin()">Login</button>
-    </header>
+  <header>
+    <div class="logo">🎬 My Anime Notebook</div>
 
-    <section class="hero">
-      <h1>My Anime Notebook</h1>
-      <p>Your personal place to remember everything you watch.</p>
-
-      <div class="stats">
-        <div class="stat">
-          <div class="stat-number" id="watchingCount">0</div>
-          <div class="stat-name">Watching</div>
-        </div>
-
-        <div class="stat">
-          <div class="stat-number" id="completedCount">0</div>
-          <div class="stat-name">Completed</div>
-        </div>
-
-        <div class="stat">
-          <div class="stat-number" id="planCount">0</div>
-          <div class="stat-name">Plan to Watch</div>
-        </div>
-
-        <div class="stat">
-          <div class="stat-number" id="favoriteCount">0</div>
-          <div class="stat-name">Favorites</div>
-        </div>
-      </div>
-    </section>
-
-    <div class="section-title">
-      <h2>My Anime</h2>
-      <button class="add-btn" onclick="openAddAnime()">＋ Add Anime</button>
+    <div id="loginArea">
+      <button class="primary" onclick="openAuth()">Login</button>
     </div>
 
-    <div class="anime-grid" id="animeGrid">
+    <div id="userArea">
+      <span id="userEmail"></span>
+      <button class="secondary" onclick="logout()">Logout</button>
+    </div>
+  </header>
+
+  <section class="hero">
+    <h1>My Anime List</h1>
+    <p class="muted">Your private anime notebook.</p>
+
+    <div class="stats">
+      <div class="stat">
+        <div class="number" id="watchingCount">0</div>
+        <div class="label">Watching</div>
+      </div>
+
+      <div class="stat">
+        <div class="number" id="completedCount">0</div>
+        <div class="label">Completed</div>
+      </div>
+
+      <div class="stat">
+        <div class="number" id="planCount">0</div>
+        <div class="label">Plan to Watch</div>
+      </div>
+
+      <div class="stat">
+        <div class="number" id="favoriteCount">0</div>
+        <div class="label">Favorites</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="toolbar">
+    <h2>My Anime</h2>
+
+    <div>
+      <input
+        class="search"
+        id="search"
+        placeholder="Search anime..."
+        oninput="renderAnime()"
+      >
+
+      <button class="primary" onclick="openAnimeModal()">＋ Add Anime</button>
+    </div>
+  </div>
+
+  <div id="message" class="message"></div>
+
+  <div class="grid" id="animeGrid"></div>
+
+</div>
+
+
+<!-- AUTH MODAL -->
+
+<div class="modal" id="authModal">
+  <div class="modal-box">
+
+    <h2 id="authTitle">Login</h2>
+
+    <input id="email" type="email" placeholder="Email">
+    <input id="password" type="password" placeholder="Password">
+
+    <div class="modal-buttons">
+      <button class="primary" onclick="submitAuth()">Login</button>
+      <button class="secondary" onclick="toggleAuth()">Create account</button>
+    </div>
+
+    <br>
+
+    <button class="secondary" style="width:100%" onclick="closeAuth()">
+      Close
+    </button>
+
+  </div>
+</div>
+
+
+<!-- ANIME MODAL -->
+
+<div class="modal" id="animeModal">
+  <div class="modal-box">
+
+    <h2 id="animeModalTitle">Add Anime</h2>
+
+    <input id="animeTitle" placeholder="Anime name">
+
+    <select id="animeStatus">
+      <option value="Watching">Watching</option>
+      <option value="Completed">Completed</option>
+      <option value="Plan to Watch">Plan to Watch</option>
+      <option value="On Hold">On Hold</option>
+      <option value="Dropped">Dropped</option>
+    </select>
+
+    <input id="animeEpisodes" type="number" placeholder="Episodes">
+
+    <input id="animeRating" type="number" min="0" max="10" step="0.1" placeholder="Rating / 10">
+
+    <input id="animePoster" placeholder="Poster image URL">
+
+    <textarea id="animeNotes" placeholder="Your personal notes..."></textarea>
+
+    <div class="modal-buttons">
+      <button class="primary" onclick="saveAnime()">Save</button>
+      <button class="secondary" onclick="closeAnimeModal()">Cancel</button>
+    </div>
+
+  </div>
+</div>
+
+
+<script>
+
+  /* SUPABASE */
+
+  const SUPABASE_URL = "https://iwggkwxirqydixsbbctb.supabase.co";
+
+  const SUPABASE_KEY = "sb_publishable_1McSJW8L9GflzowekoZM6A_mT53BuX7";
+
+  const supabaseClient =
+    window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_KEY
+    );
+
+
+  let animeList = [];
+  let editingId = null;
+  let loginMode = true;
+
+
+  /* AUTH */
+
+  async function checkUser() {
+
+    const {
+      data: { session }
+    } = await supabaseClient.auth.getSession();
+
+    updateAuthUI(session);
+
+    if (session) {
+      loadAnime();
+    } else {
+      showEmpty();
+    }
+  }
+
+
+  function updateAuthUI(session) {
+
+    const loginArea = document.getElementById("loginArea");
+    const userArea = document.getElementById("userArea");
+    const userEmail = document.getElementById("userEmail");
+
+    if (session) {
+
+      loginArea.style.display = "none";
+      userArea.style.display = "flex";
+
+      userEmail.textContent =
+        session.user.email || "Logged in";
+
+    } else {
+
+      loginArea.style.display = "flex";
+      userArea.style.display = "none";
+
+    }
+  }
+
+
+  function openAuth() {
+
+    document.getElementById("authModal").style.display = "flex";
+
+  }
+
+
+  function closeAuth() {
+
+    document.getElementById("authModal").style.display = "none";
+
+  }
+
+
+  function toggleAuth() {
+
+    loginMode = !loginMode;
+
+    document.getElementById("authTitle").textContent =
+      loginMode ? "Login" : "Create Account";
+
+  }
+
+
+  async function submitAuth() {
+
+    const email =
+      document.getElementById("email").value.trim();
+
+    const password =
+      document.getElementById("password").value;
+
+    if (!email || !password) {
+
+      alert("Email and password are required.");
+
+      return;
+    }
+
+
+    let result;
+
+
+    if (loginMode) {
+
+      result =
+        await supabaseClient.auth.signInWithPassword({
+          email,
+          password
+        });
+
+    } else {
+
+      result =
+        await supabaseClient.auth.signUp({
+          email,
+          password
+        });
+
+    }
+
+
+    if (result.error) {
+
+      alert(result.error.message);
+
+      return;
+
+    }
+
+
+    if (!loginMode) {
+
+      alert(
+        "Account created. Check your email if confirmation is required."
+      );
+
+    } else {
+
+      closeAuth();
+
+    }
+
+
+    checkUser();
+
+  }
+
+
+  async function logout() {
+
+    await supabaseClient.auth.signOut();
+
+    animeList = [];
+
+    updateAuthUI(null);
+
+    showEmpty();
+
+  }
+
+
+  /* ANIME */
+
+  async function loadAnime() {
+
+    const {
+      data: { user }
+    } = await supabaseClient.auth.getUser();
+
+    if (!user) return;
+
+
+    const { data, error } =
+      await supabaseClient
+        .from("anime")
+        .select("*")
+        .order("id", { ascending: false });
+
+
+    if (error) {
+
+      showMessage(error.message);
+
+      return;
+
+    }
+
+
+    animeList = data || [];
+
+    renderAnime();
+
+  }
+
+
+  function openAnimeModal(anime = null) {
+
+    editingId = anime ? anime.id : null;
+
+    document.getElementById("animeModalTitle").textContent =
+      anime ? "Edit Anime" : "Add Anime";
+
+    document.getElementById("animeTitle").value =
+      anime?.title || "";
+
+    document.getElementById("animeStatus").value =
+      anime?.status || "Watching";
+
+    document.getElementById("animeEpisodes").value =
+      anime?.episodes ?? "";
+
+    document.getElementById("animeRating").value =
+      anime?.rating ?? "";
+
+    document.getElementById("animePoster").value =
+      anime?.poster || "";
+
+    document.getElementById("animeNotes").value =
+      anime?.notes || "";
+
+    document.getElementById("animeModal").style.display = "flex";
+
+  }
+
+
+  function closeAnimeModal() {
+
+    document.getElementById("animeModal").style.display = "none";
+
+    editingId = null;
+
+  }
+
+
+  async function saveAnime() {
+
+    const title =
+      document.getElementById("animeTitle").value.trim();
+
+    const status =
+      document.getElementById("animeStatus").value;
+
+    const episodesValue =
+      document.getElementById("animeEpisodes").value;
+
+    const ratingValue =
+      document.getElementById("animeRating").value;
+
+    const poster =
+      document.getElementById("animePoster").value.trim();
+
+    const notes =
+      document.getElementById("animeNotes").value.trim();
+
+
+    if (!title) {
+
+      alert("Enter anime name.");
+
+      return;
+
+    }
+
+
+    const {
+      data: { user }
+    } = await supabaseClient.auth.getUser();
+
+
+    if (!user) {
+
+      alert("Please login first.");
+
+      return;
+
+    }
+
+
+    const animeData = {
+
+      title: title,
+
+      status: status,
+
+      episodes:
+        episodesValue === ""
+          ? null
+          : Number(episodesValue),
+
+      rating:
+        ratingValue === ""
+          ? null
+          : Number(ratingValue),
+
+      poster: poster || null,
+
+      notes: notes || null
+
+    };
+
+
+    let result;
+
+
+    if (editingId) {
+
+      result =
+        await supabaseClient
+          .from("anime")
+          .update(animeData)
+          .eq("id", editingId);
+
+    } else {
+
+      result =
+        await supabaseClient
+          .from("anime")
+          .insert({
+
+            ...animeData,
+
+            user_id: user.id
+
+          });
+
+    }
+
+
+    if (result.error) {
+
+      alert(result.error.message);
+
+      return;
+
+    }
+
+
+    closeAnimeModal();
+
+    await loadAnime();
+
+  }
+
+
+  async function deleteAnime(id) {
+
+    if (!confirm("Delete this anime?")) return;
+
+
+    const { error } =
+      await supabaseClient
+        .from("anime")
+        .delete()
+        .eq("id", id);
+
+
+    if (error) {
+
+      alert(error.message);
+
+      return;
+
+    }
+
+
+    await loadAnime();
+
+  }
+
+
+  function renderAnime() {
+
+    const grid =
+      document.getElementById("animeGrid");
+
+    const search =
+      document.getElementById("search")
+        .value
+        .toLowerCase();
+
+
+    const filtered =
+      animeList.filter(anime =>
+        (anime.title || "")
+          .toLowerCase()
+          .includes(search)
+      );
+
+
+    if (!filtered.length) {
+
+      showEmpty();
+
+      updateStats();
+
+      return;
+
+    }
+
+
+    grid.innerHTML = filtered.map(anime => {
+
+      const poster =
+        anime.poster
+          ? `<img src="${escapeHtml(anime.poster)}" alt="">`
+          : "🎬 No Poster";
+
+
+      return `
+
+        <div class="card">
+
+          <div class="poster">
+            ${poster}
+          </div>
+
+          <div class="info">
+
+            <h3>
+              ${escapeHtml(anime.title)}
+            </h3>
+
+            <span class="badge">
+              ${escapeHtml(anime.status || "")}
+            </span>
+
+            <p>
+              Episodes:
+              ${anime.episodes ?? "-"}
+            </p>
+
+            <p>
+              ⭐ Rating:
+              ${anime.rating ?? "-"}
+            </p>
+
+            ${
+              anime.notes
+                ? `<p>📝 ${escapeHtml(anime.notes)}</p>`
+                : ""
+            }
+
+            <div class="card-buttons">
+
+              <button
+                class="secondary"
+                onclick='editAnime(${anime.id})'>
+                Edit
+              </button>
+
+              <button
+                class="danger"
+                onclick="deleteAnime(${anime.id})">
+                Delete
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      `;
+
+    }).join("");
+
+
+    updateStats();
+
+  }
+
+
+  function editAnime(id) {
+
+    const anime =
+      animeList.find(a => a.id === id);
+
+    if (anime) {
+
+      openAnimeModal(anime);
+
+    }
+
+  }
+
+
+  function updateStats() {
+
+    document.getElementById("watchingCount").textContent =
+      animeList.filter(a => a.status === "Watching").length;
+
+    document.getElementById("completedCount").textContent =
+      animeList.filter(a => a.status === "Completed").length;
+
+    document.getElementById("planCount").textContent =
+      animeList.filter(a => a.status === "Plan to Watch").length;
+
+    document.getElementById("favoriteCount").textContent =
+      "0";
+
+  }
+
+
+  function showEmpty() {
+
+    document.getElementById("animeGrid").innerHTML = `
+
       <div class="empty">
-        No anime added yet.<br><br>
-        Tap <b>＋ Add Anime</b> to add your first one.
+
+        No anime found.
+
+        <br><br>
+
+        Login and add your first anime.
+
       </div>
-    </div>
 
-  </div>
+    `;
 
-  <!-- Login Modal -->
-  <div class="modal" id="loginModal">
-    <div class="modal-box">
-      <h2>🔐 Login</h2>
+  }
 
-      <input type="email" id="loginEmail" placeholder="Email">
-      <input type="password" id="loginPassword" placeholder="Password">
 
-      <div class="modal-actions">
-        <button class="login-btn" onclick="login()">Login</button>
-        <button class="close-btn" onclick="closeLogin()">Close</button>
-      </div>
-    </div>
-  </div>
+  function showMessage(text) {
 
-  <!-- Add Anime Modal -->
-  <div class="modal" id="animeModal">
-    <div class="modal-box">
-      <h2>＋ Add Anime</h2>
+    document.getElementById("message").textContent = text;
 
-      <input id="animeTitle" placeholder="Anime name">
+  }
 
-      <select id="animeStatus">
-        <option value="Watching">Watching</option>
-        <option value="Completed">Completed</option>
-        <option value="Plan to Watch">Plan to Watch</option>
-        <option value="On Hold">On Hold</option>
-        <option value="Dropped">Dropped</option>
-      </select>
 
-      <input id="animeEpisodes" type="number" placeholder="Episodes">
+  function escapeHtml(value) {
 
-      <input id="animeRating" type="number" min="0" max="10" step="0.1" placeholder="Rating / 10">
+    return String(value)
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
 
-      <input id="animePoster" placeholder="Poster image URL">
+  }
 
-      <textarea id="animeNotes" placeholder="Your personal notes..."></textarea>
 
-      <div class="modal-actions">
-        <button class="add-btn" onclick="addAnime()">Save Anime</button>
-        <button class="close-btn" onclick="closeAddAnime()">Cancel</button>
-      </div>
-    </div>
-  </div>
+  /* START */
 
-  <script>
+  supabaseClient.auth.onAuthStateChange(
+    (_event, session) => {
 
-    function openLogin() {
-      document.getElementById("loginModal").style.display = "flex";
-    }
+      updateAuthUI(session);
 
-    function closeLogin() {
-      document.getElementById("loginModal").style.display = "none";
-    }
+      if (session) {
 
-    function openAddAnime() {
-      document.getElementById("animeModal").style.display = "flex";
-    }
+        loadAnime();
 
-    function closeAddAnime() {
-      document.getElementById("animeModal").style.display = "none";
-    }
+      } else {
 
-    function login() {
-      alert("Supabase login connection will be added next.");
-    }
+        animeList = [];
 
-    function addAnime() {
-      const title = document.getElementById("animeTitle").value;
+        showEmpty();
 
-      if (!title) {
-        alert("Please enter an anime name.");
-        return;
       }
 
-      alert("Anime form is ready. Supabase database connection will be added next.");
     }
+  );
 
-  </script>
+
+  checkUser();
+
+</script>
 
 </body>
 </html>
