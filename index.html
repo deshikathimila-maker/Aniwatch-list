@@ -3,206 +3,872 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>My Anime Notebook</title>
+
+<title>AniWatch List</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
-body{background:#0b0b12;color:#fff;min-height:100vh}
-.container{max-width:1100px;margin:auto;padding:18px}
-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:25px}
-.logo{font-size:24px;font-weight:bold}
-button{border:0;border-radius:9px;padding:10px 15px;font-weight:bold;cursor:pointer}
-.primary{background:#fff;color:#000}
-.secondary{background:#292936;color:#fff}
-.danger{background:#8d3030;color:#fff}
-
-.hero{background:#151520;border-radius:18px;padding:24px;margin-bottom:20px}
-.hero h1{margin-bottom:7px}
-.muted{color:#9999a8}
-
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:20px}
-.stat{background:#1d1d29;padding:15px;border-radius:12px}
-.number{font-size:24px;font-weight:bold}
-.label{color:#9999a8;font-size:13px;margin-top:4px}
-
-.toolbar{display:flex;justify-content:space-between;align-items:center;margin:20px 0 15px;gap:10px}
-.search{background:#151520;color:#fff;border:1px solid #30303c;padding:11px;border-radius:9px;width:220px}
-
-.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:15px}
-.card{background:#151520;border-radius:15px;overflow:hidden}
-.poster{height:220px;background:#242431;display:flex;justify-content:center;align-items:center;color:#777;overflow:hidden}
-.poster img{width:100%;height:100%;object-fit:cover}
-.info{padding:13px}
-.info h3{margin-bottom:7px}
-.info p{color:#aaa;font-size:13px;margin:5px 0}
-.badge{display:inline-block;background:#282834;padding:5px 8px;border-radius:6px;font-size:11px;margin-top:5px}
-.card-buttons{display:flex;gap:7px;margin-top:10px}
-.card-buttons button{flex:1;font-size:12px;padding:8px}
-.empty{background:#151520;padding:35px;text-align:center;border-radius:15px;color:#999;grid-column:1/-1}
-
-.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.78);justify-content:center;align-items:center;padding:18px;z-index:10}
-.modal-box{width:100%;max-width:430px;background:#151520;padding:22px;border-radius:17px}
-.modal-box h2{margin-bottom:15px}
-
-input,select,textarea{width:100%;background:#0d0d14;color:#fff;border:1px solid #333341;border-radius:8px;padding:11px;margin-bottom:10px;outline:none}
-textarea{min-height:90px;resize:vertical}
-.modal-buttons{display:flex;gap:8px}
-.modal-buttons button{flex:1}
-
-#userArea{display:none;align-items:center;gap:8px}
-#loginArea{display:flex}
-.message{text-align:center;padding:10px;color:#ff8b8b}
-
-@media(max-width:800px){
-.grid{grid-template-columns:repeat(2,1fr)}
-.stats{grid-template-columns:repeat(2,1fr)}
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
 }
+
+body{
+  font-family:Arial,sans-serif;
+  background:#09090f;
+  color:#fff;
+  min-height:100vh;
+}
+
+button,
+input,
+select,
+textarea{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+.header{
+  position:sticky;
+  top:0;
+  z-index:20;
+  background:rgba(9,9,15,.92);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid #242431;
+}
+
+.nav{
+  max-width:1150px;
+  margin:auto;
+  padding:16px 20px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.brand{
+  font-size:25px;
+  font-weight:800;
+  letter-spacing:.5px;
+  animation:brandIn .8s ease;
+}
+
+.brand span{
+  display:inline-block;
+  animation:pulse 2.2s infinite;
+}
+
+@keyframes brandIn{
+  from{
+    opacity:0;
+    transform:translateY(-15px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+@keyframes pulse{
+  0%,100%{transform:scale(1)}
+  50%{transform:scale(1.08)}
+}
+
+.profile-wrap{
+  position:relative;
+}
+
+.profile-btn{
+  border:1px solid #343442;
+  background:#191923;
+  color:#fff;
+  padding:9px 14px;
+  border-radius:12px;
+}
+
+.profile-menu{
+  display:none;
+  position:absolute;
+  right:0;
+  top:48px;
+  width:230px;
+  background:#171720;
+  border:1px solid #30303d;
+  border-radius:14px;
+  padding:14px;
+  box-shadow:0 20px 50px rgba(0,0,0,.5);
+}
+
+.profile-menu.show{
+  display:block;
+  animation:menuIn .18s ease;
+}
+
+@keyframes menuIn{
+  from{
+    opacity:0;
+    transform:translateY(-5px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+.profile-email{
+  font-size:13px;
+  color:#aaa;
+  word-break:break-all;
+  margin-bottom:12px;
+}
+
+.logout{
+  width:100%;
+  border:0;
+  background:#292936;
+  color:#fff;
+  padding:10px;
+  border-radius:9px;
+}
+
+.container{
+  max-width:1150px;
+  margin:auto;
+  padding:25px 20px 50px;
+}
+
+.hero{
+  padding:25px 0;
+}
+
+.hero h1{
+  font-size:34px;
+  margin-bottom:7px;
+}
+
+.hero p{
+  color:#9999a8;
+}
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+  margin-top:22px;
+}
+
+.stat{
+  background:#15151f;
+  border:1px solid #242431;
+  border-radius:14px;
+  padding:15px;
+}
+
+.stat-number{
+  font-size:24px;
+  font-weight:bold;
+}
+
+.stat-label{
+  color:#8e8e9d;
+  font-size:13px;
+  margin-top:4px;
+}
+
+.toolbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  margin:20px 0;
+}
+
+.toolbar-right{
+  display:flex;
+  gap:9px;
+}
+
+.search{
+  width:230px;
+  background:#15151f;
+  color:#fff;
+  border:1px solid #30303d;
+  border-radius:10px;
+  padding:11px 13px;
+  outline:none;
+}
+
+.primary{
+  border:0;
+  background:#fff;
+  color:#000;
+  border-radius:10px;
+  padding:11px 16px;
+  font-weight:bold;
+}
+
+.secondary{
+  border:1px solid #343442;
+  background:#1b1b25;
+  color:#fff;
+  border-radius:10px;
+  padding:10px 14px;
+}
+
+.anime-grid{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:17px;
+}
+
+.card{
+  background:#15151f;
+  border:1px solid #242431;
+  border-radius:14px;
+  overflow:hidden;
+  transition:.25s ease;
+  animation:cardIn .45s ease both;
+}
+
+.card:hover{
+  transform:translateY(-5px);
+  border-color:#4a4a59;
+}
+
+@keyframes cardIn{
+  from{
+    opacity:0;
+    transform:translateY(12px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+.card-poster{
+  height:270px;
+  background:#242431;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#777;
+}
+
+.card-poster img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.card-info{
+  padding:13px;
+}
+
+.card-title{
+  font-weight:bold;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.card-meta{
+  display:flex;
+  justify-content:space-between;
+  gap:5px;
+  margin-top:8px;
+  color:#9999a8;
+  font-size:12px;
+}
+
+.status{
+  display:inline-block;
+  margin-top:9px;
+  background:#282834;
+  border-radius:6px;
+  padding:5px 8px;
+  font-size:11px;
+}
+
+.empty{
+  grid-column:1/-1;
+  text-align:center;
+  padding:55px 20px;
+  background:#15151f;
+  border:1px solid #242431;
+  border-radius:15px;
+  color:#8f8f9e;
+}
+
+/* MODALS */
+
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:50;
+  background:rgba(0,0,0,.78);
+  align-items:center;
+  justify-content:center;
+  padding:18px;
+}
+
+.modal.show{
+  display:flex;
+}
+
+.modal-box{
+  width:100%;
+  max-width:450px;
+  max-height:90vh;
+  overflow:auto;
+  background:#171720;
+  border:1px solid #30303d;
+  border-radius:17px;
+  padding:22px;
+  animation:modalIn .2s ease;
+}
+
+@keyframes modalIn{
+  from{
+    opacity:0;
+    transform:scale(.96);
+  }
+  to{
+    opacity:1;
+    transform:scale(1);
+  }
+}
+
+.modal-box h2{
+  margin-bottom:16px;
+}
+
+input,
+select,
+textarea{
+  width:100%;
+  background:#0e0e15;
+  color:#fff;
+  border:1px solid #343442;
+  border-radius:9px;
+  padding:11px;
+  margin-bottom:11px;
+  outline:none;
+}
+
+textarea{
+  min-height:90px;
+  resize:vertical;
+}
+
+.modal-actions{
+  display:flex;
+  gap:9px;
+}
+
+.modal-actions button{
+  flex:1;
+}
+
+/* DETAILS */
+
+.details-box{
+  max-width:650px;
+}
+
+.details-layout{
+  display:grid;
+  grid-template-columns:190px 1fr;
+  gap:20px;
+}
+
+.details-poster{
+  height:280px;
+  background:#242431;
+  border-radius:12px;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#777;
+}
+
+.details-poster img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.details-content h2{
+  font-size:27px;
+  margin-bottom:10px;
+}
+
+.detail-line{
+  color:#aaa;
+  margin:9px 0;
+}
+
+.notes{
+  margin-top:15px;
+  background:#101017;
+  padding:12px;
+  border-radius:10px;
+  color:#aaa;
+  line-height:1.5;
+}
+
+.details-actions{
+  display:flex;
+  gap:9px;
+  margin-top:18px;
+}
+
+.details-actions button{
+  flex:1;
+}
+
+/* LOGIN */
+
+.auth-box{
+  max-width:400px;
+}
+
+.auth-switch{
+  text-align:center;
+  margin-top:14px;
+  color:#999;
+  font-size:13px;
+}
+
+.link-btn{
+  border:0;
+  background:none;
+  color:#fff;
+  text-decoration:underline;
+  cursor:pointer;
+}
+
+/* MOBILE */
+
+@media(max-width:900px){
+  .anime-grid{
+    grid-template-columns:repeat(4,1fr);
+  }
+}
+
+@media(max-width:700px){
+  .anime-grid{
+    grid-template-columns:repeat(3,1fr);
+  }
+
+  .stats{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .toolbar{
+    flex-direction:column;
+    align-items:stretch;
+  }
+
+  .toolbar-right{
+    width:100%;
+  }
+
+  .search{
+    width:100%;
+  }
+}
+
 @media(max-width:500px){
-.toolbar{align-items:stretch;flex-direction:column}
-.search{width:100%}
-.poster{height:190px}
-.logo{font-size:19px}
+  .anime-grid{
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
+  }
+
+  .card-poster{
+    height:230px;
+  }
+
+  .details-layout{
+    grid-template-columns:1fr;
+  }
+
+  .details-poster{
+    height:330px;
+  }
+
+  .brand{
+    font-size:21px;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<header class="header">
 
-<header>
-<div class="logo">🎬 My Anime Notebook</div>
+<nav class="nav">
 
-<div id="loginArea">
-<button class="primary" onclick="openAuth()">Login</button>
+<div class="brand">
+<span>🎬</span> AniWatch List
 </div>
 
-<div id="userArea">
-<span id="userEmail"></span>
-<button class="secondary" onclick="logout()">Logout</button>
+<div class="profile-wrap">
+
+<button
+class="profile-btn"
+id="profileButton"
+onclick="toggleProfile()">
+👤 Profile
+</button>
+
+<div
+class="profile-menu"
+id="profileMenu">
+
+<div
+class="profile-email"
+id="profileEmail">
+Not logged in
 </div>
+
+<button
+class="logout"
+onclick="logout()">
+🚪 Logout
+</button>
+
+</div>
+
+</div>
+
+</nav>
+
 </header>
 
+
+<main class="container">
+
 <section class="hero">
-<h1>My Anime List</h1>
-<p class="muted">Your private anime notebook.</p>
+
+<h1>My Anime Collection</h1>
+
+<p>
+Keep track of the anime you've watched.
+</p>
 
 <div class="stats">
+
 <div class="stat">
-<div class="number" id="watchingCount">0</div>
-<div class="label">Watching</div>
+<div
+class="stat-number"
+id="watchingCount">
+0
+</div>
+<div class="stat-label">
+Watching
+</div>
 </div>
 
 <div class="stat">
-<div class="number" id="completedCount">0</div>
-<div class="label">Completed</div>
+<div
+class="stat-number"
+id="completedCount">
+0
+</div>
+<div class="stat-label">
+Completed
+</div>
 </div>
 
 <div class="stat">
-<div class="number" id="planCount">0</div>
-<div class="label">Plan to Watch</div>
+<div
+class="stat-number"
+id="planCount">
+0
+</div>
+<div class="stat-label">
+Plan to Watch
+</div>
 </div>
 
 <div class="stat">
-<div class="number" id="favoriteCount">0</div>
-<div class="label">Favorites</div>
+<div
+class="stat-number"
+id="totalCount">
+0
+</div>
+<div class="stat-label">
+Total Anime
 </div>
 </div>
+
+</div>
+
 </section>
 
+
 <div class="toolbar">
-<h2>My Anime</h2>
 
-<div>
-<input class="search" id="search" placeholder="Search anime..." oninput="renderAnime()">
-<button class="primary" onclick="openAnimeModal()">＋ Add Anime</button>
-</div>
-</div>
+<h2>Anime</h2>
 
-<div id="message" class="message"></div>
-<div class="grid" id="animeGrid"></div>
+<div class="toolbar-right">
 
-</div>
-
-
-<!-- LOGIN / CREATE ACCOUNT -->
-
-<div class="modal" id="authModal">
-<div class="modal-box">
-
-<h2 id="authTitle">Login</h2>
-
-<input id="email" type="email" placeholder="Email">
-<input id="password" type="password" placeholder="Password">
-
-<div class="modal-buttons">
+<input
+class="search"
+id="search"
+placeholder="Search anime..."
+oninput="renderAnime()">
 
 <button
 class="primary"
-id="authSubmitButton"
+onclick="openAnimeModal()">
+＋ Add Anime
+</button>
+
+</div>
+
+</div>
+
+
+<div
+class="anime-grid"
+id="animeGrid">
+
+<div class="empty">
+Login to see your anime collection.
+</div>
+
+</div>
+
+</main>
+
+
+<!-- AUTH MODAL -->
+
+<div
+class="modal"
+id="authModal">
+
+<div class="modal-box auth-box">
+
+<h2 id="authTitle">
+Login
+</h2>
+
+<input
+id="email"
+type="email"
+placeholder="Email">
+
+<input
+id="password"
+type="password"
+placeholder="Password">
+
+<div class="modal-actions">
+
+<button
+class="primary"
+id="authSubmit"
 onclick="submitAuth()">
 Login
 </button>
 
 <button
 class="secondary"
-id="authToggleButton"
+id="authSwitch"
 onclick="toggleAuth()">
-Create account
+Create Account
 </button>
 
 </div>
 
-<br>
+<div class="auth-switch">
+<button
+class="link-btn"
+onclick="closeAuth()">
+Cancel
+</button>
+</div>
+
+</div>
+
+</div>
+
+
+<!-- ADD / EDIT MODAL -->
+
+<div
+class="modal"
+id="animeModal">
+
+<div class="modal-box">
+
+<h2 id="animeModalTitle">
+Add Anime
+</h2>
+
+<input
+id="animeTitle"
+placeholder="Anime title">
+
+<select id="animeStatus">
+
+<option value="Watching">
+Watching
+</option>
+
+<option value="Completed">
+Completed
+</option>
+
+<option value="Plan to Watch">
+Plan to Watch
+</option>
+
+<option value="On Hold">
+On Hold
+</option>
+
+<option value="Dropped">
+Dropped
+</option>
+
+</select>
+
+<input
+id="animeEpisodes"
+type="number"
+placeholder="Episodes">
+
+<input
+id="animeRating"
+type="number"
+min="0"
+max="10"
+step="0.1"
+placeholder="Rating / 10">
+
+<input
+id="animePoster"
+placeholder="Poster image URL">
+
+<textarea
+id="animeNotes"
+placeholder="Notes about this anime..."></textarea>
+
+<div class="modal-actions">
+
+<button
+class="primary"
+onclick="saveAnime()">
+Save Anime
+</button>
 
 <button
 class="secondary"
-style="width:100%"
-onclick="closeAuth()">
+onclick="closeAnimeModal()">
 Cancel
 </button>
 
 </div>
+
+</div>
+
 </div>
 
 
-<!-- ADD ANIME -->
+<!-- DETAILS MODAL -->
 
-<div class="modal" id="animeModal">
-<div class="modal-box">
+<div
+class="modal"
+id="detailsModal">
 
-<h2 id="animeModalTitle">Add Anime</h2>
+<div class="modal-box details-box">
 
-<input id="animeTitle" placeholder="Anime name">
+<div
+class="details-layout">
 
-<select id="animeStatus">
-<option value="Watching">Watching</option>
-<option value="Completed">Completed</option>
-<option value="Plan to Watch">Plan to Watch</option>
-<option value="On Hold">On Hold</option>
-<option value="Dropped">Dropped</option>
-</select>
+<div
+class="details-poster"
+id="detailsPoster">
+No Poster
+</div>
 
-<input id="animeEpisodes" type="number" placeholder="Episodes">
+<div class="details-content">
 
-<input id="animeRating" type="number" min="0" max="10" step="0.1" placeholder="Rating / 10">
+<h2 id="detailsTitle">
+Anime
+</h2>
 
-<input id="animePoster" placeholder="Poster image URL">
+<div
+class="detail-line"
+id="detailsStatus">
+Status:
+</div>
 
-<textarea id="animeNotes" placeholder="Your personal notes..."></textarea>
+<div
+class="detail-line"
+id="detailsEpisodes">
+Episodes:
+</div>
 
-<div class="modal-buttons">
-<button class="primary" onclick="saveAnime()">Save Anime</button>
-<button class="secondary" onclick="closeAnimeModal()">Cancel</button>
+<div
+class="detail-line"
+id="detailsRating">
+Rating:
+</div>
+
+<div
+class="notes"
+id="detailsNotes">
+No notes.
 </div>
 
 </div>
+
+</div>
+
+<div class="details-actions">
+
+<button
+class="primary"
+onclick="editCurrentAnime()">
+✏️ Edit
+</button>
+
+<button
+class="secondary"
+onclick="deleteCurrentAnime()">
+🗑️ Delete
+</button>
+
+<button
+class="secondary"
+onclick="closeDetails()">
+Close
+</button>
+
+</div>
+
+</div>
+
 </div>
 
 
 <script>
+
+/* SUPABASE */
 
 const SUPABASE_URL =
 "https://iwggkwxirqydixsbbctb.supabase.co";
@@ -216,77 +882,118 @@ SUPABASE_URL,
 SUPABASE_KEY
 );
 
-let animeList=[];
-let editingId=null;
-let loginMode=true;
+
+/* VARIABLES */
+
+let animeList = [];
+let loginMode = true;
+let editingId = null;
+let currentAnime = null;
 
 
 /* AUTH */
 
 function openAuth(){
-document.getElementById("authModal").style.display="flex";
+
+document
+.getElementById("authModal")
+.classList.add("show");
+
 }
 
 function closeAuth(){
-document.getElementById("authModal").style.display="none";
+
+document
+.getElementById("authModal")
+.classList.remove("show");
+
 }
+
 
 function toggleAuth(){
 
-loginMode=!loginMode;
+loginMode = !loginMode;
 
-document.getElementById("authTitle").textContent =
+document
+.getElementById("authTitle")
+.textContent =
 loginMode ? "Login" : "Create Account";
 
-document.getElementById("authSubmitButton").textContent =
+document
+.getElementById("authSubmit")
+.textContent =
 loginMode ? "Login" : "Create Account";
 
-document.getElementById("authToggleButton").textContent =
-loginMode ? "Create account" : "Back to Login";
+document
+.getElementById("authSwitch")
+.textContent =
+loginMode ? "Create Account" : "Back to Login";
+
 }
 
 
 async function submitAuth(){
 
-const email=document.getElementById("email").value.trim();
-const password=document.getElementById("password").value;
+const email =
+document
+.getElementById("email")
+.value
+.trim();
+
+const password =
+document
+.getElementById("password")
+.value;
 
 if(!email || !password){
-alert("Please enter email and password.");
+
+alert("Please enter your email and password.");
+
 return;
+
 }
 
 if(password.length < 6){
+
 alert("Password must be at least 6 characters.");
+
 return;
+
 }
 
 let result;
 
 if(loginMode){
 
-result=await supabaseClient.auth.signInWithPassword({
-email:email,
-password:password
+result =
+await supabaseClient.auth.signInWithPassword({
+email,
+password
 });
 
 }else{
 
-result=await supabaseClient.auth.signUp({
-email:email,
-password:password
+result =
+await supabaseClient.auth.signUp({
+email,
+password
 });
 
 }
 
 if(result.error){
+
 alert(result.error.message);
+
 return;
+
 }
 
 if(!loginMode){
 
-alert("Account created successfully. Check your email if confirmation is required.");
+alert(
+"Account created. Please confirm your email if required."
+);
 
 }else{
 
@@ -294,7 +1001,36 @@ closeAuth();
 
 }
 
-checkUser();
+}
+
+
+/* PROFILE */
+
+function toggleProfile(){
+
+document
+.getElementById("profileMenu")
+.classList.toggle("show");
+
+}
+
+
+/* LOGOUT */
+
+async function logout(){
+
+await supabaseClient.auth.signOut();
+
+document
+.getElementById("profileMenu")
+.classList.remove("show");
+
+animeList = [];
+
+updateUI(null);
+
+renderAnime();
+
 }
 
 
@@ -304,44 +1040,38 @@ async function checkUser(){
 
 const {
 data:{session}
-}=await supabaseClient.auth.getSession();
+} =
+await supabaseClient.auth.getSession();
 
-updateAuthUI(session);
+updateUI(session);
 
 if(session){
+
 loadAnime();
-}else{
-showEmpty();
+
 }
+
 }
 
 
-function updateAuthUI(session){
+function updateUI(session){
 
 if(session){
 
-document.getElementById("loginArea").style.display="none";
-document.getElementById("userArea").style.display="flex";
-
-document.getElementById("userEmail").textContent =
-session.user.email || "Logged in";
+document
+.getElementById("profileEmail")
+.textContent =
+session.user.email;
 
 }else{
 
-document.getElementById("loginArea").style.display="flex";
-document.getElementById("userArea").style.display="none";
+document
+.getElementById("profileEmail")
+.textContent =
+"Not logged in";
 
 }
-}
 
-
-async function logout(){
-
-await supabaseClient.auth.signOut();
-
-animeList=[];
-updateAuthUI(null);
-showEmpty();
 }
 
 
@@ -351,24 +1081,40 @@ async function loadAnime(){
 
 const {
 data:{user}
-}=await supabaseClient.auth.getUser();
+} =
+await supabaseClient.auth.getUser();
 
-if(!user)return;
+if(!user){
 
-const {data,error} =
+animeList=[];
+
+renderAnime();
+
+return;
+
+}
+
+const {
+data,
+error
+} =
 await supabaseClient
 .from("anime")
 .select("*")
 .order("id",{ascending:false});
 
 if(error){
+
 alert(error.message);
+
 return;
+
 }
 
-animeList=data || [];
+animeList = data || [];
 
 renderAnime();
+
 }
 
 
@@ -376,82 +1122,135 @@ renderAnime();
 
 function openAnimeModal(anime=null){
 
-editingId=anime ? anime.id : null;
+editingId =
+anime ? anime.id : null;
 
-document.getElementById("animeModalTitle").textContent =
+document
+.getElementById("animeModalTitle")
+.textContent =
 anime ? "Edit Anime" : "Add Anime";
 
-document.getElementById("animeTitle").value =
+document
+.getElementById("animeTitle")
+.value =
 anime?.title || "";
 
-document.getElementById("animeStatus").value =
+document
+.getElementById("animeStatus")
+.value =
 anime?.status || "Watching";
 
-document.getElementById("animeEpisodes").value =
+document
+.getElementById("animeEpisodes")
+.value =
 anime?.episodes ?? "";
 
-document.getElementById("animeRating").value =
+document
+.getElementById("animeRating")
+.value =
 anime?.rating ?? "";
 
-document.getElementById("animePoster").value =
+document
+.getElementById("animePoster")
+.value =
 anime?.poster || "";
 
-document.getElementById("animeNotes").value =
+document
+.getElementById("animeNotes")
+.value =
 anime?.notes || "";
 
-document.getElementById("animeModal").style.display="flex";
+document
+.getElementById("animeModal")
+.classList.add("show");
+
 }
 
 
 function closeAnimeModal(){
 
-document.getElementById("animeModal").style.display="none";
+document
+.getElementById("animeModal")
+.classList.remove("show");
+
 editingId=null;
 
 }
 
 
+/* SAVE */
+
 async function saveAnime(){
-
-const title =
-document.getElementById("animeTitle").value.trim();
-
-if(!title){
-alert("Please enter anime name.");
-return;
-}
 
 const {
 data:{user}
-}=await supabaseClient.auth.getUser();
+} =
+await supabaseClient.auth.getUser();
 
 if(!user){
+
 alert("Please login first.");
+
 return;
+
 }
 
-const animeData={
+const title =
+document
+.getElementById("animeTitle")
+.value
+.trim();
+
+if(!title){
+
+alert("Please enter an anime title.");
+
+return;
+
+}
+
+const animeData = {
 
 title:title,
 
 status:
-document.getElementById("animeStatus").value,
+document
+.getElementById("animeStatus")
+.value,
 
 episodes:
-document.getElementById("animeEpisodes").value === ""
+document
+.getElementById("animeEpisodes")
+.value === ""
 ? null
-: Number(document.getElementById("animeEpisodes").value),
+: Number(
+document
+.getElementById("animeEpisodes")
+.value
+),
 
 rating:
-document.getElementById("animeRating").value === ""
+document
+.getElementById("animeRating")
+.value === ""
 ? null
-: Number(document.getElementById("animeRating").value),
+: Number(
+document
+.getElementById("animeRating")
+.value
+),
 
 poster:
-document.getElementById("animePoster").value.trim() || null,
+document
+.getElementById("animePoster")
+.value
+.trim() || null,
 
 notes:
-document.getElementById("animeNotes").value.trim() || null
+document
+.getElementById("animeNotes")
+.value
+.trim() || null
 
 };
 
@@ -459,14 +1258,17 @@ let result;
 
 if(editingId){
 
-result=await supabaseClient
+result =
+await supabaseClient
 .from("anime")
 .update(animeData)
-.eq("id",editingId);
+.eq("id",editingId)
+.eq("user_id",user.id);
 
 }else{
 
-result=await supabaseClient
+result =
+await supabaseClient
 .from("anime")
 .insert({
 ...animeData,
@@ -476,55 +1278,30 @@ user_id:user.id
 }
 
 if(result.error){
+
 alert(result.error.message);
+
 return;
+
 }
 
 closeAnimeModal();
-loadAnime();
+
+await loadAnime();
+
 }
 
 
-/* DELETE */
-
-async function deleteAnime(id){
-
-if(!confirm("Delete this anime?"))return;
-
-const {error} =
-await supabaseClient
-.from("anime")
-.delete()
-.eq("id",id);
-
-if(error){
-alert(error.message);
-return;
-}
-
-loadAnime();
-}
-
-
-function editAnime(id){
-
-const anime =
-animeList.find(a=>a.id===id);
-
-if(anime){
-openAnimeModal(anime);
-}
-}
-
-
-/* DISPLAY */
+/* RENDER */
 
 function renderAnime(){
 
-const grid=document.getElementById("animeGrid");
+const grid =
+document.getElementById("animeGrid");
 
 const search =
-document.getElementById("search")
+document
+.getElementById("search")
 .value
 .toLowerCase();
 
@@ -537,101 +1314,235 @@ animeList.filter(anime =>
 
 if(!filtered.length){
 
-showEmpty();
+grid.innerHTML = `
+<div class="empty">
+No anime in your collection yet.
+<br><br>
+Tap <b>＋ Add Anime</b> to add one.
+</div>
+`;
+
 updateStats();
+
 return;
+
 }
 
-grid.innerHTML=filtered.map(anime=>{
+grid.innerHTML =
+filtered
+.map((anime,index)=>{
 
-const poster=anime.poster
-? `<img src="${escapeHtml(anime.poster)}" alt="">`
-: "🎬 No Poster";
+const poster =
+anime.poster
+? `<img src="${escapeHtml(anime.poster)}" alt="${escapeHtml(anime.title)}">`
+: "🎬";
 
 return `
 
-<div class="card">
+<div
+class="card"
+style="animation-delay:${index * .04}s"
+onclick="openDetails(${anime.id})">
 
-<div class="poster">
+<div class="card-poster">
 ${poster}
 </div>
 
-<div class="info">
+<div class="card-info">
 
-<h3>${escapeHtml(anime.title)}</h3>
+<div class="card-title">
+${escapeHtml(anime.title)}
+</div>
 
-<span class="badge">
-${escapeHtml(anime.status || "")}
+<div class="card-meta">
+
+<span>
+⭐ ${anime.rating ?? "-"}
 </span>
 
-<p>Episodes: ${anime.episodes ?? "-"}</p>
-
-<p>⭐ Rating: ${anime.rating ?? "-"}</p>
-
-${anime.notes
-? `<p>📝 ${escapeHtml(anime.notes)}</p>`
-: ""}
-
-<div class="card-buttons">
-
-<button
-class="secondary"
-onclick="editAnime(${anime.id})">
-Edit
-</button>
-
-<button
-class="danger"
-onclick="deleteAnime(${anime.id})">
-Delete
-</button>
+<span>
+${anime.episodes ?? "-"} eps
+</span>
 
 </div>
 
+<div class="status">
+${escapeHtml(anime.status || "")}
 </div>
+
+</div>
+
 </div>
 
 `;
 
-}).join("");
+})
+.join("");
 
 updateStats();
+
 }
 
+
+/* DETAILS */
+
+function openDetails(id){
+
+currentAnime =
+animeList.find(
+anime => anime.id === id
+);
+
+if(!currentAnime)return;
+
+document
+.getElementById("detailsTitle")
+.textContent =
+currentAnime.title;
+
+document
+.getElementById("detailsStatus")
+.textContent =
+"Status: " +
+(currentAnime.status || "-");
+
+document
+.getElementById("detailsEpisodes")
+.textContent =
+"Episodes: " +
+(currentAnime.episodes ?? "-");
+
+document
+.getElementById("detailsRating")
+.textContent =
+"⭐ Rating: " +
+(currentAnime.rating ?? "-");
+
+document
+.getElementById("detailsNotes")
+.textContent =
+currentAnime.notes ||
+"No notes.";
+
+const poster =
+document.getElementById("detailsPoster");
+
+if(currentAnime.poster){
+
+poster.innerHTML =
+`<img src="${escapeHtml(currentAnime.poster)}" alt="">`;
+
+}else{
+
+poster.textContent =
+"No Poster";
+
+}
+
+document
+.getElementById("detailsModal")
+.classList.add("show");
+
+}
+
+
+function closeDetails(){
+
+document
+.getElementById("detailsModal")
+.classList.remove("show");
+
+currentAnime=null;
+
+}
+
+
+function editCurrentAnime(){
+
+if(!currentAnime)return;
+
+closeDetails();
+
+openAnimeModal(currentAnime);
+
+}
+
+
+async function deleteCurrentAnime(){
+
+if(!currentAnime)return;
+
+if(!confirm(
+"Delete " +
+currentAnime.title +
+"?"
+))return;
+
+const {
+data:{user}
+} =
+await supabaseClient.auth.getUser();
+
+if(!user)return;
+
+const {
+error
+} =
+await supabaseClient
+.from("anime")
+.delete()
+.eq("id",currentAnime.id)
+.eq("user_id",user.id);
+
+if(error){
+
+alert(error.message);
+
+return;
+
+}
+
+closeDetails();
+
+await loadAnime();
+
+}
+
+
+/* STATS */
 
 function updateStats(){
 
-document.getElementById("watchingCount").textContent =
-animeList.filter(a=>a.status==="Watching").length;
+document
+.getElementById("watchingCount")
+.textContent =
+animeList.filter(
+a => a.status === "Watching"
+).length;
 
-document.getElementById("completedCount").textContent =
-animeList.filter(a=>a.status==="Completed").length;
+document
+.getElementById("completedCount")
+.textContent =
+animeList.filter(
+a => a.status === "Completed"
+).length;
 
-document.getElementById("planCount").textContent =
-animeList.filter(a=>a.status==="Plan to Watch").length;
+document
+.getElementById("planCount")
+.textContent =
+animeList.filter(
+a => a.status === "Plan to Watch"
+).length;
 
-document.getElementById("favoriteCount").textContent="0";
-}
-
-
-function showEmpty(){
-
-document.getElementById("animeGrid").innerHTML=`
-
-<div class="empty">
-
-No anime found.
-
-<br><br>
-
-Login and add your first anime.
-
-</div>
-
-`;
+document
+.getElementById("totalCount")
+.textContent =
+animeList.length;
 
 }
 
+
+/* SECURITY / DISPLAY */
 
 function escapeHtml(value){
 
@@ -647,20 +1558,30 @@ return String(value)
 
 /* AUTH STATE */
 
-supabaseClient.auth.onAuthStateChange(
+supabaseClient
+.auth
+.onAuthStateChange(
 (event,session)=>{
 
-updateAuthUI(session);
+updateUI(session);
 
 if(session){
+
 loadAnime();
+
 }else{
+
 animeList=[];
-showEmpty();
+
+renderAnime();
+
 }
 
 }
 );
+
+
+/* START */
 
 checkUser();
 
