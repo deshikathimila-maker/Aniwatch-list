@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aniwatch List</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #0b0b12;
+      color: #ffffff;
+      min-height: 100vh;
+    }
+
+    .app {
+      max-width: 1100px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 0 25px;
+    }
+
+    .logo {
+      font-size: 25px;
+      font-weight: bold;
+    }
+
+    .login-btn,
+    .add-btn {
+      border: none;
+      border-radius: 10px;
+      padding: 11px 17px;
+      background: #ffffff;
+      color: #000000;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .hero {
+      background: #151520;
+      border-radius: 18px;
+      padding: 25px;
+      margin-bottom: 22px;
+    }
+
+    .hero h1 {
+      font-size: 30px;
+      margin-bottom: 8px;
+    }
+
+    .hero p {
+      color: #aaaab8;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .stat {
+      background: #1b1b28;
+      border-radius: 14px;
+      padding: 18px;
+    }
+
+    .stat-number {
+      font-size: 25px;
+      font-weight: bold;
+    }
+
+    .stat-name {
+      color: #9999a8;
+      margin-top: 5px;
+      font-size: 14px;
+    }
+
+    .section-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 25px 0 15px;
+    }
+
+    .anime-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+    }
+
+    .anime-card {
+      background: #151520;
+      border-radius: 15px;
+      overflow: hidden;
+    }
+
+    .poster {
+      height: 220px;
+      background: #252532;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #777788;
+      font-size: 14px;
+    }
+
+    .anime-info {
+      padding: 14px;
+    }
+
+    .anime-info h3 {
+      font-size: 16px;
+      margin-bottom: 7px;
+    }
+
+    .anime-info p {
+      color: #9999a8;
+      font-size: 13px;
+      margin-top: 5px;
+    }
+
+    .badge {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 5px 8px;
+      border-radius: 7px;
+      background: #252532;
+      color: #ccccd5;
+      font-size: 11px;
+    }
+
+    .empty {
+      background: #151520;
+      border-radius: 15px;
+      padding: 35px;
+      text-align: center;
+      color: #9999a8;
+      grid-column: 1 / -1;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.75);
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-box {
+      width: 100%;
+      max-width: 430px;
+      background: #151520;
+      border-radius: 18px;
+      padding: 22px;
+    }
+
+    .modal-box h2 {
+      margin-bottom: 18px;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      background: #0e0e16;
+      color: white;
+      border: 1px solid #30303d;
+      border-radius: 9px;
+      padding: 11px;
+      margin-bottom: 12px;
+      outline: none;
+    }
+
+    textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .close-btn {
+      border: none;
+      background: #292934;
+      color: white;
+      border-radius: 9px;
+      padding: 11px 17px;
+      cursor: pointer;
+    }
+
+    @media (max-width: 800px) {
+      .stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .anime-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 450px) {
+      .app {
+        padding: 14px;
+      }
+
+      .hero h1 {
+        font-size: 24px;
+      }
+
+      .anime-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+      }
+
+      .poster {
+        height: 180px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="app">
+
+    <header>
+      <div class="logo">🎬 Aniwatch List</div>
+      <button class="login-btn" onclick="openLogin()">Login</button>
+    </header>
+
+    <section class="hero">
+      <h1>My Anime Notebook</h1>
+      <p>Your personal place to remember everything you watch.</p>
+
+      <div class="stats">
+        <div class="stat">
+          <div class="stat-number" id="watchingCount">0</div>
+          <div class="stat-name">Watching</div>
+        </div>
+
+        <div class="stat">
+          <div class="stat-number" id="completedCount">0</div>
+          <div class="stat-name">Completed</div>
+        </div>
+
+        <div class="stat">
+          <div class="stat-number" id="planCount">0</div>
+          <div class="stat-name">Plan to Watch</div>
+        </div>
+
+        <div class="stat">
+          <div class="stat-number" id="favoriteCount">0</div>
+          <div class="stat-name">Favorites</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-title">
+      <h2>My Anime</h2>
+      <button class="add-btn" onclick="openAddAnime()">＋ Add Anime</button>
+    </div>
+
+    <div class="anime-grid" id="animeGrid">
+      <div class="empty">
+        No anime added yet.<br><br>
+        Tap <b>＋ Add Anime</b> to add your first one.
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Login Modal -->
+  <div class="modal" id="loginModal">
+    <div class="modal-box">
+      <h2>🔐 Login</h2>
+
+      <input type="email" id="loginEmail" placeholder="Email">
+      <input type="password" id="loginPassword" placeholder="Password">
+
+      <div class="modal-actions">
+        <button class="login-btn" onclick="login()">Login</button>
+        <button class="close-btn" onclick="closeLogin()">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Anime Modal -->
+  <div class="modal" id="animeModal">
+    <div class="modal-box">
+      <h2>＋ Add Anime</h2>
+
+      <input id="animeTitle" placeholder="Anime name">
+
+      <select id="animeStatus">
+        <option value="Watching">Watching</option>
+        <option value="Completed">Completed</option>
+        <option value="Plan to Watch">Plan to Watch</option>
+        <option value="On Hold">On Hold</option>
+        <option value="Dropped">Dropped</option>
+      </select>
+
+      <input id="animeEpisodes" type="number" placeholder="Episodes">
+
+      <input id="animeRating" type="number" min="0" max="10" step="0.1" placeholder="Rating / 10">
+
+      <input id="animePoster" placeholder="Poster image URL">
+
+      <textarea id="animeNotes" placeholder="Your personal notes..."></textarea>
+
+      <div class="modal-actions">
+        <button class="add-btn" onclick="addAnime()">Save Anime</button>
+        <button class="close-btn" onclick="closeAddAnime()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+
+    function openLogin() {
+      document.getElementById("loginModal").style.display = "flex";
+    }
+
+    function closeLogin() {
+      document.getElementById("loginModal").style.display = "none";
+    }
+
+    function openAddAnime() {
+      document.getElementById("animeModal").style.display = "flex";
+    }
+
+    function closeAddAnime() {
+      document.getElementById("animeModal").style.display = "none";
+    }
+
+    function login() {
+      alert("Supabase login connection will be added next.");
+    }
+
+    function addAnime() {
+      const title = document.getElementById("animeTitle").value;
+
+      if (!title) {
+        alert("Please enter an anime name.");
+        return;
+      }
+
+      alert("Anime form is ready. Supabase database connection will be added next.");
+    }
+
+  </script>
+
+</body>
+</html>
