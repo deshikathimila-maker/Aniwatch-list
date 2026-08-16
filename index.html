@@ -2073,6 +2073,61 @@ input[placeholder="Search anime..."]:not(#search){
   border-color:rgba(244,199,107,.30);
 }
 
+.profile-stat-episodes{
+  color:#b99aff;
+  border-color:rgba(185,154,255,.30);
+}
+
+.profile-login-space{
+  display:none;
+  align-items:center;
+  justify-content:center;
+  gap:9px;
+  width:max-content;
+  max-width:100%;
+  margin:10px auto 0;
+  padding:7px 9px 7px 12px;
+  border:1px solid rgba(180,205,240,.18);
+  border-radius:999px;
+  background:rgba(255,255,255,.055);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+  box-shadow:
+    0 8px 24px rgba(0,0,0,.16),
+    inset 0 1px 0 rgba(255,255,255,.06);
+}
+
+.profile-login-space.show{
+  display:flex;
+}
+
+.profile-login-text{
+  color:rgba(225,235,250,.72);
+  font-size:10px;
+  letter-spacing:.4px;
+  white-space:nowrap;
+}
+
+.profile-login-glass{
+  border:1px solid rgba(170,205,245,.24);
+  background:rgba(255,255,255,.075);
+  color:#eef6ff;
+  padding:6px 12px;
+  border-radius:999px;
+  font-size:10px;
+  font-weight:700;
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.07);
+  transition:.22s ease;
+}
+
+.profile-login-glass:hover{
+  background:rgba(255,255,255,.12);
+  border-color:rgba(145,194,255,.42);
+  transform:translateY(-1px);
+}
+
 .profile-category-panel{
   margin-top:14px;
   padding:15px;
@@ -2222,8 +2277,17 @@ input[placeholder="Search anime..."]:not(#search){
   }
 
   .profile-stat-label{
-    font-size:7px;
-    letter-spacing:.7px;
+    font-size:6px;
+    letter-spacing:.45px;
+  }
+
+  .profile-login-space{
+    width:auto;
+  }
+
+  .profile-login-text{
+    white-space:normal;
+    text-align:left;
   }
 
   .profile-anime-grid{
@@ -2321,9 +2385,9 @@ input[placeholder="Search anime..."]:not(#search){
   background:rgba(255,255,255,.12);
 }
 
-.profile-page-stats{
+ .profile-page-stats{
   display:grid;
-  grid-template-columns:repeat(4,1fr);
+  grid-template-columns:repeat(5,1fr);
   gap:10px;
 }
 
@@ -2997,6 +3061,22 @@ id="profilePageModal">
       Not logged in
     </div>
 
+    <div
+    class="profile-login-space"
+    id="profileLoginSpace">
+
+      <div class="profile-login-text">
+        Login to your AniWatch List account
+      </div>
+
+      <button
+      class="profile-login-glass"
+      onclick="openAuthModal('login')">
+        Login
+      </button>
+
+    </div>
+
   </div>
 
 
@@ -3053,6 +3133,17 @@ id="profilePageModal">
 
     </button>
 
+
+    <div class="profile-stat profile-stat-episodes">
+
+      <div
+      class="profile-stat-number"
+      id="profileWatchedEpisodes">0</div>
+
+      <div class="profile-stat-label">Watch Episode</div>
+
+    </div>
+
   </div>
 
 
@@ -3080,27 +3171,6 @@ id="profilePageModal">
     <div
     class="profile-anime-grid"
     id="profileAnimeGrid">
-    </div>
-
-  </div>
-
-
-  <div class="watch-episode-card">
-
-    <div class="watch-episode-glow"></div>
-
-    <div class="watch-episode-title">
-      WATCH EPISODE
-    </div>
-
-    <div
-    class="watch-episode-number"
-    id="profileWatchedEpisodes">
-      0
-    </div>
-
-    <div class="watch-episode-caption">
-      Episodes from completed anime
     </div>
 
   </div>
@@ -3673,16 +3743,6 @@ function toggleProfile(){
 
 function openProfilePage(){
 
-  const loggedIn =
-    !!document
-    .getElementById("profileLogoutBtn")
-    ?.classList.contains("show");
-
-  if(!loggedIn){
-    openAuthModal("login");
-    return;
-  }
-
   document
   .getElementById("profileMenu")
   .classList.remove("show");
@@ -3950,6 +4010,13 @@ function updateUI(session){
   if(signupBtn) signupBtn.classList.toggle("show", !session);
   if(logoutBtn) logoutBtn.classList.toggle("show", !!session);
 
+  const profileLoginSpace =
+    document.getElementById("profileLoginSpace");
+
+  if(profileLoginSpace){
+    profileLoginSpace.classList.toggle("show", !session);
+  }
+
   updateProfileStats();
 
 }
@@ -4073,11 +4140,7 @@ function updateProfileStats(){
   const watchedEpisodes =
   animeList.reduce(
     (sum,anime)=>{
-      if(anime.status==="Completed"){
-        return sum + (Number(anime.episodes) || 0);
-      }
-
-      return sum;
+      return sum + (Number(anime.episodes) || 0);
     },
     0
   );
