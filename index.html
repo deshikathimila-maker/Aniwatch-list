@@ -3141,6 +3141,55 @@ input[placeholder="Search anime..."]:not(#search){
   .brand-logo{{width:48px;height:40px;}}
 }}
 </style>
+
+<style id="chatgpt-credit-bar">
+.chatgpt-credit-bar{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  margin-top:3px;
+  padding:2px 9px;
+  min-height:15px;
+  border:1px solid rgba(255,255,255,.14);
+  border-radius:999px;
+  background:rgba(255,255,255,.055);
+  -webkit-backdrop-filter:blur(9px);
+  backdrop-filter:blur(9px);
+  box-shadow:0 3px 12px rgba(0,0,0,.12), inset 0 1px 0 rgba(255,255,255,.08);
+  overflow:hidden;
+  position:relative;
+  font-size:8px;
+  line-height:1;
+  letter-spacing:.35px;
+  color:rgba(235,242,255,.72);
+  animation:chatgptCreditFloat 3.6s ease-in-out infinite;
+}
+.chatgpt-credit-bar::before{
+  content:"";
+  position:absolute;
+  top:0;
+  left:-55%;
+  width:45%;
+  height:100%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.18),transparent);
+  transform:skewX(-18deg);
+  animation:chatgptCreditShine 3.2s ease-in-out infinite;
+}
+.chatgpt-credit-bar span{
+  position:relative;
+  z-index:1;
+  white-space:nowrap;
+}
+@keyframes chatgptCreditFloat{
+  0%,100%{transform:translateY(0);opacity:.82}
+  50%{transform:translateY(-1px);opacity:1}
+}
+@keyframes chatgptCreditShine{
+  0%,55%{left:-55%}
+  85%,100%{left:120%}
+}
+</style>
+
 </head>
 
 
@@ -3154,7 +3203,7 @@ input[placeholder="Search anime..."]:not(#search){
 
 <div class="brand">
   <span class="brand-ani">Ani</span><span class="brand-watch">Watch List</span>
-</div>
+</div><div class="chatgpt-credit-bar"><span>Made with ChatGPT</span></div>
 
 
 <!-- SEARCH MOVED TO HEADER -->
