@@ -1856,6 +1856,402 @@ input[placeholder="Search anime..."]:not(#search){
 
 
 /* =========================================================
+   PROFILE DASHBOARD
+   ========================================================= */
+
+.profile-page-modal{
+  z-index:60;
+  background:rgba(2,6,15,.80);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+}
+
+.profile-page-shell{
+  width:calc(100% - 28px);
+  max-width:820px;
+  max-height:92vh;
+  overflow:auto;
+  padding:18px;
+  border-radius:30px;
+  border:1px solid rgba(170,200,235,.20);
+  background:
+    radial-gradient(circle at 50% -12%, rgba(139,92,246,.20), transparent 35%),
+    radial-gradient(circle at 5% 90%, rgba(45,125,220,.12), transparent 32%),
+    rgba(8,15,29,.72);
+  backdrop-filter:blur(30px);
+  -webkit-backdrop-filter:blur(30px);
+  box-shadow:
+    0 35px 100px rgba(0,0,0,.58),
+    inset 0 1px 0 rgba(255,255,255,.07);
+  animation:profileShellIn .42s cubic-bezier(.2,.8,.2,1);
+}
+
+@keyframes profileShellIn{
+  from{
+    opacity:0;
+    transform:translateY(20px) scale(.97);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0) scale(1);
+  }
+}
+
+.profile-hero{
+  position:relative;
+  text-align:center;
+  padding:8px 46px 20px;
+}
+
+.profile-page-close{
+  position:absolute;
+  right:0;
+  top:0;
+  width:40px;
+  height:40px;
+  border-radius:50%;
+  border:1px solid rgba(180,205,240,.22);
+  background:rgba(255,255,255,.07);
+  color:#edf4ff;
+  font-size:23px;
+  line-height:1;
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  transition:.25s ease;
+  z-index:5;
+}
+
+.profile-page-close:hover{
+  transform:scale(1.06) rotate(4deg);
+  background:rgba(255,255,255,.12);
+}
+
+.profile-avatar-wrap{
+  position:relative;
+  width:100px;
+  height:100px;
+  margin:0 auto 13px;
+}
+
+.profile-avatar{
+  position:absolute;
+  inset:8px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:50%;
+  border:1px solid rgba(235,245,255,.24);
+  background:
+    radial-gradient(circle at 35% 25%, rgba(255,255,255,.18), transparent 25%),
+    linear-gradient(145deg, rgba(143,95,230,.34), rgba(54,122,215,.22));
+  color:#f2f7ff;
+  font-size:32px;
+  font-weight:900;
+  letter-spacing:.5px;
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  box-shadow:
+    0 16px 40px rgba(0,0,0,.30),
+    inset 0 1px 0 rgba(255,255,255,.12);
+}
+
+.profile-avatar-ring{
+  position:absolute;
+  inset:0;
+  border-radius:50%;
+  border:1px solid rgba(166,121,255,.34);
+  box-shadow:
+    0 0 28px rgba(155,100,255,.18),
+    inset 0 0 20px rgba(155,100,255,.10);
+  animation:profileRing 3.5s ease-in-out infinite;
+}
+
+.profile-avatar-ring::after{
+  content:"";
+  position:absolute;
+  inset:-6px;
+  border-radius:50%;
+  border:1px solid rgba(100,170,255,.10);
+  animation:profileRingOuter 5s linear infinite;
+}
+
+@keyframes profileRing{
+  0%,100%{transform:scale(.96);opacity:.68}
+  50%{transform:scale(1.05);opacity:1}
+}
+
+@keyframes profileRingOuter{
+  from{transform:rotate(0deg)}
+  to{transform:rotate(360deg)}
+}
+
+.profile-page-title{
+  font-size:26px;
+  font-weight:900;
+  letter-spacing:.2px;
+}
+
+.profile-page-subtitle{
+  margin-top:5px;
+  color:#8190a9;
+  font-size:10px;
+  word-break:break-all;
+}
+
+.profile-page-stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:10px;
+  padding:0 2px;
+}
+
+.profile-stat{
+  position:relative;
+  min-height:91px;
+  padding:13px 9px;
+  border-radius:19px;
+  border:1px solid rgba(175,200,235,.18);
+  background:rgba(255,255,255,.055);
+  color:inherit;
+  text-align:center;
+  cursor:pointer;
+  backdrop-filter:blur(24px);
+  -webkit-backdrop-filter:blur(24px);
+  box-shadow:
+    0 12px 30px rgba(0,0,0,.18),
+    inset 0 1px 0 rgba(255,255,255,.055);
+  transition:
+    transform .25s ease,
+    background .25s ease,
+    border-color .25s ease,
+    box-shadow .25s ease;
+}
+
+.profile-stat:hover{
+  transform:translateY(-3px);
+  background:rgba(255,255,255,.085);
+}
+
+.profile-stat.active{
+  transform:translateY(-3px) scale(1.015);
+  background:rgba(255,255,255,.10);
+  box-shadow:
+    0 16px 35px rgba(0,0,0,.24),
+    0 0 26px currentColor;
+}
+
+.profile-stat-number{
+  font-size:25px;
+  font-weight:900;
+}
+
+.profile-stat-label{
+  margin-top:7px;
+  font-size:8px;
+  text-transform:uppercase;
+  letter-spacing:1.05px;
+  opacity:.75;
+}
+
+.profile-stat-watching{
+  color:#73b7ff;
+  border-color:rgba(98,168,255,.30);
+}
+
+.profile-stat-completed{
+  color:#69e49b;
+  border-color:rgba(85,217,139,.30);
+}
+
+.profile-stat-plan{
+  color:#c59aff;
+  border-color:rgba(192,140,255,.30);
+}
+
+.profile-stat-total{
+  color:#f3c96f;
+  border-color:rgba(244,199,107,.30);
+}
+
+.profile-category-panel{
+  margin-top:14px;
+  padding:15px;
+  border-radius:22px;
+  border:1px solid rgba(175,200,235,.17);
+  background:rgba(255,255,255,.045);
+  backdrop-filter:blur(24px);
+  -webkit-backdrop-filter:blur(24px);
+  box-shadow:
+    0 16px 40px rgba(0,0,0,.20),
+    inset 0 1px 0 rgba(255,255,255,.05);
+}
+
+.profile-category-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:12px;
+}
+
+.profile-category-title{
+  font-size:14px;
+  font-weight:850;
+  color:#edf4ff;
+}
+
+.profile-category-count{
+  font-size:9px;
+  color:#78879f;
+  text-transform:uppercase;
+  letter-spacing:1px;
+}
+
+.profile-anime-grid{
+  display:grid;
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  gap:9px;
+}
+
+.profile-anime-card{
+  position:relative;
+  min-width:0;
+  overflow:hidden;
+  border-radius:14px;
+  border:1px solid rgba(175,200,235,.16);
+  background:rgba(255,255,255,.045);
+  cursor:pointer;
+  box-shadow:
+    0 10px 24px rgba(0,0,0,.18),
+    inset 0 1px 0 rgba(255,255,255,.045);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+  transition:.25s ease;
+  animation:profileAnimeIn .38s ease both;
+}
+
+.profile-anime-card:hover{
+  transform:translateY(-4px);
+  border-color:rgba(180,210,250,.30);
+  box-shadow:
+    0 15px 30px rgba(0,0,0,.25),
+    0 0 18px rgba(135,100,220,.10);
+}
+
+.profile-anime-poster{
+  width:100%;
+  aspect-ratio:2/3;
+  object-fit:cover;
+  display:block;
+  background:rgba(255,255,255,.04);
+}
+
+.profile-anime-info{
+  padding:8px 8px 9px;
+}
+
+.profile-anime-title{
+  font-size:9px;
+  line-height:1.35;
+  font-weight:750;
+  color:#e9f1ff;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.profile-anime-meta{
+  margin-top:4px;
+  display:flex;
+  justify-content:space-between;
+  gap:4px;
+  color:#718099;
+  font-size:7px;
+  text-transform:uppercase;
+  letter-spacing:.55px;
+}
+
+.profile-anime-empty{
+  grid-column:1/-1;
+  padding:26px 10px;
+  text-align:center;
+  color:#77869e;
+  font-size:10px;
+}
+
+@keyframes profileAnimeIn{
+  from{
+    opacity:0;
+    transform:translateY(7px) scale(.98);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0) scale(1);
+  }
+}
+
+.profile-page-actions{
+  display:flex;
+  gap:9px;
+  margin-top:14px;
+}
+
+.profile-page-actions button{
+  flex:1;
+}
+
+@media(max-width:650px){
+  .profile-page-shell{
+    width:calc(100% - 18px);
+    padding:13px;
+    border-radius:24px;
+  }
+
+  .profile-page-stats{
+    gap:7px;
+  }
+
+  .profile-stat{
+    min-height:82px;
+    padding:11px 6px;
+    border-radius:16px;
+  }
+
+  .profile-stat-number{
+    font-size:21px;
+  }
+
+  .profile-stat-label{
+    font-size:7px;
+    letter-spacing:.7px;
+  }
+
+  .profile-anime-grid{
+    grid-template-columns:repeat(4,minmax(0,1fr));
+    gap:7px;
+  }
+
+  .profile-category-panel{
+    padding:11px;
+  }
+}
+
+@media(max-width:430px){
+  .profile-avatar-wrap{
+    width:84px;
+    height:84px;
+  }
+
+  .profile-page-title{
+    font-size:23px;
+  }
+
+  .profile-anime-grid{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+  }
+}
+
+/* =========================================================
    REQUESTED CHANGES — PROFILE / WATCHED EPISODES / STATUS
    ========================================================= */
 
@@ -2248,6 +2644,236 @@ input[placeholder="Search anime..."]:not(#search){
 
 }
 
+
+/* =========================================================
+   FINAL FIX — requested items only
+   ========================================================= */
+
+/* Login / Sign Up buttons in Profile menu. */
+.profile-login-btn{
+  display:none;
+  width:100%;
+  border:0;
+  cursor:pointer;
+  text-align:left;
+  background:transparent;
+  color:#dce8ff;
+  padding:9px 11px;
+  border-radius:10px;
+  font-size:11px;
+}
+
+.profile-login-btn.show{
+  display:block;
+}
+
+.profile-login-btn:hover{
+  background:rgba(255,255,255,.07);
+}
+
+.profile-menu .logout{
+  display:none;
+}
+
+.profile-menu .logout.show{
+  display:block;
+}
+
+.auth-modal{
+  z-index:80;
+  background:rgba(2,6,15,.78);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+}
+
+.auth-box{
+  position:relative;
+  width:min(390px,calc(100vw - 30px));
+  padding:24px;
+  border-radius:22px;
+  border:1px solid rgba(170,195,230,.20);
+  background:rgba(10,18,34,.76);
+  backdrop-filter:blur(28px);
+  -webkit-backdrop-filter:blur(28px);
+  box-shadow:0 30px 90px rgba(0,0,0,.52), inset 0 1px 0 rgba(255,255,255,.06);
+}
+
+.auth-close{
+  position:absolute;
+  right:12px;
+  top:10px;
+  width:36px;
+  height:36px;
+  border:1px solid rgba(160,185,220,.18);
+  border-radius:11px;
+  background:rgba(255,255,255,.06);
+  color:#edf4ff;
+  font-size:22px;
+}
+
+.auth-title{
+  font-size:24px;
+  font-weight:800;
+  margin-bottom:5px;
+}
+
+.auth-subtitle{
+  color:#78869d;
+  font-size:11px;
+  margin-bottom:18px;
+}
+
+.auth-input{
+  width:100%;
+  box-sizing:border-box;
+  margin-bottom:10px;
+  padding:12px 13px;
+  border-radius:13px;
+  border:1px solid rgba(145,175,215,.20);
+  background:rgba(255,255,255,.055);
+  color:#eef5ff;
+  outline:none;
+}
+
+.auth-input:focus{
+  border-color:rgba(160,125,255,.50);
+}
+
+.auth-submit{
+  width:100%;
+  margin-top:2px;
+}
+
+.auth-switch{
+  width:100%;
+  margin-top:12px;
+  border:0;
+  background:transparent;
+  color:#a88bff;
+  font-size:11px;
+  cursor:pointer;
+}
+
+.auth-message{
+  min-height:17px;
+  margin-top:12px;
+  color:#7f8da5;
+  font-size:10px;
+  line-height:1.5;
+}
+
+/* Restore the original Featured moving animation. */
+.featured-track{
+  display:flex !important;
+  align-items:center !important;
+  width:max-content !important;
+  min-height:305px !important;
+  padding:22px 10px !important;
+  overflow:visible !important;
+  scroll-snap-type:none !important;
+  animation:featuredSlide 42s linear infinite !important;
+  will-change:transform;
+}
+
+.featured-track:hover{
+  animation-play-state:paused !important;
+}
+
+.featured-card{
+  scroll-snap-align:none !important;
+  animation:none !important;
+}
+
+.featured-window::after{
+  display:none !important;
+}
+
+@keyframes featuredSlide{
+  0%{transform:translateX(0);}
+  100%{transform:translateX(-50%);}
+}
+
+/* Restore the original AniWatch List title animation. */
+.brand{
+  position:relative;
+  display:inline-block;
+  font-size:25px;
+  font-weight:800;
+  letter-spacing:.4px;
+  padding-bottom:7px;
+  flex-shrink:0;
+  overflow:visible !important;
+  isolation:auto !important;
+  z-index:auto !important;
+}
+
+.brand > span{
+  position:static !important;
+}
+
+.brand::after{
+  content:"";
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:0;
+  top:auto;
+  width:auto;
+  height:2px;
+  border-radius:999px;
+  background:linear-gradient(90deg,transparent,#b77cff,#ffffff,#b77cff,transparent);
+  opacity:.15;
+  filter:none;
+  transform:none;
+  animation:brandLightning 2.8s ease-in-out infinite;
+  z-index:auto;
+}
+
+.brand::before{
+  content:"";
+  position:absolute;
+  width:58px;
+  height:2px;
+  right:-10px;
+  left:auto;
+  top:3px;
+  bottom:auto;
+  background:linear-gradient(90deg,transparent,#ffffff,#b77cff,transparent);
+  transform:rotate(-18deg) translateX(18px);
+  opacity:0;
+  filter:blur(.4px);
+  clip-path:none;
+  animation:katanaSlash 3.6s ease-in-out infinite;
+  pointer-events:none;
+  z-index:auto;
+}
+
+@keyframes brandLightning{
+  0%,72%,100%{opacity:.12;transform:scaleX(.65);filter:blur(1px);}
+  75%{opacity:1;transform:scaleX(1);filter:blur(0);}
+  78%{opacity:.25;transform:scaleX(.8);}
+  81%{opacity:.9;transform:scaleX(1);}
+}
+
+@keyframes katanaSlash{
+  0%,72%,100%{opacity:0;transform:rotate(-18deg) translateX(20px);}
+  74%{opacity:.15;}
+  76%{opacity:1;transform:rotate(-18deg) translateX(-6px);}
+  79%{opacity:.8;transform:rotate(-18deg) translateX(3px);}
+  82%{opacity:0;transform:rotate(-18deg) translateX(20px);}
+}
+
+@media(max-width:500px){
+  .brand{
+    font-size:17px;
+    letter-spacing:0;
+  }
+  .brand::before{width:42px;}
+  .featured-track{
+    min-height:280px !important;
+  }
+}
+
 </style>
 </head>
 
@@ -2302,7 +2928,26 @@ Not logged in
 </div>
 
 <button
+class="profile-login-btn"
+id="profileLoginBtn"
+onclick="openAuthModal('login')">
+
+Login
+
+</button>
+
+<button
+class="profile-login-btn"
+id="profileSignupBtn"
+onclick="openAuthModal('signup')">
+
+Sign Up
+
+</button>
+
+<button
 class="logout"
+id="profileLogoutBtn"
 onclick="logout()">
 
 Logout
@@ -2330,14 +2975,7 @@ id="profilePageModal">
 
 <div class="profile-page-shell">
 
-  <div class="profile-page-header">
-
-    <div>
-      <div class="profile-page-title">Profile</div>
-      <div class="profile-page-subtitle" id="profilePageEmail">
-        Not logged in
-      </div>
-    </div>
+  <div class="profile-hero">
 
     <button
     class="profile-page-close"
@@ -2346,29 +2984,102 @@ id="profilePageModal">
       ×
     </button>
 
+    <div class="profile-avatar-wrap">
+      <div class="profile-avatar-ring"></div>
+      <div class="profile-avatar" id="profileAvatar">A</div>
+    </div>
+
+    <div class="profile-page-title">Profile</div>
+
+    <div
+    class="profile-page-subtitle"
+    id="profilePageEmail">
+      Not logged in
+    </div>
+
   </div>
 
 
   <div class="profile-page-stats">
 
-    <div class="profile-stat profile-stat-watching">
-      <div class="profile-stat-number" id="profileWatchingCount">0</div>
+    <button
+    class="profile-stat profile-stat-watching"
+    onclick="showProfileCategory('Watching',this)">
+
+      <div
+      class="profile-stat-number"
+      id="profileWatchingCount">0</div>
+
       <div class="profile-stat-label">Watching</div>
-    </div>
 
-    <div class="profile-stat profile-stat-completed">
-      <div class="profile-stat-number" id="profileCompletedCount">0</div>
+    </button>
+
+
+    <button
+    class="profile-stat profile-stat-completed"
+    onclick="showProfileCategory('Completed',this)">
+
+      <div
+      class="profile-stat-number"
+      id="profileCompletedCount">0</div>
+
       <div class="profile-stat-label">Completed</div>
-    </div>
 
-    <div class="profile-stat profile-stat-plan">
-      <div class="profile-stat-number" id="profilePlanCount">0</div>
+    </button>
+
+
+    <button
+    class="profile-stat profile-stat-plan"
+    onclick="showProfileCategory('Plan to Watch',this)">
+
+      <div
+      class="profile-stat-number"
+      id="profilePlanCount">0</div>
+
       <div class="profile-stat-label">Plan to Watch</div>
+
+    </button>
+
+
+    <button
+    class="profile-stat profile-stat-total"
+    onclick="showProfileCategory('All',this)">
+
+      <div
+      class="profile-stat-number"
+      id="profileTotalCount">0</div>
+
+      <div class="profile-stat-label">Total</div>
+
+    </button>
+
+  </div>
+
+
+  <div
+  class="profile-category-panel"
+  id="profileCategoryPanel">
+
+    <div class="profile-category-head">
+
+      <div
+      class="profile-category-title"
+      id="profileCategoryTitle">
+        Completed
+      </div>
+
+      <div
+      class="profile-category-count"
+      id="profileCategoryCount">
+        0 Anime
+      </div>
+
     </div>
 
-    <div class="profile-stat profile-stat-total">
-      <div class="profile-stat-number" id="profileTotalCount">0</div>
-      <div class="profile-stat-label">Total</div>
+
+    <div
+    class="profile-anime-grid"
+    id="profileAnimeGrid">
     </div>
 
   </div>
@@ -2962,6 +3673,16 @@ function toggleProfile(){
 
 function openProfilePage(){
 
+  const loggedIn =
+    !!document
+    .getElementById("profileLogoutBtn")
+    ?.classList.contains("show");
+
+  if(!loggedIn){
+    openAuthModal("login");
+    return;
+  }
+
   document
   .getElementById("profileMenu")
   .classList.remove("show");
@@ -2971,6 +3692,14 @@ function openProfilePage(){
   .classList.add("show");
 
   updateProfileStats();
+
+  const completedButton =
+    document.querySelector(".profile-stat-completed");
+
+  showProfileCategory(
+    "Completed",
+    completedButton
+  );
 
 }
 
@@ -3001,6 +3730,150 @@ async function logout(){
   renderFeatured();
 
   clearStatusList();
+
+}
+
+
+/* =========================
+   LOGIN / SIGN UP
+========================= */
+
+let authMode = "login";
+
+function openAuthModal(mode="login"){
+
+  authMode = mode;
+
+  document
+  .getElementById("profileMenu")
+  .classList.remove("show");
+
+  document
+  .getElementById("profilePageModal")
+  .classList.remove("show");
+
+  document
+  .getElementById("authEmail")
+  .value = "";
+
+  document
+  .getElementById("authPassword")
+  .value = "";
+
+  document
+  .getElementById("authMessage")
+  .textContent = "";
+
+  updateAuthModal();
+
+  document
+  .getElementById("authModal")
+  .classList.add("show");
+
+}
+
+function closeAuthModal(){
+
+  document
+  .getElementById("authModal")
+  .classList.remove("show");
+
+}
+
+function switchAuthMode(){
+
+  authMode =
+    authMode === "login"
+    ? "signup"
+    : "login";
+
+  updateAuthModal();
+
+}
+
+function updateAuthModal(){
+
+  const login = authMode === "login";
+
+  document
+  .getElementById("authTitle")
+  .textContent = login ? "Login" : "Sign Up";
+
+  document
+  .getElementById("authSubtitle")
+  .textContent = login
+    ? "Login to your AniWatch List account"
+    : "Create your AniWatch List account";
+
+  document
+  .getElementById("authSubmitBtn")
+  .textContent = login ? "Login" : "Sign Up";
+
+  document
+  .getElementById("authSwitchBtn")
+  .textContent = login
+    ? "Don't have an account? Sign Up"
+    : "Already have an account? Login";
+
+}
+
+async function submitAuth(){
+
+  const email =
+    document
+    .getElementById("authEmail")
+    .value
+    .trim();
+
+  const password =
+    document
+    .getElementById("authPassword")
+    .value;
+
+  const message =
+    document
+    .getElementById("authMessage");
+
+  if(!email || !password){
+    message.textContent = "Enter your email and password.";
+    return;
+  }
+
+  message.textContent = "Please wait...";
+
+  let result;
+
+  if(authMode === "login"){
+
+    result =
+      await supabaseClient.auth.signInWithPassword({
+        email,
+        password
+      });
+
+  }else{
+
+    result =
+      await supabaseClient.auth.signUp({
+        email,
+        password
+      });
+
+  }
+
+  if(result.error){
+    message.textContent = result.error.message;
+    return;
+  }
+
+  if(authMode === "signup" && !result.data.session){
+    message.textContent =
+      "Account created. Check your email to confirm your account, then login.";
+    return;
+  }
+
+  message.textContent = "Success.";
+  closeAuthModal();
 
 }
 
@@ -3055,7 +3928,124 @@ function updateUI(session){
   ? session.user.email
   : "Not logged in";
 
+  const avatar =
+    document.getElementById("profileAvatar");
+
+  if(avatar){
+
+    const email =
+      session?.user?.email || "";
+
+    avatar.textContent =
+      email
+      ? email.charAt(0).toUpperCase()
+      : "A";
+  }
+
+  const loginBtn = document.getElementById("profileLoginBtn");
+  const signupBtn = document.getElementById("profileSignupBtn");
+  const logoutBtn = document.getElementById("profileLogoutBtn");
+
+  if(loginBtn) loginBtn.classList.toggle("show", !session);
+  if(signupBtn) signupBtn.classList.toggle("show", !session);
+  if(logoutBtn) logoutBtn.classList.toggle("show", !!session);
+
   updateProfileStats();
+
+}
+
+
+function showProfileCategory(status,clickedElement){
+
+  document
+  .querySelectorAll(".profile-stat")
+  .forEach(el=>el.classList.remove("active"));
+
+  if(clickedElement){
+    clickedElement.classList.add("active");
+  }
+
+  const title =
+    status === "All"
+    ? "All Anime"
+    : status;
+
+  const list =
+    status === "All"
+    ? animeList
+    : animeList.filter(
+        anime=>anime.status===status
+      );
+
+  document
+  .getElementById("profileCategoryTitle")
+  .textContent = title;
+
+  document
+  .getElementById("profileCategoryCount")
+  .textContent =
+  `${list.length} Anime`;
+
+  const grid =
+    document
+    .getElementById("profileAnimeGrid");
+
+  if(!list.length){
+
+    grid.innerHTML = `
+      <div class="profile-anime-empty">
+        No anime in this category yet.
+      </div>
+    `;
+
+    return;
+  }
+
+  grid.innerHTML =
+  list
+  .map(
+    (anime,index)=>{
+
+      const poster =
+        anime.poster ||
+        "https://placehold.co/300x450/101827/7b8aa3?text=No+Poster";
+
+      const episodes =
+        Number(anime.episodes) || 0;
+
+      return `
+        <div
+        class="profile-anime-card"
+        style="animation-delay:${Math.min(index*35,350)}ms"
+        onclick="openDetails(${anime.id})">
+
+          <img
+          class="profile-anime-poster"
+          src="${poster}"
+          alt=""
+          loading="lazy"
+          onerror="this.src='https://placehold.co/300x450/101827/7b8aa3?text=No+Poster'">
+
+          <div class="profile-anime-info">
+
+            <div
+            class="profile-anime-title"
+            title="${escapeHtml(anime.title || "")}">
+              ${escapeHtml(anime.title || "Untitled")}
+            </div>
+
+            <div class="profile-anime-meta">
+              <span>${episodes ? episodes+" EP" : "EP N/A"}</span>
+              <span>${escapeHtml(anime.media_type || "")}</span>
+            </div>
+
+          </div>
+
+        </div>
+      `;
+    }
+  )
+  .join("");
 
 }
 
@@ -3106,6 +4096,21 @@ function updateProfileStats(){
     const el = document.getElementById(id);
     if(el) el.textContent = value;
   });
+
+  const activeStat =
+    document.querySelector(".profile-stat.active");
+
+  if(activeStat){
+    if(activeStat.classList.contains("profile-stat-watching")){
+      showProfileCategory("Watching",activeStat);
+    }else if(activeStat.classList.contains("profile-stat-completed")){
+      showProfileCategory("Completed",activeStat);
+    }else if(activeStat.classList.contains("profile-stat-plan")){
+      showProfileCategory("Plan to Watch",activeStat);
+    }else if(activeStat.classList.contains("profile-stat-total")){
+      showProfileCategory("All",activeStat);
+    }
+  }
 
 }
 
