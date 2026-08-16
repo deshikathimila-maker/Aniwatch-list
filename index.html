@@ -32,7 +32,6 @@ button{
   cursor:pointer;
 }
 
-
 /* =========================
    HEADER
 ========================= */
@@ -51,11 +50,15 @@ button{
 .nav{
   max-width:1150px;
   margin:auto;
-  padding:13px 20px;
+  padding:11px 20px;
   display:flex;
   align-items:center;
   gap:12px;
 }
+
+/* =========================
+   ANIWATCH ENERGY LOGO
+========================= */
 
 .brand{
   position:relative;
@@ -63,104 +66,90 @@ button{
   font-size:25px;
   font-weight:800;
   letter-spacing:.4px;
-  padding-bottom:7px;
+  padding-bottom:8px;
   flex-shrink:0;
-  overflow:visible;
 }
 
 .brand::after{
   content:"";
   position:absolute;
-  left:0;
-  right:0;
+  left:-8%;
+  right:-8%;
   bottom:0;
-  height:2px;
+  height:3px;
   border-radius:999px;
   background:linear-gradient(
     90deg,
     transparent,
-    #b77cff,
+    #9b6cff,
     #ffffff,
-    #b77cff,
+    #65a9ff,
+    #9b6cff,
     transparent
   );
-  opacity:.15;
-  animation:brandLightning 2.8s ease-in-out infinite;
+  opacity:.25;
+  filter:blur(1px);
+  animation:powerLine 2.4s ease-in-out infinite;
 }
-
-/* Katana slash */
 
 .brand::before{
   content:"";
   position:absolute;
-  width:58px;
-  height:2px;
-  right:-10px;
-  top:3px;
-  background:linear-gradient(
-    90deg,
-    transparent,
-    #ffffff,
-    #b77cff,
-    transparent
+  left:50%;
+  bottom:-7px;
+  width:80px;
+  height:14px;
+  transform:translateX(-50%);
+  border-radius:50%;
+  background:radial-gradient(
+    ellipse,
+    rgba(116,110,255,.45),
+    rgba(90,130,255,.12),
+    transparent 70%
   );
-  transform:rotate(-18deg) translateX(18px);
-  opacity:0;
-  filter:blur(.4px);
-  animation:katanaSlash 3.6s ease-in-out infinite;
+  filter:blur(5px);
+  opacity:.45;
+  animation:auraPulse 2.4s ease-in-out infinite;
   pointer-events:none;
 }
 
-@keyframes brandLightning{
+@keyframes powerLine{
 
-  0%,72%,100%{
-    opacity:.12;
-    transform:scaleX(.65);
-    filter:blur(1px);
+  0%,100%{
+    opacity:.16;
+    transform:scaleX(.55);
   }
 
-  75%{
+  35%{
+    opacity:.30;
+  }
+
+  48%{
     opacity:1;
     transform:scaleX(1);
-    filter:blur(0);
   }
 
-  78%{
+  53%{
     opacity:.25;
-    transform:scaleX(.8);
   }
 
-  81%{
-    opacity:.9;
-    transform:scaleX(1);
+  58%{
+    opacity:.85;
+    transform:scaleX(.92);
   }
 
 }
 
-@keyframes katanaSlash{
+@keyframes auraPulse{
 
-  0%,72%,100%{
-    opacity:0;
-    transform:rotate(-18deg) translateX(20px);
+  0%,100%{
+    opacity:.18;
+    transform:translateX(-50%) scale(.65);
   }
 
-  74%{
-    opacity:.15;
-  }
-
-  76%{
-    opacity:1;
-    transform:rotate(-18deg) translateX(-6px);
-  }
-
-  78%{
-    opacity:.15;
-    transform:rotate(-18deg) translateX(-20px);
-  }
-
-  80%{
-    opacity:0;
-    transform:rotate(-18deg) translateX(-28px);
+  50%{
+    opacity:.8;
+    transform:translateX(-50%) scale(1.15);
   }
 
 }
@@ -173,52 +162,36 @@ button{
   color:#f5f7ff;
 }
 
-
 /* =========================
-   HEADER SEARCH
+   SEARCH
 ========================= */
 
 .header-search{
   flex:1;
-  max-width:360px;
+  max-width:260px;
   margin-left:auto;
 }
 
 .header-search input{
   width:100%;
+  height:36px;
   margin:0;
-
-  padding:9px 12px;
-
-  background:rgba(18,31,52,.50);
-  border:1px solid rgba(115,143,190,.32);
-  border-radius:10px;
-
-  color:#fff;
-  outline:none;
-
+  padding:8px 12px;
+  border-radius:12px;
+  font-size:12px;
+  background:rgba(15,27,46,.52);
+  border:1px solid rgba(115,143,190,.28);
   backdrop-filter:blur(18px);
   -webkit-backdrop-filter:blur(18px);
-
   box-shadow:
-    0 7px 22px rgba(0,0,0,.14);
-
-  transition:.25s ease;
-
-  font-size:12px;
-}
-
-.header-search input::placeholder{
-  color:#78869d;
+    inset 0 1px 0 rgba(255,255,255,.04),
+    0 8px 25px rgba(0,0,0,.12);
 }
 
 .header-search input:focus{
-  border-color:rgba(92,145,220,.65);
-  box-shadow:
-    0 0 0 3px rgba(77,131,207,.10),
-    0 10px 25px rgba(0,0,0,.20);
+  border-color:rgba(105,155,230,.65);
+  box-shadow:0 0 0 3px rgba(80,130,220,.09);
 }
-
 
 /* =========================
    PROFILE
@@ -230,30 +203,53 @@ button{
 }
 
 .profile-btn{
-  border:1px solid rgba(115,143,190,.35);
+  width:40px;
+  height:40px;
+  padding:0;
+  border-radius:50%;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border:1px solid rgba(150,175,220,.40);
   background:rgba(18,31,52,.58);
-  backdrop-filter:blur(12px);
+  backdrop-filter:blur(15px);
+  -webkit-backdrop-filter:blur(15px);
   color:#fff;
-  padding:9px 13px;
-  border-radius:10px;
-  font-size:12px;
+  box-shadow:
+    0 5px 20px rgba(0,0,0,.25),
+    inset 0 1px 0 rgba(255,255,255,.08);
 }
 
 .profile-btn:hover{
-  background:rgba(31,49,78,.75);
+  transform:scale(1.04);
+  border-color:#638ed0;
+}
+
+.profile-avatar{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  border-radius:50%;
+}
+
+.profile-letter{
+  font-size:15px;
+  font-weight:bold;
 }
 
 .profile-menu{
   display:none;
   position:absolute;
   right:0;
-  top:48px;
-  width:235px;
-  background:rgba(13,21,37,.94);
-  backdrop-filter:blur(20px);
-  border:1px solid #263b61;
-  border-radius:13px;
-  padding:14px;
+  top:49px;
+  width:255px;
+  background:rgba(13,21,37,.91);
+  backdrop-filter:blur(22px);
+  -webkit-backdrop-filter:blur(22px);
+  border:1px solid rgba(65,91,135,.55);
+  border-radius:15px;
+  padding:15px;
   box-shadow:0 20px 50px rgba(0,0,0,.55);
 }
 
@@ -261,11 +257,54 @@ button{
   display:block;
 }
 
+.profile-user{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:13px;
+}
+
+.profile-big{
+  width:46px;
+  height:46px;
+  border-radius:50%;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#111f35;
+  border:1px solid #405b83;
+  flex-shrink:0;
+}
+
+.profile-big img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.profile-big span{
+  font-weight:bold;
+}
+
 .profile-email{
-  font-size:13px;
+  font-size:12px;
   color:#8e9bb2;
   word-break:break-all;
-  margin-bottom:12px;
+}
+
+.profile-photo-btn{
+  width:100%;
+  border:1px solid rgba(100,135,190,.35);
+  background:rgba(22,39,65,.65);
+  color:#dce8ff;
+  padding:9px;
+  border-radius:9px;
+  margin-bottom:8px;
+}
+
+.profile-photo-btn:hover{
+  background:rgba(43,69,108,.75);
 }
 
 .logout{
@@ -277,6 +316,9 @@ button{
   border-radius:9px;
 }
 
+.profile-file{
+  display:none;
+}
 
 /* =========================
    MAIN
@@ -285,16 +327,29 @@ button{
 .container{
   max-width:1150px;
   margin:auto;
-  padding:22px 20px 60px;
+  padding:25px 20px 60px;
 }
 
+.hero{
+  padding:8px 0 8px;
+}
+
+.hero h1{
+  font-size:29px;
+  margin-bottom:5px;
+}
+
+.hero p{
+  color:#8491a8;
+  font-size:13px;
+}
 
 /* =========================
    FEATURED
 ========================= */
 
 .featured-section{
-  margin-top:5px;
+  margin-top:20px;
 }
 
 .featured-heading{
@@ -315,19 +370,24 @@ button{
 }
 
 .edit-featured{
-  border:1px solid rgba(150,175,220,.28);
-  background:rgba(24,38,63,.35);
+  width:34px;
+  height:34px;
+  padding:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border:1px solid rgba(150,175,220,.30);
+  background:rgba(24,38,63,.38);
   backdrop-filter:blur(18px);
   -webkit-backdrop-filter:blur(18px);
   color:#dce8ff;
-  padding:6px 10px;
-  border-radius:8px;
-  font-size:10px;
+  border-radius:10px;
+  font-size:15px;
   transition:.25s ease;
 }
 
 .edit-featured:hover{
-  background:rgba(55,78,115,.6);
+  background:rgba(55,78,115,.65);
   transform:translateY(-1px);
 }
 
@@ -381,25 +441,20 @@ button{
 
 .featured-card{
   position:relative;
-  width:500px;
-  height:260px;
-  margin:0 10px;
+  width:460px;
+  height:245px;
+  margin:0 9px;
   flex-shrink:0;
   overflow:hidden;
-  border-radius:20px;
+  border-radius:18px;
   border:1px solid rgba(255,255,255,.10);
   background:#101a2c;
-  box-shadow:
-    0 20px 50px rgba(0,0,0,.42);
-  transition:
-    transform .35s ease,
-    box-shadow .35s ease;
+  box-shadow:0 20px 50px rgba(0,0,0,.42);
+  transition:transform .35s ease;
 }
 
 .featured-card:hover{
   transform:scale(1.025);
-  box-shadow:
-    0 25px 60px rgba(0,0,0,.50);
 }
 
 .featured-image-blur{
@@ -419,13 +474,7 @@ button{
   width:100%;
   height:100%;
   object-fit:cover;
-  object-position:center;
   z-index:1;
-  transition:transform .5s ease;
-}
-
-.featured-card:hover .featured-image-main{
-  transform:scale(1.035);
 }
 
 .featured-card-overlay{
@@ -444,7 +493,7 @@ button{
   position:absolute;
   z-index:3;
   inset:0;
-  padding:20px;
+  padding:18px;
   display:flex;
   flex-direction:column;
   justify-content:flex-end;
@@ -452,12 +501,11 @@ button{
 
 .featured-title{
   max-width:80%;
-  font-size:21px;
+  font-size:20px;
   font-weight:800;
   white-space:nowrap;
   overflow:hidden;
   text-overflow:ellipsis;
-  text-shadow:0 3px 15px rgba(0,0,0,.7);
 }
 
 .featured-badges{
@@ -508,17 +556,9 @@ button{
 }
 
 @keyframes featuredSlide{
-
-  0%{
-    transform:translateX(0);
-  }
-
-  100%{
-    transform:translateX(-50%);
-  }
-
+  0%{transform:translateX(0);}
+  100%{transform:translateX(-50%);}
 }
-
 
 /* =========================
    STATS
@@ -527,24 +567,19 @@ button{
 .stats{
   display:grid;
   grid-template-columns:repeat(4,1fr);
-  gap:10px;
+  gap:9px;
   margin-top:18px;
 }
 
 .stat{
-  position:relative;
-  background:rgba(12,22,40,.52);
-  border:1px solid rgba(90,120,165,.28);
-  border-radius:12px;
+  background:rgba(12,22,40,.55);
+  border:1px solid rgba(100,130,180,.25);
+  border-radius:13px;
   padding:10px 12px;
   cursor:pointer;
   transition:.25s ease;
-
-  backdrop-filter:blur(18px);
-  -webkit-backdrop-filter:blur(18px);
-
-  box-shadow:
-    0 8px 25px rgba(0,0,0,.13);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
 }
 
 .stat:hover{
@@ -557,69 +592,54 @@ button{
     0 8px 25px rgba(0,0,0,.25);
 }
 
-
-/* Different colors */
-
 .stat:nth-child(1){
   color:#62a8ff;
-  border-color:rgba(98,168,255,.40);
-  background:rgba(38,86,145,.18);
+  border-color:rgba(98,168,255,.35);
 }
 
 .stat:nth-child(2){
   color:#55d98b;
-  border-color:rgba(85,217,139,.40);
-  background:rgba(36,120,75,.16);
+  border-color:rgba(85,217,139,.35);
 }
 
 .stat:nth-child(3){
   color:#c08cff;
-  border-color:rgba(192,140,255,.40);
-  background:rgba(103,61,150,.16);
+  border-color:rgba(192,140,255,.35);
 }
 
 .stat:nth-child(4){
   color:#f4c76b;
-  border-color:rgba(244,199,107,.40);
-  background:rgba(140,103,37,.15);
+  border-color:rgba(244,199,107,.35);
 }
 
 .stat-number{
-  font-size:19px;
+  font-size:18px;
   font-weight:bold;
 }
 
 .stat-label{
   color:inherit;
-  opacity:.78;
-  font-size:11px;
+  opacity:.72;
+  font-size:10px;
   margin-top:3px;
 }
 
-
 /* =========================
-   STATUS MINI LIST
+   STATUS LIST
 ========================= */
 
 .status-list{
   display:none;
   margin-top:10px;
-  margin-bottom:17px;
+  margin-bottom:15px;
   padding:9px;
-
-  background:rgba(8,16,30,.55);
-
+  background:rgba(8,16,30,.68);
   border:1px solid rgba(61,91,138,.35);
   border-radius:15px;
-
-  backdrop-filter:blur(20px);
-  -webkit-backdrop-filter:blur(20px);
-
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
   max-height:330px;
   overflow-y:auto;
-
-  box-shadow:
-    0 15px 35px rgba(0,0,0,.20);
 }
 
 .status-list.show{
@@ -629,16 +649,12 @@ button{
 .status-list-item{
   display:flex;
   align-items:center;
-  gap:11px;
-
+  gap:10px;
   padding:8px;
-  margin-bottom:7px;
-
-  border-radius:11px;
-
-  background:rgba(17,29,49,.62);
+  margin-bottom:6px;
+  border-radius:10px;
+  background:rgba(17,29,49,.65);
   border:1px solid rgba(65,91,135,.22);
-
   cursor:pointer;
   transition:.2s ease;
 }
@@ -650,25 +666,20 @@ button{
 .status-list-item:hover{
   transform:translateX(3px);
   border-color:#3977c4;
-  background:rgba(28,49,80,.72);
 }
 
 .status-list-poster{
-  width:50px;
-  height:64px;
+  width:48px;
+  height:62px;
   flex-shrink:0;
-
   border-radius:7px;
   overflow:hidden;
-
   background:#101c30;
-
   display:flex;
   align-items:center;
   justify-content:center;
-
   color:#66758d;
-  font-size:9px;
+  font-size:8px;
 }
 
 .status-list-poster img{
@@ -685,7 +696,6 @@ button{
 .status-list-title{
   font-size:12px;
   font-weight:bold;
-
   white-space:nowrap;
   overflow:hidden;
   text-overflow:ellipsis;
@@ -693,12 +703,10 @@ button{
 
 .status-list-meta{
   display:flex;
-  gap:10px;
-
+  gap:12px;
   margin-top:6px;
-
   color:#8795ab;
-  font-size:10px;
+  font-size:9px;
 }
 
 .status-list-rating{
@@ -712,15 +720,67 @@ button{
   font-size:12px;
 }
 
-
 /* =========================
    TOOLBAR
 ========================= */
 
 .toolbar{
-  display:none;
+  display:flex;
+  flex-direction:column;
+  align-items:stretch;
+  gap:10px;
+  margin:17px 0 15px;
 }
 
+.toolbar-right{
+  display:flex;
+  gap:9px;
+  width:100%;
+}
+
+.search{
+  flex:1;
+  width:auto;
+  background:rgba(12,22,40,.72);
+  color:#fff;
+  border:1px solid #29456e;
+  border-radius:11px;
+  padding:11px 13px;
+  outline:none;
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+}
+
+.toolbar .primary{
+  padding:8px 11px;
+  font-size:11px;
+  border-radius:9px;
+  background:rgba(27,95,183,.42);
+  border:1px solid rgba(75,130,209,.45);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+}
+
+.primary{
+  border:1px solid #4b82d1;
+  background:#1b5fb7;
+  color:#fff;
+  border-radius:10px;
+  padding:11px 16px;
+  font-weight:bold;
+}
+
+.primary:hover{
+  background:#2670d0;
+}
+
+.secondary{
+  border:1px solid #263b61;
+  background:#101d31;
+  color:#fff;
+  border-radius:10px;
+  padding:10px 14px;
+}
 
 /* =========================
    ANIME GRID
@@ -729,7 +789,7 @@ button{
 .anime-grid{
   display:grid;
   grid-template-columns:repeat(5,1fr);
-  gap:14px;
+  gap:13px;
 }
 
 .card{
@@ -751,17 +811,14 @@ button{
 }
 
 @keyframes cardIn{
-
   from{
     opacity:0;
     transform:translateY(12px);
   }
-
   to{
     opacity:1;
     transform:translateY(0);
   }
-
 }
 
 .card-bg{
@@ -791,7 +848,7 @@ button{
 }
 
 .card-poster{
-  height:235px;
+  height:240px;
   margin:8px 8px 0;
   border-radius:9px;
   overflow:hidden;
@@ -820,7 +877,6 @@ button{
 .card-title{
   font-size:13px;
   font-weight:bold;
-
   white-space:nowrap;
   overflow:hidden;
   text-overflow:ellipsis;
@@ -832,7 +888,7 @@ button{
   gap:4px;
   margin-top:7px;
   color:#8290a8;
-  font-size:10px;
+  font-size:9px;
 }
 
 .rating-box{
@@ -843,7 +899,6 @@ button{
   background:rgba(160,110,255,.12);
   border:1px solid rgba(170,130,255,.28);
   color:#cbb9ff;
-  backdrop-filter:blur(8px);
 }
 
 .media-type{
@@ -853,46 +908,12 @@ button{
 .status{
   display:inline-block;
   margin-top:8px;
-
+  background:#102a4d;
+  color:#8bbcff;
+  border:1px solid #214a7b;
   border-radius:6px;
   padding:4px 7px;
-
   font-size:9px;
-
-  backdrop-filter:blur(10px);
-}
-
-
-/* Status colors */
-
-.status-watching{
-  background:rgba(45,115,205,.18);
-  color:#75b5ff;
-  border:1px solid rgba(80,145,220,.38);
-}
-
-.status-completed{
-  background:rgba(47,170,94,.18);
-  color:#67e39a;
-  border:1px solid rgba(74,205,120,.38);
-}
-
-.status-plan{
-  background:rgba(143,83,220,.18);
-  color:#c59aff;
-  border:1px solid rgba(170,120,255,.38);
-}
-
-.status-hold{
-  background:rgba(215,158,55,.17);
-  color:#f1c86d;
-  border:1px solid rgba(240,190,90,.38);
-}
-
-.status-dropped{
-  background:rgba(210,65,78,.17);
-  color:#ff8490;
-  border:1px solid rgba(235,90,105,.38);
 }
 
 .empty{
@@ -904,7 +925,6 @@ button{
   border-radius:15px;
   color:#77859d;
 }
-
 
 /* =========================
    MODALS
@@ -930,7 +950,9 @@ button{
   max-width:450px;
   max-height:90vh;
   overflow:auto;
-  background:#0d1728;
+  background:rgba(13,23,40,.94);
+  backdrop-filter:blur(22px);
+  -webkit-backdrop-filter:blur(22px);
   border:1px solid #263b61;
   border-radius:17px;
   padding:22px;
@@ -965,30 +987,40 @@ textarea{
   flex:1;
 }
 
-.primary{
-  border:1px solid #4b82d1;
-  background:#1b5fb7;
-  color:#fff;
-  border-radius:10px;
-  padding:11px 16px;
-  font-weight:bold;
+/* =========================
+   LOGIN
+========================= */
+
+.auth-box{
+  max-width:390px;
+  text-align:center;
 }
 
-.primary:hover{
-  background:#2670d0;
+.auth-box h2{
+  margin-bottom:7px;
 }
 
-.secondary{
-  border:1px solid #263b61;
-  background:#101d31;
-  color:#fff;
-  border-radius:10px;
-  padding:10px 14px;
+.auth-subtitle{
+  color:#7888a2;
+  font-size:12px;
+  margin-bottom:18px;
 }
 
+.auth-switch{
+  margin-top:13px;
+  color:#7f8da5;
+  font-size:11px;
+}
+
+.auth-switch button{
+  border:0;
+  background:none;
+  color:#82b5ff;
+  font-size:11px;
+}
 
 /* =========================
-   MEDIA TYPE
+   TYPE
 ========================= */
 
 .type-title{
@@ -1020,7 +1052,6 @@ textarea{
   border-color:#4b82d1;
   color:#fff;
 }
-
 
 /* =========================
    FEATURED EDITOR
@@ -1082,7 +1113,6 @@ textarea{
   font-size:11px;
   border-radius:8px;
 }
-
 
 /* =========================
    DETAILS
@@ -1153,7 +1183,6 @@ textarea{
   flex:1;
 }
 
-
 /* =========================
    MOBILE
 ========================= */
@@ -1165,45 +1194,21 @@ textarea{
   }
 
   .featured-card{
-    width:440px;
-    height:245px;
+    width:420px;
+    height:235px;
   }
 
 }
 
 @media(max-width:700px){
 
-  .nav{
-    gap:8px;
-  }
-
-  .brand{
-    font-size:21px;
-  }
-
-  .header-search{
-    max-width:none;
-  }
-
   .anime-grid{
     grid-template-columns:repeat(3,1fr);
   }
 
-  .stats{
-    grid-template-columns:repeat(4,1fr);
-  }
-
-  .featured-window{
-    min-height:280px;
-  }
-
-  .featured-track{
-    min-height:280px;
-  }
-
   .featured-card{
-    width:400px;
-    height:230px;
+    width:390px;
+    height:225px;
   }
 
 }
@@ -1216,32 +1221,30 @@ textarea{
   }
 
   .nav{
-    padding-left:10px;
-    padding-right:10px;
-    gap:6px;
+    padding-left:13px;
+    padding-right:13px;
   }
 
   .brand{
-    font-size:17px;
-    letter-spacing:0;
-  }
-
-  .brand::before{
-    width:42px;
+    font-size:19px;
   }
 
   .header-search{
-    max-width:none;
+    max-width:145px;
   }
 
   .header-search input{
-    padding:8px 9px;
+    height:34px;
     font-size:10px;
   }
 
   .profile-btn{
-    padding:8px 9px;
-    font-size:10px;
+    width:37px;
+    height:37px;
+  }
+
+  .hero h1{
+    font-size:25px;
   }
 
   .stats{
@@ -1253,7 +1256,7 @@ textarea{
   }
 
   .stat-number{
-    font-size:17px;
+    font-size:16px;
   }
 
   .stat-label{
@@ -1266,25 +1269,15 @@ textarea{
   }
 
   .card-poster{
-    height:210px;
-    margin:7px 7px 0;
+    height:215px;
   }
 
   .card-info{
-    padding:8px;
-  }
-
-  .card-title{
-    font-size:12px;
+    padding:9px;
   }
 
   .card-meta{
     font-size:8px;
-  }
-
-  .status{
-    font-size:8px;
-    padding:4px 6px;
   }
 
   .featured-window{
@@ -1298,8 +1291,8 @@ textarea{
   }
 
   .featured-card{
-    width:360px;
-    height:215px;
+    width:350px;
+    height:210px;
     border-radius:17px;
   }
 
@@ -1325,17 +1318,9 @@ textarea{
 
 }
 
-
-/* =========================
-   REDUCED MOTION
-========================= */
-
 @media(prefers-reduced-motion:reduce){
 
-  .featured-track{
-    animation:none;
-  }
-
+  .featured-track,
   .brand::after,
   .brand::before{
     animation:none;
@@ -1346,55 +1331,79 @@ textarea{
 </style>
 </head>
 
-
 <body>
-
 
 <header class="header">
 
 <nav class="nav">
 
-
 <div class="brand">
   <span class="brand-ani">Ani</span><span class="brand-watch">Watch List</span>
 </div>
 
-
-<!-- SEARCH MOVED TO HEADER -->
-
 <div class="header-search">
 
 <input
-id="search"
+id="headerSearch"
 autocomplete="off"
 placeholder="Search anime..."
-oninput="renderAnime()">
+oninput="syncSearch(this.value)">
 
 </div>
-
 
 <div class="profile-wrap">
 
 <button
 class="profile-btn"
-onclick="toggleProfile()">
+onclick="toggleProfile()"
+id="profileButton">
 
-Profile
+<span
+class="profile-letter"
+id="profileLetter">
+P
+</span>
 
 </button>
-
 
 <div
 class="profile-menu"
 id="profileMenu">
 
+<div class="profile-user">
+
+<div class="profile-big" id="profileBig">
+
+<span id="profileBigLetter">P</span>
+
+</div>
+
+<div>
+
 <div
 class="profile-email"
 id="profileEmail">
-
 Not logged in
+</div>
 
 </div>
+
+</div>
+
+<input
+type="file"
+id="profileFile"
+class="profile-file"
+accept="image/*"
+onchange="uploadProfilePhoto(event)">
+
+<button
+class="profile-photo-btn"
+onclick="document.getElementById('profileFile').click()">
+
+📷 Change Profile Photo
+
+</button>
 
 <button
 class="logout"
@@ -1412,14 +1421,15 @@ Logout
 
 </header>
 
-
-
 <main class="container">
 
+<section class="hero">
 
-<!-- =========================
-     MOVING ANIMATION
-========================= -->
+<p>
+Keep track of the anime you've watched.
+</p>
+
+</section>
 
 <section class="featured-section">
 
@@ -1430,17 +1440,16 @@ Logout
 <p>Your favourite anime</p>
 </div>
 
-
 <button
 class="edit-featured"
-onclick="openFeaturedEditor()">
+onclick="openFeaturedEditor()"
+title="Edit Featured">
 
-✦ Edit
+✦
 
 </button>
 
 </div>
-
 
 <div
 class="featured-window"
@@ -1462,14 +1471,7 @@ Choose your favourite anime using Edit.
 
 </section>
 
-
-
-<!-- =========================
-     STATS
-========================= -->
-
 <div class="stats">
-
 
 <div
 class="stat"
@@ -1487,7 +1489,6 @@ Watching
 
 </div>
 
-
 <div
 class="stat"
 onclick="showStatusList('Completed',this)">
@@ -1504,7 +1505,6 @@ Completed
 
 </div>
 
-
 <div
 class="stat"
 onclick="showStatusList('Plan to Watch',this)">
@@ -1520,7 +1520,6 @@ Plan to Watch
 </div>
 
 </div>
-
 
 <div
 class="stat"
@@ -1540,60 +1539,113 @@ Total
 
 </div>
 
+<div id="statusList"></div>
 
+<div class="toolbar">
 
-<!-- =========================
-     STATUS LIST
-========================= -->
+<div class="toolbar-right">
 
-<div
-id="statusList">
-</div>
-
-
-
-<!-- =========================
-     ADD BUTTON
-========================= -->
-
-<div
-style="
-display:flex;
-justify-content:flex-end;
-margin:16px 0 14px;
-">
+<input
+class="search"
+id="search"
+autocomplete="off"
+placeholder="Search anime..."
+oninput="syncHeaderSearch(this.value)">
 
 <button
-class="top-add-btn"
-onclick="openAnimeModal()">
+class="primary"
+onclick="openAnimeModal()"
+title="Add Anime">
 
-+ Add Anime
+＋
 
 </button>
 
 </div>
 
-
+</div>
 
 <div
 class="anime-grid"
 id="animeGrid">
 
 <div class="empty">
-
-Login to see your anime collection.
-
+Please login to see your anime collection.
 </div>
 
 </div>
-
 
 </main>
 
+<!-- =========================
+     LOGIN
+========================= -->
 
+<div
+class="modal"
+id="authModal">
+
+<div class="modal-box auth-box">
+
+<h2 id="authTitle">
+Login
+</h2>
+
+<div class="auth-subtitle" id="authSubtitle">
+Login to access your AniWatch List from any device.
+</div>
+
+<input
+id="authEmail"
+type="email"
+autocomplete="email"
+placeholder="Email">
+
+<input
+id="authPassword"
+type="password"
+autocomplete="current-password"
+placeholder="Password">
+
+<div class="modal-actions">
+
+<button
+class="primary"
+onclick="submitAuth()"
+id="authSubmit">
+
+Login
+
+</button>
+
+<button
+class="secondary"
+onclick="closeAuth()">
+
+Cancel
+
+</button>
+
+</div>
+
+<div class="auth-switch">
+
+<span id="authSwitchText">
+Don't have an account?
+</span>
+
+<button onclick="toggleAuthMode()" id="authSwitchButton">
+Sign Up
+</button>
+
+</div>
+
+</div>
+
+</div>
 
 <!-- =========================
-     ADD / EDIT ANIME
+     ADD / EDIT
 ========================= -->
 
 <div
@@ -1606,17 +1658,14 @@ id="animeModal">
 Add Anime
 </h2>
 
-
 <input
 id="animeTitle"
 autocomplete="off"
 placeholder="Anime title">
 
-
 <div class="type-title">
 Type
 </div>
-
 
 <div class="type-grid">
 
@@ -1649,12 +1698,10 @@ OVA
 
 </div>
 
-
 <input
 type="hidden"
 id="animeType"
 value="Episode">
-
 
 <select id="animeStatus">
 
@@ -1680,12 +1727,10 @@ Dropped
 
 </select>
 
-
 <input
 id="animeEpisodes"
 type="number"
 placeholder="Episodes">
-
 
 <input
 id="animeRating"
@@ -1695,28 +1740,24 @@ max="10"
 step="0.1"
 placeholder="Rating / 10">
 
-
 <input
 id="animePoster"
 autocomplete="off"
 placeholder="Poster image URL">
 
-
 <textarea
 id="animeNotes"
 placeholder="Notes about this anime..."></textarea>
-
 
 <div class="modal-actions">
 
 <button
 class="primary"
-onclick="saveAnime()">
+onclick="saveAnime">
 
 Save
 
 </button>
-
 
 <button
 class="secondary"
@@ -1732,10 +1773,8 @@ Cancel
 
 </div>
 
-
-
 <!-- =========================
-     FEATURED EDIT
+     FEATURED
 ========================= -->
 
 <div
@@ -1755,13 +1794,10 @@ Choose up to 6 anime. You can also add a different note to each featured anime.
 
 </p>
 
-
 <div
 class="featured-list"
 id="featuredList">
-
 </div>
-
 
 <div class="modal-actions">
 
@@ -1787,8 +1823,6 @@ Cancel
 
 </div>
 
-
-
 <!-- =========================
      DETAILS
 ========================= -->
@@ -1803,7 +1837,6 @@ id="detailsModal">
 class="details-layout"
 id="detailsLayout">
 
-
 <div
 class="details-poster"
 id="detailsPoster">
@@ -1812,65 +1845,46 @@ No Poster
 
 </div>
 
-
 <div class="details-content">
 
 <h2
 id="detailsTitle">
-
 Anime
-
 </h2>
-
 
 <div
 class="detail-line"
 id="detailsType">
-
 Type:
-
 </div>
-
 
 <div
 class="detail-line"
 id="detailsStatus">
-
 Status:
-
 </div>
-
 
 <div
 class="detail-line"
 id="detailsEpisodes">
-
 Episodes:
-
 </div>
-
 
 <div
 class="detail-line"
 id="detailsRating">
-
 Rating:
-
 </div>
-
 
 <div
 class="notes"
 id="detailsNotes">
-
 No notes.
-
 </div>
 
 </div>
 
 </div>
-
 
 <div class="details-actions">
 
@@ -1882,7 +1896,6 @@ Edit
 
 </button>
 
-
 <button
 class="secondary"
 onclick="deleteCurrentAnime()">
@@ -1890,7 +1903,6 @@ onclick="deleteCurrentAnime()">
 Delete
 
 </button>
-
 
 <button
 class="secondary"
@@ -1906,10 +1918,7 @@ Close
 
 </div>
 
-
-
 <script>
-
 
 /* =========================
    SUPABASE
@@ -1927,15 +1936,10 @@ window.supabase.createClient(
   SUPABASE_KEY
 );
 
-
 let animeList = [];
-
 let editingId = null;
-
 let currentAnime = null;
-
-let openStatus = null;
-
+let authMode = "login";
 
 /* =========================
    PROFILE
@@ -1943,12 +1947,14 @@ let openStatus = null;
 
 function toggleProfile(){
 
+  const session =
+    supabaseClient.auth.getSession();
+
   document
   .getElementById("profileMenu")
   .classList.toggle("show");
 
 }
-
 
 async function logout(){
 
@@ -1970,6 +1976,161 @@ async function logout(){
 
 }
 
+/* =========================
+   AUTH
+========================= */
+
+function openAuth(){
+
+  document
+  .getElementById("authModal")
+  .classList.add("show");
+
+}
+
+function closeAuth(){
+
+  document
+  .getElementById("authModal")
+  .classList.remove("show");
+
+}
+
+function toggleAuthMode(){
+
+  authMode =
+    authMode === "login"
+    ? "signup"
+    : "login";
+
+  const title =
+    document.getElementById("authTitle");
+
+  const subtitle =
+    document.getElementById("authSubtitle");
+
+  const submit =
+    document.getElementById("authSubmit");
+
+  const switchText =
+    document.getElementById("authSwitchText");
+
+  const switchButton =
+    document.getElementById("authSwitchButton");
+
+  if(authMode === "login"){
+
+    title.textContent = "Login";
+
+    subtitle.textContent =
+      "Login to access your AniWatch List from any device.";
+
+    submit.textContent = "Login";
+
+    switchText.textContent =
+      "Don't have an account?";
+
+    switchButton.textContent =
+      "Sign Up";
+
+  }else{
+
+    title.textContent = "Create Account";
+
+    subtitle.textContent =
+      "Create an account to keep your anime list synced.";
+
+    submit.textContent = "Sign Up";
+
+    switchText.textContent =
+      "Already have an account?";
+
+    switchButton.textContent =
+      "Login";
+
+  }
+
+}
+
+async function submitAuth(){
+
+  const email =
+    document
+    .getElementById("authEmail")
+    .value
+    .trim();
+
+  const password =
+    document
+    .getElementById("authPassword")
+    .value;
+
+  if(!email || !password){
+
+    alert("Enter email and password.");
+
+    return;
+
+  }
+
+  if(authMode === "login"){
+
+    const {
+      error
+    } =
+    await supabaseClient.auth.signInWithPassword({
+      email,
+      password
+    });
+
+    if(error){
+
+      alert(error.message);
+
+      return;
+
+    }
+
+    closeAuth();
+
+  }else{
+
+    const {
+      data,
+      error
+    } =
+    await supabaseClient.auth.signUp({
+      email,
+      password
+    });
+
+    if(error){
+
+      alert(error.message);
+
+      return;
+
+    }
+
+    if(data.session){
+
+      closeAuth();
+
+    }else{
+
+      alert(
+        "Account created. Please check your email if confirmation is enabled."
+      );
+
+      authMode = "login";
+
+      toggleAuthMode();
+
+    }
+
+  }
+
+}
 
 /* =========================
    CHECK USER
@@ -1982,9 +2143,7 @@ async function checkUser(){
   } =
   await supabaseClient.auth.getSession();
 
-
   updateUI(session);
-
 
   if(session){
 
@@ -1996,10 +2155,11 @@ async function checkUser(){
 
     renderFeatured();
 
+    setTimeout(openAuth,300);
+
   }
 
 }
-
 
 /* =========================
    UI
@@ -2007,15 +2167,182 @@ async function checkUser(){
 
 function updateUI(session){
 
-  document
-  .getElementById("profileEmail")
-  .textContent =
-  session
-  ? session.user.email
-  : "Not logged in";
+  const email =
+    document.getElementById("profileEmail");
+
+  const button =
+    document.getElementById("profileButton");
+
+  const letter =
+    document.getElementById("profileLetter");
+
+  const big =
+    document.getElementById("profileBig");
+
+  if(session){
+
+    const user =
+      session.user;
+
+    email.textContent =
+      user.email || "Logged in";
+
+    const avatar =
+      user.user_metadata?.avatar_url;
+
+    const nameLetter =
+      (
+        user.email
+        ? user.email.charAt(0)
+        : "P"
+      ).toUpperCase();
+
+    if(avatar){
+
+      button.innerHTML =
+        `<img class="profile-avatar" src="${escapeHtml(avatar)}" alt="">`;
+
+      big.innerHTML =
+        `<img src="${escapeHtml(avatar)}" alt="">`;
+
+    }else{
+
+      button.innerHTML =
+        `<span class="profile-letter">${escapeHtml(nameLetter)}</span>`;
+
+      big.innerHTML =
+        `<span>${escapeHtml(nameLetter)}</span>`;
+
+    }
+
+  }else{
+
+    email.textContent =
+      "Not logged in";
+
+    button.innerHTML =
+      `<span class="profile-letter">P</span>`;
+
+    big.innerHTML =
+      `<span>P</span>`;
+
+  }
 
 }
 
+/* =========================
+   PROFILE PHOTO
+========================= */
+
+async function uploadProfilePhoto(event){
+
+  const file =
+    event.target.files?.[0];
+
+  if(!file)return;
+
+  const {
+    data:{user}
+  } =
+  await supabaseClient.auth.getUser();
+
+  if(!user){
+
+    alert("Please login first.");
+
+    return;
+
+  }
+
+  if(!file.type.startsWith("image/")){
+
+    alert("Please select an image.");
+
+    return;
+
+  }
+
+  if(file.size > 2 * 1024 * 1024){
+
+    alert("Please choose an image smaller than 2MB.");
+
+    return;
+
+  }
+
+  const extension =
+    file.name.split(".").pop();
+
+  const path =
+    `${user.id}/profile.${extension}`;
+
+  const {
+    error:uploadError
+  } =
+  await supabaseClient
+  .storage
+  .from("avatars")
+  .upload(
+    path,
+    file,
+    {
+      upsert:true,
+      contentType:file.type
+    }
+  );
+
+  if(uploadError){
+
+    alert(
+      "Profile photo upload failed: " +
+      uploadError.message
+    );
+
+    return;
+
+  }
+
+  const {
+    data:urlData
+  } =
+  supabaseClient
+  .storage
+  .from("avatars")
+  .getPublicUrl(path);
+
+  const avatarUrl =
+    urlData.publicUrl +
+    "?t=" +
+    Date.now();
+
+  const {
+    error:updateError
+  } =
+  await supabaseClient.auth.updateUser({
+    data:{
+      avatar_url:avatarUrl
+    }
+  });
+
+  if(updateError){
+
+    alert(updateError.message);
+
+    return;
+
+  }
+
+  updateUI(
+    (
+      await supabaseClient.auth.getSession()
+    ).data.session
+  );
+
+  document
+  .getElementById("profileFile")
+  .value = "";
+
+}
 
 /* =========================
    LOAD
@@ -2027,7 +2354,6 @@ async function loadAnime(){
     data:{user}
   } =
   await supabaseClient.auth.getUser();
-
 
   if(!user){
 
@@ -2041,7 +2367,6 @@ async function loadAnime(){
 
   }
 
-
   const {
     data,
     error
@@ -2052,7 +2377,6 @@ async function loadAnime(){
   .eq("user_id",user.id)
   .order("id",{ascending:false});
 
-
   if(error){
 
     alert(error.message);
@@ -2060,7 +2384,6 @@ async function loadAnime(){
     return;
 
   }
-
 
   animeList = data || [];
 
@@ -2072,6 +2395,29 @@ async function loadAnime(){
 
 }
 
+/* =========================
+   SEARCH
+========================= */
+
+function syncSearch(value){
+
+  document
+  .getElementById("search")
+  .value = value;
+
+  renderAnime();
+
+}
+
+function syncHeaderSearch(value){
+
+  document
+  .getElementById("headerSearch")
+  .value = value;
+
+  renderAnime();
+
+}
 
 /* =========================
    TYPE
@@ -2082,7 +2428,6 @@ function selectType(type){
   document
   .getElementById("animeType")
   .value = type;
-
 
   document
   .querySelectorAll(".type-option")
@@ -2097,78 +2442,66 @@ function selectType(type){
 
 }
 
-
 /* =========================
    OPEN ADD / EDIT
 ========================= */
 
 function openAnimeModal(anime=null){
 
-  editingId =
-  anime
-  ? anime.id
-  : null;
+  const session =
+    supabaseClient.auth.getSession();
 
+  editingId =
+    anime
+    ? anime.id
+    : null;
 
   document
   .getElementById("animeModalTitle")
   .textContent =
-  anime
-  ? "Edit Anime"
-  : "Add Anime";
-
+    anime
+    ? "Edit Anime"
+    : "Add Anime";
 
   document
   .getElementById("animeTitle")
   .value =
-  anime?.title || "";
-
+    anime?.title || "";
 
   document
   .getElementById("animeStatus")
   .value =
-  anime?.status || "Watching";
-
+    anime?.status || "Watching";
 
   document
   .getElementById("animeEpisodes")
   .value =
-  anime?.episodes ?? "";
-
+    anime?.episodes ?? "";
 
   document
   .getElementById("animeRating")
   .value =
-  anime?.rating ?? "";
-
+    anime?.rating ?? "";
 
   document
   .getElementById("animePoster")
   .value =
-  anime?.poster || "";
-
+    anime?.poster || "";
 
   document
   .getElementById("animeNotes")
   .value =
-  anime?.notes || "";
-
+    anime?.notes || "";
 
   selectType(
     anime?.media_type || "Episode"
   );
-
 
   document
   .getElementById("animeModal")
   .classList.add("show");
 
 }
-
-
-/* =========================
-   CLOSE ANIME
-========================= */
 
 function closeAnimeModal(){
 
@@ -2179,7 +2512,6 @@ function closeAnimeModal(){
   editingId = null;
 
 }
-
 
 /* =========================
    SAVE ANIME
@@ -2192,22 +2524,19 @@ async function saveAnime(){
   } =
   await supabaseClient.auth.getUser();
 
-
   if(!user){
 
-    alert("Please login first.");
+    openAuth();
 
     return;
 
   }
 
-
   const title =
-  document
-  .getElementById("animeTitle")
-  .value
-  .trim();
-
+    document
+    .getElementById("animeTitle")
+    .value
+    .trim();
 
   if(!title){
 
@@ -2217,87 +2546,80 @@ async function saveAnime(){
 
   }
 
-
   const animeData = {
 
     title:title,
 
     status:
-    document
-    .getElementById("animeStatus")
-    .value,
+      document
+      .getElementById("animeStatus")
+      .value,
 
     media_type:
-    document
-    .getElementById("animeType")
-    .value,
+      document
+      .getElementById("animeType")
+      .value,
 
     episodes:
-    document
-    .getElementById("animeEpisodes")
-    .value === ""
-    ? null
-    : Number(
       document
       .getElementById("animeEpisodes")
-      .value
-    ),
+      .value === ""
+      ? null
+      : Number(
+          document
+          .getElementById("animeEpisodes")
+          .value
+        ),
 
     rating:
-    document
-    .getElementById("animeRating")
-    .value === ""
-    ? null
-    : Number(
       document
       .getElementById("animeRating")
-      .value
-    ),
+      .value === ""
+      ? null
+      : Number(
+          document
+          .getElementById("animeRating")
+          .value
+        ),
 
     poster:
-    document
-    .getElementById("animePoster")
-    .value
-    .trim() || null,
+      document
+      .getElementById("animePoster")
+      .value
+      .trim() || null,
 
     notes:
-    document
-    .getElementById("animeNotes")
-    .value
-    .trim() || null
+      document
+      .getElementById("animeNotes")
+      .value
+      .trim() || null
 
   };
 
-
   let result;
-
 
   if(editingId !== null){
 
     result =
-    await supabaseClient
-    .from("anime")
-    .update(animeData)
-    .eq("id",editingId)
-    .eq("user_id",user.id);
+      await supabaseClient
+      .from("anime")
+      .update(animeData)
+      .eq("id",editingId)
+      .eq("user_id",user.id);
 
-  }
-
-
-  else{
+  }else{
 
     result =
-    await supabaseClient
-    .from("anime")
-    .insert({
-      ...animeData,
-      user_id:user.id,
-      featured:false,
-      featured_note:null
-    });
+      await supabaseClient
+      .from("anime")
+      .insert({
+        ...animeData,
+        user_id:user.id,
+        featured:false,
+        featured_note:null
+      });
 
   }
-
 
   if(result.error){
 
@@ -2307,44 +2629,11 @@ async function saveAnime(){
 
   }
 
-
   closeAnimeModal();
 
   await loadAnime();
 
 }
-
-
-/* =========================
-   STATUS CLASS
-========================= */
-
-function getStatusClass(status){
-
-  if(status === "Watching"){
-    return "status-watching";
-  }
-
-  if(status === "Completed"){
-    return "status-completed";
-  }
-
-  if(status === "Plan to Watch"){
-    return "status-plan";
-  }
-
-  if(status === "On Hold"){
-    return "status-hold";
-  }
-
-  if(status === "Dropped"){
-    return "status-dropped";
-  }
-
-  return "";
-
-}
-
 
 /* =========================
    RENDER ANIME
@@ -2353,24 +2642,21 @@ function getStatusClass(status){
 function renderAnime(){
 
   const grid =
-  document.getElementById("animeGrid");
-
+    document.getElementById("animeGrid");
 
   const search =
-  document
-  .getElementById("search")
-  .value
-  .toLowerCase()
-  .trim();
-
+    document
+    .getElementById("search")
+    .value
+    .toLowerCase()
+    .trim();
 
   const filtered =
-  animeList.filter(anime=>
-    (anime.title || "")
-    .toLowerCase()
-    .includes(search)
-  );
-
+    animeList.filter(anime=>
+      (anime.title || "")
+      .toLowerCase()
+      .includes(search)
+    );
 
   if(!filtered.length){
 
@@ -2386,292 +2672,77 @@ function renderAnime(){
 
   }
 
-
   grid.innerHTML =
-  filtered
-  .map((anime,index)=>{
-
-
-    const poster =
-    anime.poster
-    ? `
-      <img
-      src="${escapeHtml(anime.poster)}"
-      alt="${escapeHtml(anime.title)}"
-      onerror="this.style.display='none'">
-    `
-    : "No Poster";
-
-
-    const background =
-    anime.poster
-    ? `
-      style="
-      background-image:
-      url('${escapeHtml(anime.poster)}')
-      "
-    `
-    : "";
-
-
-    const statusClass =
-    getStatusClass(anime.status);
-
-
-    return `
-
-      <div
-      class="card"
-      style="animation-delay:${index*.04}s"
-      onclick="openDetails(${anime.id})">
-
-
-        <div
-        class="card-bg"
-        ${background}>
-        </div>
-
-
-        <div class="card-overlay"></div>
-
-
-        <div class="card-content">
-
-
-          <div class="card-poster">
-
-            ${poster}
-
-          </div>
-
-
-          <div class="card-info">
-
-
-            <div class="card-title">
-
-              ${escapeHtml(anime.title)}
-
-            </div>
-
-
-            <div class="card-meta">
-
-              <span class="rating-box">
-
-                ★ ${anime.rating ?? "-"}
-
-              </span>
-
-
-              <span class="media-type">
-
-                ${escapeHtml(
-                  anime.media_type || "Episode"
-                )}
-
-              </span>
-
-
-              <span>
-
-                ${anime.episodes ?? "-"} eps
-
-              </span>
-
-            </div>
-
-
-            <div class="status ${statusClass}">
-
-              ${escapeHtml(anime.status || "")}
-
-            </div>
-
-
-          </div>
-
-        </div>
-
-      </div>
-
-    `;
-
-  })
-  .join("");
-
-
-  updateStats();
-
-}
-
-
-/* =========================
-   STATS
-========================= */
-
-function updateStats(){
-
-  document
-  .getElementById("watchingCount")
-  .textContent =
-  animeList.filter(
-    a=>a.status==="Watching"
-  ).length;
-
-
-  document
-  .getElementById("completedCount")
-  .textContent =
-  animeList.filter(
-    a=>a.status==="Completed"
-  ).length;
-
-
-  document
-  .getElementById("planCount")
-  .textContent =
-  animeList.filter(
-    a=>a.status==="Plan to Watch"
-  ).length;
-
-
-  document
-  .getElementById("totalCount")
-  .textContent =
-  animeList.length;
-
-}
-
-
-/* =========================
-   STATUS LIST
-========================= */
-
-function showStatusList(status,clickedElement){
-
-  const oldList =
-  document.getElementById("statusList");
-
-
-  /* Tap same stat again = close */
-
-  if(openStatus === status){
-
-    clearStatusList();
-
-    openStatus = null;
-
-    return;
-
-  }
-
-
-  document
-  .querySelectorAll(".stat")
-  .forEach(stat=>{
-    stat.classList.remove("active");
-  });
-
-
-  clickedElement.classList.add("active");
-
-  openStatus = status;
-
-
-  oldList.innerHTML = "";
-
-
-  let filtered;
-
-
-  if(status === "All"){
-
-    filtered = [...animeList];
-
-  }else{
-
-    filtered =
-    animeList.filter(
-      anime => anime.status === status
-    );
-
-  }
-
-
-  const list =
-  document.createElement("div");
-
-
-  list.className =
-  "status-list show";
-
-
-  if(!filtered.length){
-
-    list.innerHTML = `
-      <div class="status-list-empty">
-        No anime in this list yet.
-      </div>
-    `;
-
-  }else{
-
-    list.innerHTML =
     filtered
-    .map(anime=>{
+    .map((anime,index)=>{
 
       const poster =
-      anime.poster
-      ? `
-        <img
-        src="${escapeHtml(anime.poster)}"
-        alt="${escapeHtml(anime.title)}"
-        onerror="this.style.display='none'">
-      `
-      : "";
+        anime.poster
+        ? `
+          <img
+          src="${escapeHtml(anime.poster)}"
+          alt="${escapeHtml(anime.title)}"
+          onerror="this.style.display='none'">
+        `
+        : "No Poster";
 
+      const background =
+        anime.poster
+        ? `
+          style="
+          background-image:
+          url('${escapeHtml(anime.poster)}')
+          "
+        `
+        : "";
 
       return `
 
         <div
-        class="status-list-item"
+        class="card"
+        style="animation-delay:${index*.04}s"
         onclick="openDetails(${anime.id})">
 
-
-          <div class="status-list-poster">
-
-            ${
-              poster
-              || "No Poster"
-            }
-
+          <div
+          class="card-bg"
+          ${background}>
           </div>
 
+          <div class="card-overlay"></div>
 
-          <div class="status-list-info">
+          <div class="card-content">
 
-            <div class="status-list-title">
-
-              ${escapeHtml(anime.title)}
-
+            <div class="card-poster">
+              ${poster}
             </div>
 
+            <div class="card-info">
 
-            <div class="status-list-meta">
+              <div class="card-title">
+                ${escapeHtml(anime.title)}
+              </div>
 
-              <span>
+              <div class="card-meta">
 
-                ${anime.episodes ?? "-"} episodes
+                <span class="rating-box">
+                  ★ ${anime.rating ?? "-"}
+                </span>
 
-              </span>
+                <span class="media-type">
+                  ${escapeHtml(
+                    anime.media_type || "Episode"
+                  )}
+                </span>
 
+                <span>
+                  ${anime.episodes ?? "-"} eps
+                </span>
 
-              <span class="status-list-rating">
+              </div>
 
-                ★ ${anime.rating ?? "-"}
-
-              </span>
+              <div class="status">
+                ${escapeHtml(anime.status || "")}
+              </div>
 
             </div>
 
@@ -2684,11 +2755,164 @@ function showStatusList(status,clickedElement){
     })
     .join("");
 
+  updateStats();
+
+}
+
+/* =========================
+   STATS
+========================= */
+
+function updateStats(){
+
+  document
+  .getElementById("watchingCount")
+  .textContent =
+    animeList.filter(
+      a=>a.status==="Watching"
+    ).length;
+
+  document
+  .getElementById("completedCount")
+  .textContent =
+    animeList.filter(
+      a=>a.status==="Completed"
+    ).length;
+
+  document
+  .getElementById("planCount")
+  .textContent =
+    animeList.filter(
+      a=>a.status==="Plan to Watch"
+    ).length;
+
+  document
+  .getElementById("totalCount")
+  .textContent =
+    animeList.length;
+
+}
+
+/* =========================
+   STATUS LIST
+========================= */
+
+function showStatusList(status,clickedElement){
+
+  const oldList =
+    document.getElementById("statusList");
+
+  const alreadyOpen =
+    clickedElement.classList.contains("active");
+
+  document
+  .querySelectorAll(".stat")
+  .forEach(stat=>{
+    stat.classList.remove("active");
+  });
+
+  if(alreadyOpen){
+
+    oldList.innerHTML = "";
+
+    return;
+
   }
 
+  clickedElement.classList.add("active");
+
+  oldList.innerHTML = "";
+
+  let filtered;
+
+  if(status === "All"){
+
+    filtered = [...animeList];
+
+  }else{
+
+    filtered =
+      animeList.filter(
+        anime=>anime.status===status
+      );
+
+  }
+
+  const list =
+    document.createElement("div");
+
+  list.className =
+    "status-list show";
+
+  if(!filtered.length){
+
+    list.innerHTML = `
+      <div class="status-list-empty">
+        No anime in this list yet.
+      </div>
+    `;
+
+  }else{
+
+    list.innerHTML =
+      filtered
+      .map(anime=>{
+
+        const poster =
+          anime.poster
+          ? `
+            <img
+            src="${escapeHtml(anime.poster)}"
+            alt="${escapeHtml(anime.title)}"
+            onerror="this.style.display='none'">
+          `
+          : "";
+
+        return `
+
+          <div
+          class="status-list-item"
+          onclick="openDetails(${anime.id})">
+
+            <div class="status-list-poster">
+
+              ${
+                poster
+                || "No Poster"
+              }
+
+            </div>
+
+            <div class="status-list-info">
+
+              <div class="status-list-title">
+                ${escapeHtml(anime.title)}
+              </div>
+
+              <div class="status-list-meta">
+
+                <span>
+                  ${anime.episodes ?? "-"} episodes
+                </span>
+
+                <span class="status-list-rating">
+                  ★ ${anime.rating ?? "-"}
+                </span>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        `;
+
+      })
+      .join("");
+
+  }
 
   oldList.appendChild(list);
-
 
   oldList.scrollIntoView({
     behavior:"smooth",
@@ -2697,19 +2921,14 @@ function showStatusList(status,clickedElement){
 
 }
 
-
 function clearStatusList(){
 
   const list =
-  document.getElementById("statusList");
-
+    document.getElementById("statusList");
 
   if(list){
-
     list.innerHTML = "";
-
   }
-
 
   document
   .querySelectorAll(".stat")
@@ -2717,27 +2936,22 @@ function clearStatusList(){
     stat.classList.remove("active");
   });
 
-  openStatus = null;
-
 }
 
-
 /* =========================
-   FEATURED RENDER
+   FEATURED
 ========================= */
 
 function renderFeatured(){
 
   const track =
-  document
-  .getElementById("featuredTrack");
-
+    document
+    .getElementById("featuredTrack");
 
   const featured =
-  animeList.filter(
-    anime=>anime.featured === true
-  );
-
+    animeList.filter(
+      anime=>anime.featured === true
+    );
 
   if(!featured.length){
 
@@ -2752,111 +2966,89 @@ function renderFeatured(){
 
   }
 
-
-  /*
-    Duplicate cards for seamless
-    continuous horizontal movement.
-  */
-
   const cards =
-  [...featured,...featured];
-
+    [...featured,...featured];
 
   track.innerHTML =
-  cards.map((anime,index)=>{
+    cards.map(anime=>{
 
-    const poster =
-    anime.poster || "";
+      const poster =
+        anime.poster || "";
 
+      const safePoster =
+        escapeHtml(poster);
 
-    const safePoster =
-    escapeHtml(poster);
+      return `
 
-
-    return `
-
-      <div class="featured-card">
-
-        ${
-          poster
-          ? `
-            <img
-            class="featured-image-blur"
-            src="${safePoster}"
-            alt="">
-          `
-          : ""
-        }
-
-
-        ${
-          poster
-          ? `
-            <img
-            class="featured-image-main"
-            src="${safePoster}"
-            alt="${escapeHtml(anime.title)}"
-            onerror="this.style.display='none'">
-          `
-          : ""
-        }
-
-
-        <div class="featured-card-overlay"></div>
-
-
-        <div class="featured-card-content">
-
-          <div class="featured-title">
-
-            ${escapeHtml(anime.title)}
-
-          </div>
-
-
-          <div class="featured-badges">
-
-            <span class="featured-type">
-
-              ${escapeHtml(
-                anime.media_type || "Episode"
-              )}
-
-            </span>
-
-
-            <span class="featured-status">
-
-              ${escapeHtml(
-                anime.status || ""
-              )}
-
-            </span>
-
-          </div>
-
+        <div class="featured-card">
 
           ${
-            anime.featured_note
+            poster
             ? `
-              <div class="featured-note">
-                ${escapeHtml(anime.featured_note)}
-              </div>
+              <img
+              class="featured-image-blur"
+              src="${safePoster}"
+              alt="">
             `
             : ""
           }
 
+          ${
+            poster
+            ? `
+              <img
+              class="featured-image-main"
+              src="${safePoster}"
+              alt="${escapeHtml(anime.title)}"
+              onerror="this.style.display='none'">
+            `
+            : ""
+          }
+
+          <div class="featured-card-overlay"></div>
+
+          <div class="featured-card-content">
+
+            <div class="featured-title">
+              ${escapeHtml(anime.title)}
+            </div>
+
+            <div class="featured-badges">
+
+              <span class="featured-type">
+                ${escapeHtml(
+                  anime.media_type || "Episode"
+                )}
+              </span>
+
+              <span class="featured-status">
+                ${escapeHtml(
+                  anime.status || ""
+                )}
+              </span>
+
+            </div>
+
+            ${
+              anime.featured_note
+              ? `
+                <div class="featured-note">
+                  ${escapeHtml(anime.featured_note)}
+                </div>
+              `
+              : ""
+            }
+
+          </div>
+
         </div>
 
-      </div>
+      `;
 
-    `;
-
-  })
-  .join("");
+    })
+    .join("");
 
 }
-
 
 /* =========================
    FEATURED EDITOR
@@ -2874,95 +3066,81 @@ function openFeaturedEditor(){
 
   }
 
-
   const list =
-  document
-  .getElementById("featuredList");
-
+    document
+    .getElementById("featuredList");
 
   list.innerHTML =
-  animeList.map(anime=>{
+    animeList.map(anime=>{
 
-    const checked =
-    anime.featured === true
-    ? "checked"
-    : "";
+      const checked =
+        anime.featured === true
+        ? "checked"
+        : "";
 
+      const poster =
+        anime.poster || "";
 
-    const poster =
-    anime.poster || "";
+      return `
 
+        <div class="featured-select">
 
-    return `
+          ${
+            poster
+            ? `
+              <img
+              src="${escapeHtml(poster)}"
+              alt="">
+            `
+            : `
+              <div
+              style="
+              width:43px;
+              height:52px;
+              border-radius:6px;
+              background:#101c30;
+              flex-shrink:0;
+              ">
+              </div>
+            `
+          }
 
-      <div class="featured-select">
+          <div class="featured-select-info">
 
-
-        ${
-          poster
-          ? `
-            <img
-            src="${escapeHtml(poster)}"
-            alt="">
-          `
-          : `
-            <div
-            style="
-            width:43px;
-            height:52px;
-            border-radius:6px;
-            background:#101c30;
-            flex-shrink:0;
-            ">
+            <div class="featured-select-title">
+              ${escapeHtml(anime.title)}
             </div>
-          `
-        }
 
+            <div class="featured-select-type">
+              ${escapeHtml(
+                anime.media_type || "Episode"
+              )}
+            </div>
 
-        <div class="featured-select-info">
-
-          <div class="featured-select-title">
-
-            ${escapeHtml(anime.title)}
-
-          </div>
-
-
-          <div class="featured-select-type">
-
-            ${escapeHtml(
-              anime.media_type || "Episode"
-            )}
+            <input
+            class="featured-note-input"
+            type="text"
+            maxlength="120"
+            data-note-id="${anime.id}"
+            value="${escapeHtml(
+              anime.featured_note || ""
+            )}"
+            placeholder="Add a note for this anime...">
 
           </div>
-
 
           <input
-          class="featured-note-input"
-          type="text"
-          maxlength="120"
-          data-note-id="${anime.id}"
-          value="${escapeHtml(
-            anime.featured_note || ""
-          )}"
-          placeholder="Add a note for this anime...">
+          class="featured-checkbox"
+          type="checkbox"
+          data-id="${anime.id}"
+          ${checked}>
 
         </div>
 
+      `;
 
-        <input
-        class="featured-checkbox"
-        type="checkbox"
-        data-id="${anime.id}"
-        ${checked}>
-
-      </div>
-
-    `;
-
-  })
-  .join("");
-
+    })
+    .join("");
 
   document
   .getElementById("featuredList")
@@ -2972,12 +3150,9 @@ function openFeaturedEditor(){
     cb.addEventListener("change",()=>{
 
       const selected =
-      document
-      .querySelectorAll(
-        ".featured-checkbox:checked"
-      )
-      .length;
-
+        document.querySelectorAll(
+          ".featured-checkbox:checked"
+        ).length;
 
       if(selected > 6){
 
@@ -2993,13 +3168,11 @@ function openFeaturedEditor(){
 
   });
 
-
   document
   .getElementById("featuredModal")
   .classList.add("show");
 
 }
-
 
 /* =========================
    SAVE FEATURED
@@ -3012,30 +3185,25 @@ async function saveFeatured(){
   } =
   await supabaseClient.auth.getUser();
 
-
   if(!user){
 
-    alert("Please login first.");
+    openAuth();
 
     return;
 
   }
 
-
   const checkboxes =
-  [
-    ...document
-    .querySelectorAll(
-      ".featured-checkbox"
-    )
-  ];
-
+    [
+      ...document.querySelectorAll(
+        ".featured-checkbox"
+      )
+    ];
 
   const selected =
-  checkboxes
-  .filter(cb=>cb.checked)
-  .map(cb=>Number(cb.dataset.id));
-
+    checkboxes
+    .filter(cb=>cb.checked)
+    .map(cb=>Number(cb.dataset.id));
 
   if(selected.length > 6){
 
@@ -3047,38 +3215,32 @@ async function saveFeatured(){
 
   }
 
-
   const noteInputs =
-  [
-    ...document
-    .querySelectorAll(
-      ".featured-note-input"
-    )
-  ];
-
+    [
+      ...document.querySelectorAll(
+        ".featured-note-input"
+      )
+    ];
 
   const notes = {};
-
 
   noteInputs.forEach(input=>{
 
     notes[
       Number(input.dataset.noteId)
     ] =
-    input.value.trim();
+      input.value.trim();
 
   });
 
-
   const resetResult =
-  await supabaseClient
-  .from("anime")
-  .update({
-    featured:false,
-    featured_note:null
-  })
-  .eq("user_id",user.id);
-
+    await supabaseClient
+    .from("anime")
+    .update({
+      featured:false,
+      featured_note:null
+    })
+    .eq("user_id",user.id);
 
   if(resetResult.error){
 
@@ -3088,23 +3250,21 @@ async function saveFeatured(){
 
   }
 
-
   for(const id of selected){
 
     const result =
-    await supabaseClient
-    .from("anime")
-    .update({
+      await supabaseClient
+      .from("anime")
+      .update({
 
-      featured:true,
+        featured:true,
 
-      featured_note:
-      notes[id] || null
+        featured_note:
+          notes[id] || null
 
-    })
-    .eq("id",id)
-    .eq("user_id",user.id);
-
+      })
+      .eq("id",id)
+      .eq("user_id",user.id);
 
     if(result.error){
 
@@ -3116,17 +3276,11 @@ async function saveFeatured(){
 
   }
 
-
   closeFeaturedEditor();
 
   await loadAnime();
 
 }
-
-
-/* =========================
-   CLOSE FEATURED
-========================= */
 
 function closeFeaturedEditor(){
 
@@ -3136,7 +3290,6 @@ function closeFeaturedEditor(){
 
 }
 
-
 /* =========================
    DETAILS
 ========================= */
@@ -3144,59 +3297,50 @@ function closeFeaturedEditor(){
 function openDetails(id){
 
   currentAnime =
-  animeList.find(
-    anime=>anime.id===id
-  );
-
+    animeList.find(
+      anime=>anime.id===id
+    );
 
   if(!currentAnime)return;
-
 
   document
   .getElementById("detailsTitle")
   .textContent =
-  currentAnime.title;
-
+    currentAnime.title;
 
   document
   .getElementById("detailsType")
   .textContent =
-  "Type: " +
-  (currentAnime.media_type || "Episode");
-
+    "Type: " +
+    (currentAnime.media_type || "Episode");
 
   document
   .getElementById("detailsStatus")
   .textContent =
-  "Status: " +
-  (currentAnime.status || "-");
-
+    "Status: " +
+    (currentAnime.status || "-");
 
   document
   .getElementById("detailsEpisodes")
   .textContent =
-  "Episodes: " +
-  (currentAnime.episodes ?? "-");
-
+    "Episodes: " +
+    (currentAnime.episodes ?? "-");
 
   document
   .getElementById("detailsRating")
   .textContent =
-  "Rating: " +
-  (currentAnime.rating ?? "-");
-
+    "Rating: " +
+    (currentAnime.rating ?? "-");
 
   document
   .getElementById("detailsNotes")
   .textContent =
-  currentAnime.notes ||
-  "No notes.";
-
+    currentAnime.notes ||
+    "No notes.";
 
   const poster =
-  document
-  .getElementById("detailsPoster");
-
+    document
+    .getElementById("detailsPoster");
 
   if(currentAnime.poster){
 
@@ -3212,51 +3356,43 @@ function openDetails(id){
   }else{
 
     poster.textContent =
-    "No Poster";
+      "No Poster";
 
   }
 
-
   const detailsLayout =
-  document
-  .getElementById("detailsLayout");
-
+    document
+    .getElementById("detailsLayout");
 
   if(currentAnime.poster){
 
     detailsLayout.style.backgroundImage =
-    `
-      linear-gradient(
-        rgba(6,11,22,.82),
-        rgba(6,11,22,.92)
-      ),
-      url("${escapeHtml(currentAnime.poster)}")
-    `;
+      `
+        linear-gradient(
+          rgba(6,11,22,.82),
+          rgba(6,11,22,.92)
+        ),
+        url("${escapeHtml(currentAnime.poster)}")
+      `;
 
     detailsLayout.style.backgroundSize =
-    "cover";
+      "cover";
 
     detailsLayout.style.backgroundPosition =
-    "center";
+      "center";
 
   }else{
 
     detailsLayout.style.backgroundImage =
-    "none";
+      "none";
 
   }
-
 
   document
   .getElementById("detailsModal")
   .classList.add("show");
 
 }
-
-
-/* =========================
-   CLOSE DETAILS
-========================= */
 
 function closeDetails(){
 
@@ -3268,26 +3404,18 @@ function closeDetails(){
 
 }
 
-
-/* =========================
-   EDIT CURRENT ANIME
-========================= */
-
 function editCurrentAnime(){
 
   if(!currentAnime)return;
 
-
   const anime =
-  currentAnime;
-
+    currentAnime;
 
   closeDetails();
 
   openAnimeModal(anime);
 
 }
-
 
 /* =========================
    DELETE
@@ -3296,7 +3424,6 @@ function editCurrentAnime(){
 async function deleteCurrentAnime(){
 
   if(!currentAnime)return;
-
 
   if(!confirm(
     "Delete " +
@@ -3308,15 +3435,12 @@ async function deleteCurrentAnime(){
 
   }
 
-
   const {
     data:{user}
   } =
   await supabaseClient.auth.getUser();
 
-
   if(!user)return;
-
 
   const {
     error
@@ -3327,7 +3451,6 @@ async function deleteCurrentAnime(){
   .eq("id",currentAnime.id)
   .eq("user_id",user.id);
 
-
   if(error){
 
     alert(error.message);
@@ -3336,13 +3459,11 @@ async function deleteCurrentAnime(){
 
   }
 
-
   closeDetails();
 
   await loadAnime();
 
 }
-
 
 /* =========================
    SECURITY
@@ -3360,9 +3481,8 @@ function escapeHtml(value){
 
 }
 
-
 /* =========================
-   AUTH
+   AUTH STATE
 ========================= */
 
 supabaseClient
@@ -3371,7 +3491,6 @@ supabaseClient
   (event,session)=>{
 
     updateUI(session);
-
 
     if(session){
 
@@ -3392,9 +3511,7 @@ supabaseClient
   }
 );
 
-
 checkUser();
-
 
 </script>
 
