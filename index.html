@@ -111,6 +111,17 @@ button{
   pointer-events:none;
 }
 
+@keyframes brandTitleFloat{
+  0%,100%{
+    transform:translateY(0) scale(1);
+    filter:drop-shadow(0 0 0 rgba(120,165,255,0));
+  }
+  50%{
+    transform:translateY(-1px) scale(1.018);
+    filter:drop-shadow(0 0 10px rgba(120,165,255,.24));
+  }
+}
+
 @keyframes brandLightning{
 
   0%,72%,100%{
@@ -1337,7 +1348,8 @@ textarea{
   }
 
   .brand::after,
-  .brand::before{
+  .brand::before,
+  .brand span{
     animation:none;
   }
 
@@ -1522,6 +1534,30 @@ textarea{
   gap:9px;
   text-align:center;
 }
+.watch-hours-info{
+  position:relative;
+  z-index:2;
+  display:flex;
+  align-items:baseline;
+  gap:8px;
+  margin-left:18px;
+  padding-left:18px;
+  border-left:1px solid rgba(160,185,235,.18);
+}
+.watch-hours-number{
+  font-size:27px;
+  font-weight:900;
+  color:#69e49b;
+  text-shadow:0 0 18px rgba(105,228,155,.22);
+}
+.watch-hours-label{
+  font-size:9px;
+  font-weight:800;
+  letter-spacing:1.1px;
+  text-transform:uppercase;
+  color:rgba(196,207,230,.72);
+}
+
 .watch-episode-number{
   font-size:30px;
   font-weight:900;
@@ -1577,6 +1613,14 @@ textarea{
   50%{transform:scale(1.12);opacity:.85;}
 }
 @media(max-width:500px){
+  .watch-hours-info{
+    margin-left:10px;
+    padding-left:10px;
+    gap:6px;
+  }
+  .watch-hours-number{font-size:22px;}
+  .watch-hours-label{font-size:7px;letter-spacing:.7px;}
+
   .watch-episode-bar{
     min-height:66px;
     padding-right:60px;
@@ -2971,6 +3015,11 @@ input[placeholder="Search anime..."]:not(#search){
   position:static !important;
 }
 
+.brand span{
+  display:inline-block;
+  animation:brandTitleFloat 4.2s ease-in-out infinite;
+}
+
 .brand::after{
   content:"";
   position:absolute;
@@ -3127,6 +3176,75 @@ Logout
 
 
 <!-- =========================
+     LOGIN / SIGN UP MODAL
+========================= -->
+
+<div
+class="modal auth-modal"
+id="authModal">
+
+  <div class="auth-box">
+
+    <button
+    type="button"
+    class="auth-close"
+    onclick="closeAuthModal()"
+    aria-label="Close">
+      ×
+    </button>
+
+    <div
+    class="auth-title"
+    id="authTitle">
+      Login
+    </div>
+
+    <div
+    class="auth-subtitle"
+    id="authSubtitle">
+      Login to your AniWatch List account
+    </div>
+
+    <input
+    class="auth-input"
+    id="authEmail"
+    type="email"
+    autocomplete="email"
+    placeholder="Email">
+
+    <input
+    class="auth-input"
+    id="authPassword"
+    type="password"
+    autocomplete="current-password"
+    placeholder="Password">
+
+    <button
+    type="button"
+    class="primary auth-submit"
+    id="authSubmitBtn"
+    onclick="submitAuth()">
+      Login
+    </button>
+
+    <button
+    type="button"
+    class="auth-switch"
+    id="authSwitchBtn"
+    onclick="switchAuthMode()">
+      Don't have an account? Sign Up
+    </button>
+
+    <div
+    class="auth-message"
+    id="authMessage"></div>
+
+  </div>
+
+</div>
+
+
+<!-- =========================
      PROFILE PAGE
 ========================= -->
 
@@ -3229,19 +3347,7 @@ id="profilePageModal">
       <div class="profile-stat-label">Total</div>
 
     </button>
-
-
-    <div class="profile-stat profile-stat-episodes">
-
-      <div
-      class="profile-stat-number"
-      id="profileWatchedEpisodes">0</div>
-
-      <div class="profile-stat-label">Watch Episode</div>
-
-    </div>
-
-  </div>
+</div>
 
 
   <div
@@ -3444,6 +3550,14 @@ id="statusList">
       id="watchEpisodeCount">0</span>
 
     <span class="watch-episode-label">Watch Episode</span>
+  </div>
+
+  <div class="watch-hours-info">
+    <span
+      class="watch-hours-number"
+      id="watchHoursCount">0</span>
+
+    <span class="watch-hours-label">Watch Hours</span>
   </div>
 
   <button
@@ -4235,20 +4349,11 @@ function updateProfileStats(){
   const total =
   animeList.length;
 
-  const watchedEpisodes =
-  animeList.reduce(
-    (sum,anime)=>{
-      return sum + (Number(anime.episodes) || 0);
-    },
-    0
-  );
-
   const values = {
     profileWatchingCount:watching,
     profileCompletedCount:completed,
     profilePlanCount:plan,
-    profileTotalCount:total,
-    profileWatchedEpisodes:watchedEpisodes
+    profileTotalCount:total
   };
 
   Object
@@ -4810,6 +4915,20 @@ function updateStats(){
 
   if(watchEpisodeEl){
     watchEpisodeEl.textContent = watchEpisodeCount;
+  }
+
+  /* Each counted episode is calculated as 20 minutes of watch time. */
+  const watchHours =
+    (watchEpisodeCount * 20) / 60;
+
+  const watchHoursEl =
+    document.getElementById("watchHoursCount");
+
+  if(watchHoursEl){
+    watchHoursEl.textContent =
+      Number.isInteger(watchHours)
+      ? watchHours
+      : watchHours.toFixed(1);
   }
 
   updateProfileStats();
