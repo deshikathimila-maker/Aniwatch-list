@@ -51,10 +51,10 @@ button{
 .nav{
   max-width:1150px;
   margin:auto;
-  padding:15px 20px;
+  padding:13px 20px;
   display:flex;
   align-items:center;
-  justify-content:space-between;
+  gap:12px;
 }
 
 .brand{
@@ -63,7 +63,9 @@ button{
   font-size:25px;
   font-weight:800;
   letter-spacing:.4px;
-  padding-bottom:8px;
+  padding-bottom:7px;
+  flex-shrink:0;
+  overflow:visible;
 }
 
 .brand::after{
@@ -87,28 +89,26 @@ button{
 }
 
 /* Katana slash */
+
 .brand::before{
   content:"";
   position:absolute;
-  left:-10%;
-  right:-10%;
-  bottom:-3px;
+  width:58px;
   height:2px;
-  border-radius:999px;
+  right:-10px;
+  top:3px;
   background:linear-gradient(
     90deg,
-    transparent 0%,
-    transparent 28%,
-    rgba(255,255,255,.95) 45%,
-    #b77cff 52%,
-    rgba(255,255,255,.85) 57%,
-    transparent 75%,
-    transparent 100%
+    transparent,
+    #ffffff,
+    #b77cff,
+    transparent
   );
-  transform:skewX(-28deg) translateX(-120px) scaleX(.15);
+  transform:rotate(-18deg) translateX(18px);
   opacity:0;
-  filter:blur(.2px);
-  animation:katanaSlash 3.4s ease-in-out infinite;
+  filter:blur(.4px);
+  animation:katanaSlash 3.6s ease-in-out infinite;
+  pointer-events:none;
 }
 
 @keyframes brandLightning{
@@ -139,27 +139,28 @@ button{
 
 @keyframes katanaSlash{
 
-  0%,64%,100%{
+  0%,72%,100%{
     opacity:0;
-    transform:skewX(-28deg) translateX(-120px) scaleX(.15);
+    transform:rotate(-18deg) translateX(20px);
   }
 
-  67%{
-    opacity:.25;
+  74%{
+    opacity:.15;
   }
 
-  70%{
+  76%{
     opacity:1;
-    transform:skewX(-28deg) translateX(0) scaleX(1);
+    transform:rotate(-18deg) translateX(-6px);
   }
 
-  73%{
-    opacity:.7;
+  78%{
+    opacity:.15;
+    transform:rotate(-18deg) translateX(-20px);
   }
 
-  77%{
+  80%{
     opacity:0;
-    transform:skewX(-28deg) translateX(120px) scaleX(.15);
+    transform:rotate(-18deg) translateX(-28px);
   }
 
 }
@@ -172,8 +173,60 @@ button{
   color:#f5f7ff;
 }
 
+
+/* =========================
+   HEADER SEARCH
+========================= */
+
+.header-search{
+  flex:1;
+  max-width:360px;
+  margin-left:auto;
+}
+
+.header-search input{
+  width:100%;
+  margin:0;
+
+  padding:9px 12px;
+
+  background:rgba(18,31,52,.50);
+  border:1px solid rgba(115,143,190,.32);
+  border-radius:10px;
+
+  color:#fff;
+  outline:none;
+
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+
+  box-shadow:
+    0 7px 22px rgba(0,0,0,.14);
+
+  transition:.25s ease;
+
+  font-size:12px;
+}
+
+.header-search input::placeholder{
+  color:#78869d;
+}
+
+.header-search input:focus{
+  border-color:rgba(92,145,220,.65);
+  box-shadow:
+    0 0 0 3px rgba(77,131,207,.10),
+    0 10px 25px rgba(0,0,0,.20);
+}
+
+
+/* =========================
+   PROFILE
+========================= */
+
 .profile-wrap{
   position:relative;
+  flex-shrink:0;
 }
 
 .profile-btn{
@@ -181,8 +234,9 @@ button{
   background:rgba(18,31,52,.58);
   backdrop-filter:blur(12px);
   color:#fff;
-  padding:9px 15px;
-  border-radius:11px;
+  padding:9px 13px;
+  border-radius:10px;
+  font-size:12px;
 }
 
 .profile-btn:hover{
@@ -231,91 +285,16 @@ button{
 .container{
   max-width:1150px;
   margin:auto;
-  padding:20px 20px 60px;
+  padding:22px 20px 60px;
 }
 
 
 /* =========================
-   SEARCH / ADD
-========================= */
-
-.toolbar{
-  display:flex;
-  flex-direction:column;
-  align-items:stretch;
-  gap:10px;
-  margin:0 0 20px;
-}
-
-.toolbar-right{
-  display:flex;
-  gap:9px;
-  width:100%;
-}
-
-.search{
-  flex:1;
-  width:auto;
-  background:rgba(12,22,40,.72);
-  color:#fff;
-  border:1px solid #29456e;
-  border-radius:11px;
-  padding:12px 14px;
-  outline:none;
-  backdrop-filter:blur(14px);
-  -webkit-backdrop-filter:blur(14px);
-}
-
-.search:focus{
-  border-color:#4d83cf;
-  box-shadow:0 0 0 3px rgba(77,131,207,.10);
-}
-
-.toolbar .primary{
-  padding:8px 12px;
-  font-size:11px;
-  border-radius:9px;
-  background:rgba(27,95,183,.40);
-  border:1px solid rgba(75,130,209,.50);
-  backdrop-filter:blur(18px);
-  -webkit-backdrop-filter:blur(18px);
-  box-shadow:0 6px 20px rgba(0,0,0,.18);
-  white-space:nowrap;
-}
-
-.toolbar .primary:hover{
-  background:rgba(39,112,208,.58);
-  transform:translateY(-1px);
-}
-
-.primary{
-  border:1px solid #4b82d1;
-  background:#1b5fb7;
-  color:#fff;
-  border-radius:10px;
-  padding:11px 16px;
-  font-weight:bold;
-}
-
-.primary:hover{
-  background:#2670d0;
-}
-
-.secondary{
-  border:1px solid #263b61;
-  background:#101d31;
-  color:#fff;
-  border-radius:10px;
-  padding:10px 14px;
-}
-
-
-/* =========================
-   MOVING FEATURED SECTION
+   FEATURED
 ========================= */
 
 .featured-section{
-  margin-top:8px;
+  margin-top:5px;
 }
 
 .featured-heading{
@@ -364,7 +343,7 @@ button{
       transparent 35%
     ),
     #07101e;
-  min-height:330px;
+  min-height:305px;
   box-shadow:
     0 18px 55px rgba(0,0,0,.28),
     inset 0 0 35px rgba(71,104,160,.05);
@@ -390,7 +369,7 @@ button{
   display:flex;
   align-items:center;
   width:max-content;
-  min-height:330px;
+  min-height:305px;
   padding:22px 10px;
   animation:featuredSlide 42s linear infinite;
   will-change:transform;
@@ -400,15 +379,10 @@ button{
   animation-play-state:paused;
 }
 
-
-/*
-  LARGE HORIZONTAL MOVING CARD
-*/
-
 .featured-card{
   position:relative;
-  width:560px;
-  height:285px;
+  width:500px;
+  height:260px;
   margin:0 10px;
   flex-shrink:0;
   overflow:hidden;
@@ -533,11 +507,6 @@ button{
   font-size:13px;
 }
 
-
-/*
-  SIDE TO SIDE LOOP
-*/
-
 @keyframes featuredSlide{
 
   0%{
@@ -559,18 +528,23 @@ button{
   display:grid;
   grid-template-columns:repeat(4,1fr);
   gap:10px;
-  margin-top:22px;
+  margin-top:18px;
 }
 
 .stat{
-  background:rgba(12,22,40,.68);
-  border:1px solid #172a49;
-  border-radius:11px;
+  position:relative;
+  background:rgba(12,22,40,.52);
+  border:1px solid rgba(90,120,165,.28);
+  border-radius:12px;
   padding:10px 12px;
   cursor:pointer;
   transition:.25s ease;
-  backdrop-filter:blur(14px);
-  -webkit-backdrop-filter:blur(14px);
+
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+
+  box-shadow:
+    0 8px 25px rgba(0,0,0,.13);
 }
 
 .stat:hover{
@@ -583,24 +557,31 @@ button{
     0 8px 25px rgba(0,0,0,.25);
 }
 
+
+/* Different colors */
+
 .stat:nth-child(1){
   color:#62a8ff;
-  border-color:rgba(98,168,255,.35);
+  border-color:rgba(98,168,255,.40);
+  background:rgba(38,86,145,.18);
 }
 
 .stat:nth-child(2){
   color:#55d98b;
-  border-color:rgba(85,217,139,.35);
+  border-color:rgba(85,217,139,.40);
+  background:rgba(36,120,75,.16);
 }
 
 .stat:nth-child(3){
   color:#c08cff;
-  border-color:rgba(192,140,255,.35);
+  border-color:rgba(192,140,255,.40);
+  background:rgba(103,61,150,.16);
 }
 
 .stat:nth-child(4){
   color:#f4c76b;
-  border-color:rgba(244,199,107,.35);
+  border-color:rgba(244,199,107,.40);
+  background:rgba(140,103,37,.15);
 }
 
 .stat-number{
@@ -610,28 +591,35 @@ button{
 
 .stat-label{
   color:inherit;
-  opacity:.72;
+  opacity:.78;
   font-size:11px;
   margin-top:3px;
 }
 
 
 /* =========================
-   STATUS LIST
+   STATUS MINI LIST
 ========================= */
 
 .status-list{
   display:none;
-  margin-top:12px;
-  margin-bottom:18px;
-  padding:10px;
-  background:rgba(8,16,30,.72);
+  margin-top:10px;
+  margin-bottom:17px;
+  padding:9px;
+
+  background:rgba(8,16,30,.55);
+
   border:1px solid rgba(61,91,138,.35);
   border-radius:15px;
-  backdrop-filter:blur(18px);
-  -webkit-backdrop-filter:blur(18px);
-  max-height:390px;
+
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+
+  max-height:330px;
   overflow-y:auto;
+
+  box-shadow:
+    0 15px 35px rgba(0,0,0,.20);
 }
 
 .status-list.show{
@@ -641,12 +629,16 @@ button{
 .status-list-item{
   display:flex;
   align-items:center;
-  gap:12px;
-  padding:9px;
+  gap:11px;
+
+  padding:8px;
   margin-bottom:7px;
+
   border-radius:11px;
-  background:rgba(17,29,49,.68);
+
+  background:rgba(17,29,49,.62);
   border:1px solid rgba(65,91,135,.22);
+
   cursor:pointer;
   transition:.2s ease;
 }
@@ -657,58 +649,24 @@ button{
 
 .status-list-item:hover{
   transform:translateX(3px);
-}
-
-.status-list-item.status-watching{
-  border-color:rgba(98,168,255,.35);
-}
-
-.status-list-item.status-watching:hover{
-  border-color:#62a8ff;
-}
-
-.status-list-item.status-completed{
-  border-color:rgba(85,217,139,.35);
-}
-
-.status-list-item.status-completed:hover{
-  border-color:#55d98b;
-}
-
-.status-list-item.status-plan{
-  border-color:rgba(192,140,255,.35);
-}
-
-.status-list-item.status-plan:hover{
-  border-color:#c08cff;
-}
-
-.status-list-item.status-hold{
-  border-color:rgba(244,199,107,.35);
-}
-
-.status-list-item.status-hold:hover{
-  border-color:#f4c76b;
-}
-
-.status-list-item.status-dropped{
-  border-color:rgba(255,105,125,.35);
-}
-
-.status-list-item.status-dropped:hover{
-  border-color:#ff697d;
+  border-color:#3977c4;
+  background:rgba(28,49,80,.72);
 }
 
 .status-list-poster{
-  width:58px;
-  height:74px;
+  width:50px;
+  height:64px;
   flex-shrink:0;
-  border-radius:8px;
+
+  border-radius:7px;
   overflow:hidden;
+
   background:#101c30;
+
   display:flex;
   align-items:center;
   justify-content:center;
+
   color:#66758d;
   font-size:9px;
 }
@@ -725,8 +683,9 @@ button{
 }
 
 .status-list-title{
-  font-size:13px;
+  font-size:12px;
   font-weight:bold;
+
   white-space:nowrap;
   overflow:hidden;
   text-overflow:ellipsis;
@@ -735,7 +694,9 @@ button{
 .status-list-meta{
   display:flex;
   gap:10px;
-  margin-top:7px;
+
+  margin-top:6px;
+
   color:#8795ab;
   font-size:10px;
 }
@@ -753,20 +714,29 @@ button{
 
 
 /* =========================
+   TOOLBAR
+========================= */
+
+.toolbar{
+  display:none;
+}
+
+
+/* =========================
    ANIME GRID
 ========================= */
 
 .anime-grid{
   display:grid;
   grid-template-columns:repeat(5,1fr);
-  gap:16px;
+  gap:14px;
 }
 
 .card{
   position:relative;
   background:#0b1628;
   border:1px solid #1c3a67;
-  border-radius:14px;
+  border-radius:13px;
   overflow:hidden;
   transition:.28s ease;
   animation:cardIn .45s ease both;
@@ -775,12 +745,13 @@ button{
 }
 
 .card:hover{
-  transform:translateY(-5px);
+  transform:translateY(-4px);
   border-color:#3977c4;
   box-shadow:0 16px 38px rgba(16,87,170,.25);
 }
 
 @keyframes cardIn{
+
   from{
     opacity:0;
     transform:translateY(12px);
@@ -790,6 +761,7 @@ button{
     opacity:1;
     transform:translateY(0);
   }
+
 }
 
 .card-bg{
@@ -819,9 +791,9 @@ button{
 }
 
 .card-poster{
-  height:270px;
-  margin:10px 10px 0;
-  border-radius:10px;
+  height:235px;
+  margin:8px 8px 0;
+  border-radius:9px;
   overflow:hidden;
   background:#101c30;
   display:flex;
@@ -842,11 +814,13 @@ button{
 }
 
 .card-info{
-  padding:12px;
+  padding:10px;
 }
 
 .card-title{
+  font-size:13px;
   font-weight:bold;
+
   white-space:nowrap;
   overflow:hidden;
   text-overflow:ellipsis;
@@ -855,16 +829,16 @@ button{
 .card-meta{
   display:flex;
   justify-content:space-between;
-  gap:5px;
-  margin-top:8px;
+  gap:4px;
+  margin-top:7px;
   color:#8290a8;
-  font-size:11px;
+  font-size:10px;
 }
 
 .rating-box{
   display:inline-flex;
   align-items:center;
-  padding:4px 7px;
+  padding:3px 6px;
   border-radius:6px;
   background:rgba(160,110,255,.12);
   border:1px solid rgba(170,130,255,.28);
@@ -878,13 +852,47 @@ button{
 
 .status{
   display:inline-block;
-  margin-top:9px;
-  background:#102a4d;
-  color:#8bbcff;
-  border:1px solid #214a7b;
+  margin-top:8px;
+
   border-radius:6px;
-  padding:5px 8px;
-  font-size:10px;
+  padding:4px 7px;
+
+  font-size:9px;
+
+  backdrop-filter:blur(10px);
+}
+
+
+/* Status colors */
+
+.status-watching{
+  background:rgba(45,115,205,.18);
+  color:#75b5ff;
+  border:1px solid rgba(80,145,220,.38);
+}
+
+.status-completed{
+  background:rgba(47,170,94,.18);
+  color:#67e39a;
+  border:1px solid rgba(74,205,120,.38);
+}
+
+.status-plan{
+  background:rgba(143,83,220,.18);
+  color:#c59aff;
+  border:1px solid rgba(170,120,255,.38);
+}
+
+.status-hold{
+  background:rgba(215,158,55,.17);
+  color:#f1c86d;
+  border:1px solid rgba(240,190,90,.38);
+}
+
+.status-dropped{
+  background:rgba(210,65,78,.17);
+  color:#ff8490;
+  border:1px solid rgba(235,90,105,.38);
 }
 
 .empty{
@@ -955,6 +963,27 @@ textarea{
 
 .modal-actions button{
   flex:1;
+}
+
+.primary{
+  border:1px solid #4b82d1;
+  background:#1b5fb7;
+  color:#fff;
+  border-radius:10px;
+  padding:11px 16px;
+  font-weight:bold;
+}
+
+.primary:hover{
+  background:#2670d0;
+}
+
+.secondary{
+  border:1px solid #263b61;
+  background:#101d31;
+  color:#fff;
+  border-radius:10px;
+  padding:10px 14px;
 }
 
 
@@ -1144,20 +1173,24 @@ textarea{
 
 @media(max-width:700px){
 
+  .nav{
+    gap:8px;
+  }
+
+  .brand{
+    font-size:21px;
+  }
+
+  .header-search{
+    max-width:none;
+  }
+
   .anime-grid{
     grid-template-columns:repeat(3,1fr);
   }
 
   .stats{
     grid-template-columns:repeat(4,1fr);
-  }
-
-  .toolbar-right{
-    width:100%;
-  }
-
-  .search{
-    width:100%;
   }
 
   .featured-window{
@@ -1183,17 +1216,32 @@ textarea{
   }
 
   .nav{
-    padding-left:13px;
-    padding-right:13px;
+    padding-left:10px;
+    padding-right:10px;
+    gap:6px;
   }
 
   .brand{
-    font-size:20px;
+    font-size:17px;
+    letter-spacing:0;
+  }
+
+  .brand::before{
+    width:42px;
+  }
+
+  .header-search{
+    max-width:none;
+  }
+
+  .header-search input{
+    padding:8px 9px;
+    font-size:10px;
   }
 
   .profile-btn{
-    padding:8px 11px;
-    font-size:12px;
+    padding:8px 9px;
+    font-size:10px;
   }
 
   .stats{
@@ -1209,24 +1257,34 @@ textarea{
   }
 
   .stat-label{
-    font-size:9px;
+    font-size:8px;
   }
 
   .anime-grid{
     grid-template-columns:repeat(2,1fr);
-    gap:11px;
+    gap:10px;
   }
 
   .card-poster{
-    height:230px;
+    height:210px;
+    margin:7px 7px 0;
   }
 
   .card-info{
-    padding:10px;
+    padding:8px;
+  }
+
+  .card-title{
+    font-size:12px;
   }
 
   .card-meta{
-    font-size:9px;
+    font-size:8px;
+  }
+
+  .status{
+    font-size:8px;
+    padding:4px 6px;
   }
 
   .featured-window{
@@ -1254,20 +1312,6 @@ textarea{
   }
 
   .featured-note{
-    font-size:10px;
-  }
-
-  .toolbar-right{
-    gap:7px;
-  }
-
-  .search{
-    min-width:0;
-    padding:11px 12px;
-  }
-
-  .toolbar .primary{
-    padding:8px 10px;
     font-size:10px;
   }
 
@@ -1310,8 +1354,22 @@ textarea{
 
 <nav class="nav">
 
+
 <div class="brand">
   <span class="brand-ani">Ani</span><span class="brand-watch">Watch List</span>
+</div>
+
+
+<!-- SEARCH MOVED TO HEADER -->
+
+<div class="header-search">
+
+<input
+id="search"
+autocomplete="off"
+placeholder="Search anime..."
+oninput="renderAnime()">
+
 </div>
 
 
@@ -1357,36 +1415,6 @@ Logout
 
 
 <main class="container">
-
-
-<!-- =========================
-     SEARCH / ADD
-========================= -->
-
-<div class="toolbar">
-
-<div class="toolbar-right">
-
-<input
-class="search"
-id="search"
-autocomplete="off"
-placeholder="Search anime..."
-oninput="renderAnime()">
-
-
-<button
-class="primary"
-onclick="openAnimeModal()">
-
-+ Add Anime
-
-</button>
-
-</div>
-
-</div>
-
 
 
 <!-- =========================
@@ -1525,8 +1553,27 @@ id="statusList">
 
 
 <!-- =========================
-     ANIME GRID
+     ADD BUTTON
 ========================= -->
+
+<div
+style="
+display:flex;
+justify-content:flex-end;
+margin:16px 0 14px;
+">
+
+<button
+class="top-add-btn"
+onclick="openAnimeModal()">
+
++ Add Anime
+
+</button>
+
+</div>
+
+
 
 <div
 class="anime-grid"
@@ -1886,6 +1933,8 @@ let animeList = [];
 let editingId = null;
 
 let currentAnime = null;
+
+let openStatus = null;
 
 
 /* =========================
@@ -2267,6 +2316,37 @@ async function saveAnime(){
 
 
 /* =========================
+   STATUS CLASS
+========================= */
+
+function getStatusClass(status){
+
+  if(status === "Watching"){
+    return "status-watching";
+  }
+
+  if(status === "Completed"){
+    return "status-completed";
+  }
+
+  if(status === "Plan to Watch"){
+    return "status-plan";
+  }
+
+  if(status === "On Hold"){
+    return "status-hold";
+  }
+
+  if(status === "Dropped"){
+    return "status-dropped";
+  }
+
+  return "";
+
+}
+
+
+/* =========================
    RENDER ANIME
 ========================= */
 
@@ -2334,6 +2414,10 @@ function renderAnime(){
     : "";
 
 
+    const statusClass =
+    getStatusClass(anime.status);
+
+
     return `
 
       <div
@@ -2398,7 +2482,7 @@ function renderAnime(){
             </div>
 
 
-            <div class="status">
+            <div class="status ${statusClass}">
 
               ${escapeHtml(anime.status || "")}
 
@@ -2466,6 +2550,23 @@ function updateStats(){
 
 function showStatusList(status,clickedElement){
 
+  const oldList =
+  document.getElementById("statusList");
+
+
+  /* Tap same stat again = close */
+
+  if(openStatus === status){
+
+    clearStatusList();
+
+    openStatus = null;
+
+    return;
+
+  }
+
+
   document
   .querySelectorAll(".stat")
   .forEach(stat=>{
@@ -2475,9 +2576,7 @@ function showStatusList(status,clickedElement){
 
   clickedElement.classList.add("active");
 
-
-  const oldList =
-  document.getElementById("statusList");
+  openStatus = status;
 
 
   oldList.innerHTML = "";
@@ -2533,29 +2632,10 @@ function showStatusList(status,clickedElement){
       : "";
 
 
-      let statusClass = "";
-
-      if(anime.status === "Watching"){
-        statusClass = "status-watching";
-      }
-      else if(anime.status === "Completed"){
-        statusClass = "status-completed";
-      }
-      else if(anime.status === "Plan to Watch"){
-        statusClass = "status-plan";
-      }
-      else if(anime.status === "On Hold"){
-        statusClass = "status-hold";
-      }
-      else if(anime.status === "Dropped"){
-        statusClass = "status-dropped";
-      }
-
-
       return `
 
         <div
-        class="status-list-item ${statusClass}"
+        class="status-list-item"
         onclick="openDetails(${anime.id})">
 
 
@@ -2636,6 +2716,8 @@ function clearStatusList(){
   .forEach(stat=>{
     stat.classList.remove("active");
   });
+
+  openStatus = null;
 
 }
 
