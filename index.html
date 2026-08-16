@@ -19,7 +19,7 @@
 
 body{
   font-family:Arial,sans-serif;
-  background:#050914;
+  background:#060b16;
   color:#f5f7ff;
   min-height:100vh;
 }
@@ -40,161 +40,62 @@ button{
 .header{
   position:sticky;
   top:0;
-  z-index:100;
-  background:rgba(5,9,20,.88);
-  backdrop-filter:blur(18px);
-  border-bottom:1px solid #17233a;
+  z-index:30;
+  background:rgba(6,11,22,.62);
+  backdrop-filter:blur(22px);
+  -webkit-backdrop-filter:blur(22px);
+  border-bottom:1px solid rgba(65,91,135,.28);
+  box-shadow:0 8px 30px rgba(0,0,0,.18);
 }
 
 .nav{
   max-width:1150px;
   margin:auto;
-  padding:13px 20px;
+  padding:15px 20px;
   display:flex;
   align-items:center;
   justify-content:space-between;
-  gap:15px;
 }
 
 .brand{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  font-size:24px;
+  font-size:25px;
   font-weight:800;
+  letter-spacing:.4px;
 }
 
-.dragon-mark{
-  width:28px;
-  height:28px;
-  border-radius:50%;
-  border:2px solid #ffb52e;
-  position:relative;
-  animation:dragonPulse 2.2s ease-in-out infinite;
+.brand-ani{
+  color:#b77cff;
 }
 
-.dragon-mark::after{
-  content:"";
-  position:absolute;
-  width:6px;
-  height:6px;
-  border-radius:50%;
-  background:#ffb52e;
-  top:9px;
-  left:9px;
+.brand-watch{
+  color:#f5f7ff;
 }
-
-@keyframes dragonPulse{
-
-  0%,100%{
-    transform:scale(1);
-    box-shadow:0 0 10px rgba(255,181,46,.25);
-  }
-
-  50%{
-    transform:scale(1.12) rotate(8deg);
-    box-shadow:0 0 20px rgba(255,181,46,.55);
-  }
-
-}
-
-
-/* HEADER RIGHT */
-
-.header-right{
-  display:flex;
-  align-items:center;
-  gap:9px;
-}
-
-
-/* SEARCH ICON */
-
-.search-btn{
-  width:45px;
-  height:45px;
-  border-radius:50%;
-  border:1px solid #263b61;
-  background:#0d1728;
-  color:#fff;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-.search-btn svg{
-  width:23px;
-  height:23px;
-}
-
-.search-btn:hover{
-  background:#14233d;
-}
-
-
-/* SEARCH AREA */
-
-.search-area{
-  max-width:1150px;
-  margin:auto;
-  padding:0 20px;
-  max-height:0;
-  overflow:hidden;
-  transition:max-height .35s ease,padding .35s ease;
-}
-
-.search-area.open{
-  max-height:90px;
-  padding-top:10px;
-  padding-bottom:12px;
-}
-
-.header-search{
-  width:100%;
-  margin:0;
-  padding:13px 15px;
-  border-radius:12px;
-  background:#0b1527;
-  color:#fff;
-  border:1px solid #31527e;
-  outline:none;
-}
-
-.header-search:focus{
-  border-color:#6a9ee7;
-}
-
-
-/* PROFILE */
 
 .profile-wrap{
   position:relative;
 }
 
 .profile-btn{
-  width:45px;
-  height:45px;
-  border-radius:50%;
-  border:1px solid #263b61;
-  background:#0d1728;
+  border:1px solid rgba(115,143,190,.35);
+  background:rgba(18,31,52,.58);
+  backdrop-filter:blur(12px);
   color:#fff;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  padding:9px 15px;
+  border-radius:11px;
 }
 
-.profile-btn svg{
-  width:22px;
-  height:22px;
+.profile-btn:hover{
+  background:rgba(31,49,78,.75);
 }
 
 .profile-menu{
   display:none;
   position:absolute;
   right:0;
-  top:54px;
+  top:48px;
   width:235px;
-  background:#0d1525;
+  background:rgba(13,21,37,.94);
+  backdrop-filter:blur(20px);
   border:1px solid #263b61;
   border-radius:13px;
   padding:14px;
@@ -233,7 +134,7 @@ button{
 }
 
 .hero{
-  padding:10px 0 8px;
+  padding:20px 0 10px;
 }
 
 .hero h1{
@@ -278,66 +179,88 @@ button{
 
 
 /* =========================
-   BIG MOVING ANIMATION
+   MOVING FEATURED SECTION
 ========================= */
 
 .featured-section{
-  margin-top:28px;
+  margin-top:24px;
 }
 
-.section-heading{
+.featured-heading{
   display:flex;
   align-items:center;
   justify-content:space-between;
-  gap:10px;
-  margin-bottom:12px;
+  margin-bottom:11px;
 }
 
-.section-heading h2{
-  font-size:20px;
+.featured-heading h2{
+  font-size:19px;
 }
 
-.section-heading p{
+.featured-heading p{
   color:#65748d;
   font-size:11px;
-  margin-top:4px;
+  margin-top:3px;
 }
 
 .edit-featured{
-  border:1px solid #405e8c;
-  background:#101d31;
+  border:1px solid rgba(150,175,220,.28);
+  background:rgba(24,38,63,.45);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
   color:#dce8ff;
-  padding:9px 13px;
+  padding:7px 11px;
   border-radius:9px;
-  font-size:12px;
+  font-size:11px;
+  transition:.25s ease;
 }
 
 .edit-featured:hover{
-  background:#172b4a;
+  background:rgba(55,78,115,.6);
+  transform:translateY(-1px);
 }
-
-
-/* BIG WINDOW */
 
 .featured-window{
   position:relative;
   overflow:hidden;
-  width:100%;
-  height:390px;
-  border:1px solid #233d65;
-  border-radius:22px;
-  background:#050a14;
-  box-shadow:0 20px 65px rgba(0,0,0,.45);
+  border:1px solid rgba(61,91,138,.38);
+  border-radius:20px;
+  background:
+    radial-gradient(
+      circle at 20% 20%,
+      rgba(109,65,190,.10),
+      transparent 35%
+    ),
+    #07101e;
+  min-height:280px;
+  box-shadow:
+    0 18px 55px rgba(0,0,0,.28),
+    inset 0 0 35px rgba(71,104,160,.05);
 }
 
-
-/* TRACK */
+.featured-window::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:4;
+  pointer-events:none;
+  background:
+    linear-gradient(
+      90deg,
+      #07101e 0%,
+      transparent 8%,
+      transparent 92%,
+      #07101e 100%
+    );
+}
 
 .featured-track{
   display:flex;
-  height:100%;
+  align-items:center;
   width:max-content;
-  animation:featuredMove 42s linear infinite;
+  min-height:280px;
+  padding:25px 10px;
+  animation:featuredSlide 34s linear infinite;
   will-change:transform;
 }
 
@@ -347,147 +270,157 @@ button{
 
 
 /*
-  Each slide is exactly one full window.
-  Duplicate slides make the loop seamless.
+  LARGE IMAGE CARD
 */
 
 .featured-card{
   position:relative;
-  flex:0 0 100%;
-  width:100%;
-  height:100%;
-  overflow:hidden;
-  background:#0b1220;
-}
-
-
-/* FULL BACKGROUND IMAGE */
-
-.featured-bg{
-  position:absolute;
-  inset:0;
-  background-size:cover;
-  background-position:center;
-  transform:scale(1.05);
-  transition:transform 8s ease;
-}
-
-.featured-card:hover .featured-bg{
-  transform:scale(1.10);
-}
-
-
-/* DARK CINEMATIC GRADIENT */
-
-.featured-overlay{
-  position:absolute;
-  inset:0;
-  background:
-    linear-gradient(
-      90deg,
-      rgba(2,6,15,.97) 0%,
-      rgba(2,6,15,.82) 25%,
-      rgba(2,6,15,.45) 52%,
-      rgba(2,6,15,.20) 75%,
-      rgba(2,6,15,.55) 100%
-    ),
-    linear-gradient(
-      0deg,
-      rgba(2,6,15,.82),
-      transparent 55%
-    );
-}
-
-
-/* CONTENT */
-
-.featured-content{
-  position:relative;
-  z-index:3;
-  height:100%;
-  display:flex;
-  align-items:flex-end;
-  padding:32px;
-}
-
-
-/* POSTER */
-
-.featured-poster{
-  width:185px;
-  height:275px;
+  width:430px;
+  height:235px;
+  margin:0 8px;
   flex-shrink:0;
-  border-radius:15px;
   overflow:hidden;
-  background:#111c2e;
-  box-shadow:0 18px 45px rgba(0,0,0,.65);
-  border:1px solid rgba(255,255,255,.12);
+  border-radius:18px;
+  border:1px solid rgba(255,255,255,.13);
+  background:#101a2c;
+  box-shadow:
+    0 18px 45px rgba(0,0,0,.38);
+  transition:
+    transform .35s ease,
+    box-shadow .35s ease;
 }
 
-.featured-poster img{
+.featured-card:hover{
+  transform:scale(1.035);
+  box-shadow:
+    0 24px 55px rgba(0,0,0,.48);
+}
+
+.featured-image{
+  position:absolute;
+  inset:0;
   width:100%;
   height:100%;
   object-fit:cover;
 }
 
+.featured-image-blur{
+  position:absolute;
+  inset:-20px;
+  width:calc(100% + 40px);
+  height:calc(100% + 40px);
+  object-fit:cover;
+  filter:blur(24px);
+  transform:scale(1.08);
+  opacity:.45;
+}
 
-/* INFO */
+.featured-image-main{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  z-index:1;
+}
 
-.featured-info{
-  padding-left:25px;
-  padding-bottom:8px;
-  max-width:520px;
+.featured-card-overlay{
+  position:absolute;
+  z-index:2;
+  inset:0;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(3,8,18,.92),
+      rgba(3,8,18,.20) 55%,
+      rgba(3,8,18,.75)
+    ),
+    linear-gradient(
+      0deg,
+      rgba(3,8,18,.88),
+      transparent 55%
+    );
+}
+
+.featured-card-content{
+  position:absolute;
+  z-index:3;
+  inset:0;
+  padding:20px;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
 }
 
 .featured-title{
-  font-size:32px;
+  max-width:75%;
+  font-size:21px;
   font-weight:800;
-  line-height:1.1;
-  margin-bottom:13px;
-  text-shadow:0 4px 18px rgba(0,0,0,.7);
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  text-shadow:0 3px 15px rgba(0,0,0,.7);
+}
+
+.featured-badges{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  margin-top:8px;
 }
 
 .featured-type{
   display:inline-block;
-  padding:6px 10px;
+  padding:5px 8px;
   border-radius:7px;
-  background:rgba(130,100,255,.18);
-  border:1px solid rgba(180,150,255,.30);
-  font-size:11px;
-  color:#d8caff;
+  background:rgba(255,255,255,.10);
+  border:1px solid rgba(255,255,255,.16);
+  font-size:10px;
+  color:#d1ddf3;
+  backdrop-filter:blur(8px);
 }
 
 .featured-status{
-  margin-top:9px;
-  font-size:12px;
-  color:#b2bfd2;
+  font-size:10px;
+  color:#a7b6ce;
 }
 
-.featured-rating{
-  margin-top:9px;
-  font-size:12px;
-  color:#ffd77c;
+.featured-note{
+  max-width:75%;
+  margin-top:8px;
+  color:#dce5f4;
+  font-size:11px;
+  line-height:1.4;
+  display:-webkit-box;
+  -webkit-line-clamp:2;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
 }
 
 .featured-empty{
-  width:100vw;
-  height:100%;
+  width:100%;
+  min-height:280px;
   display:flex;
   align-items:center;
   justify-content:center;
   text-align:center;
   color:#697991;
   padding:30px;
-  font-size:14px;
+  font-size:13px;
 }
 
-@keyframes featuredMove{
 
-  from{
+/*
+  SIDE TO SIDE LOOP
+*/
+
+@keyframes featuredSlide{
+
+  0%{
     transform:translateX(0);
   }
 
-  to{
+  100%{
     transform:translateX(-50%);
   }
 
@@ -499,7 +432,7 @@ button{
 ========================= */
 
 .collection-title{
-  margin-top:30px;
+  margin-top:27px;
   margin-bottom:12px;
 }
 
@@ -514,7 +447,9 @@ button{
 }
 
 
-/* TOOLBAR */
+/* =========================
+   TOOLBAR
+========================= */
 
 .toolbar{
   display:flex;
@@ -531,6 +466,23 @@ button{
 .toolbar-right{
   display:flex;
   gap:9px;
+  flex:1;
+  justify-content:flex-end;
+}
+
+.search{
+  width:330px;
+  background:#0c1628;
+  color:#fff;
+  border:1px solid #29456e;
+  border-radius:11px;
+  padding:12px 14px;
+  outline:none;
+}
+
+.search:focus{
+  border-color:#4d83cf;
+  box-shadow:0 0 0 3px rgba(77,131,207,.10);
 }
 
 .primary{
@@ -584,7 +536,6 @@ button{
 }
 
 @keyframes cardIn{
-
   from{
     opacity:0;
     transform:translateY(12px);
@@ -594,7 +545,6 @@ button{
     opacity:1;
     transform:translateY(0);
   }
-
 }
 
 .card-bg{
@@ -674,6 +624,7 @@ button{
   background:rgba(160,110,255,.12);
   border:1px solid rgba(170,130,255,.28);
   color:#cbb9ff;
+  backdrop-filter:blur(8px);
 }
 
 .media-type{
@@ -710,8 +661,8 @@ button{
   display:none;
   position:fixed;
   inset:0;
-  z-index:200;
-  background:rgba(0,0,0,.82);
+  z-index:50;
+  background:rgba(0,0,0,.80);
   align-items:center;
   justify-content:center;
   padding:18px;
@@ -762,7 +713,9 @@ textarea{
 }
 
 
-/* MEDIA TYPE */
+/* =========================
+   MEDIA TYPE
+========================= */
 
 .type-title{
   font-size:11px;
@@ -801,7 +754,7 @@ textarea{
 
 .featured-list{
   display:grid;
-  gap:8px;
+  gap:9px;
   margin-bottom:15px;
 }
 
@@ -817,7 +770,7 @@ textarea{
 
 .featured-select img{
   width:43px;
-  height:58px;
+  height:52px;
   border-radius:6px;
   object-fit:cover;
   background:#101c30;
@@ -843,9 +796,17 @@ textarea{
 }
 
 .featured-checkbox{
-  width:20px;
-  height:20px;
+  width:19px;
+  height:19px;
   margin:0;
+}
+
+.featured-note-input{
+  width:100%;
+  margin:7px 0 0;
+  padding:8px 9px;
+  font-size:11px;
+  border-radius:8px;
 }
 
 
@@ -929,17 +890,8 @@ textarea{
     grid-template-columns:repeat(4,1fr);
   }
 
-  .featured-window{
-    height:360px;
-  }
-
-  .featured-poster{
-    width:155px;
-    height:235px;
-  }
-
-  .featured-title{
-    font-size:27px;
+  .featured-card{
+    width:390px;
   }
 
 }
@@ -948,6 +900,10 @@ textarea{
 
   .anime-grid{
     grid-template-columns:repeat(3,1fr);
+  }
+
+  .stats{
+    grid-template-columns:repeat(4,1fr);
   }
 
   .toolbar{
@@ -959,30 +915,21 @@ textarea{
     width:100%;
   }
 
-  .primary{
+  .search{
     width:100%;
   }
 
   .featured-window{
-    height:330px;
-    border-radius:18px;
+    min-height:245px;
   }
 
-  .featured-content{
-    padding:22px;
+  .featured-track{
+    min-height:245px;
   }
 
-  .featured-poster{
-    width:120px;
-    height:190px;
-  }
-
-  .featured-info{
-    padding-left:17px;
-  }
-
-  .featured-title{
-    font-size:23px;
+  .featured-card{
+    width:340px;
+    height:215px;
   }
 
 }
@@ -1000,29 +947,16 @@ textarea{
   }
 
   .brand{
-    font-size:19px;
+    font-size:20px;
   }
 
-  .dragon-mark{
-    width:24px;
-    height:24px;
-  }
-
-  .dragon-mark::after{
-    width:5px;
-    height:5px;
-    top:7px;
-    left:7px;
-  }
-
-  .search-btn,
   .profile-btn{
-    width:40px;
-    height:40px;
+    padding:8px 11px;
+    font-size:12px;
   }
 
   .hero h1{
-    font-size:27px;
+    font-size:28px;
   }
 
   .stats{
@@ -1034,7 +968,7 @@ textarea{
   }
 
   .stat-number{
-    font-size:16px;
+    font-size:17px;
   }
 
   .stat-label{
@@ -1058,43 +992,33 @@ textarea{
     font-size:9px;
   }
 
-
-  /* BIG MOBILE BANNER */
-
   .featured-window{
-    height:390px;
+    min-height:215px;
+    border-radius:16px;
   }
 
-  .featured-content{
-    align-items:flex-end;
-    padding:18px;
+  .featured-track{
+    min-height:215px;
+    padding:15px 5px;
   }
 
-  .featured-poster{
-    width:100px;
-    height:150px;
+  .featured-card{
+    width:300px;
+    height:185px;
+    border-radius:15px;
   }
 
-  .featured-info{
-    padding-left:13px;
-    padding-bottom:2px;
-    max-width:220px;
+  .featured-card-content{
+    padding:15px;
   }
 
   .featured-title{
-    font-size:19px;
+    font-size:16px;
   }
 
-  .featured-type{
-    font-size:9px;
-    padding:5px 7px;
-  }
-
-  .featured-status,
-  .featured-rating{
+  .featured-note{
     font-size:10px;
   }
-
 
   .details-layout{
     grid-template-columns:1fr;
@@ -1106,30 +1030,6 @@ textarea{
 
 }
 
-
-/* VERY SMALL PHONES */
-
-@media(max-width:360px){
-
-  .featured-window{
-    height:350px;
-  }
-
-  .featured-poster{
-    width:88px;
-    height:135px;
-  }
-
-  .featured-info{
-    max-width:190px;
-  }
-
-  .featured-title{
-    font-size:17px;
-  }
-
-}
-
 </style>
 </head>
 
@@ -1137,127 +1037,51 @@ textarea{
 <body>
 
 
-<!-- =========================
-     HEADER
-========================= -->
-
 <header class="header">
 
-  <nav class="nav">
+<nav class="nav">
 
-    <div class="brand">
-
-      <div class="dragon-mark"></div>
-
-      <span>AniWatch List</span>
-
-    </div>
+<div class="brand">
+  <span class="brand-ani">Ani</span><span class="brand-watch">Watch List</span>
+</div>
 
 
-    <div class="header-right">
+<div class="profile-wrap">
 
-      <!-- SEARCH -->
+<button
+class="profile-btn"
+onclick="toggleProfile()">
 
-      <button
-        class="search-btn"
-        onclick="toggleSearch()"
-        aria-label="Search">
+Profile
 
-        <svg
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2">
-
-          <circle
-            cx="11"
-            cy="11"
-            r="7">
-          </circle>
-
-          <path
-            d="M20 20l-4-4">
-          </path>
-
-        </svg>
-
-      </button>
+</button>
 
 
-      <!-- PROFILE -->
+<div
+class="profile-menu"
+id="profileMenu">
 
-      <div class="profile-wrap">
+<div
+class="profile-email"
+id="profileEmail">
 
-        <button
-          class="profile-btn"
-          onclick="toggleProfile()"
-          aria-label="Profile">
+Not logged in
 
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2">
+</div>
 
-            <circle
-              cx="12"
-              cy="8"
-              r="4">
-            </circle>
+<button
+class="logout"
+onclick="logout()">
 
-            <path
-              d="M4 21c0-4 3-7 8-7s8 3 8 7">
-            </path>
+Logout
 
-          </svg>
+</button>
 
-        </button>
+</div>
 
+</div>
 
-        <div
-          class="profile-menu"
-          id="profileMenu">
-
-          <div
-            class="profile-email"
-            id="profileEmail">
-
-            Not logged in
-
-          </div>
-
-
-          <button
-            class="logout"
-            onclick="logout()">
-
-            Logout
-
-          </button>
-
-        </div>
-
-      </div>
-
-    </div>
-
-  </nav>
-
-
-  <!-- SEARCH BAR -->
-
-  <div
-    class="search-area"
-    id="searchArea">
-
-    <input
-      class="header-search"
-      id="search"
-      autocomplete="off"
-      placeholder="Search anime..."
-      oninput="renderAnime()">
-
-  </div>
+</nav>
 
 </header>
 
@@ -1266,139 +1090,112 @@ textarea{
 <main class="container">
 
 
-<!-- =========================
-     HERO
-========================= -->
-
 <section class="hero">
 
-  <h1>
-    My Anime Collection
-  </h1>
+<h1>My Anime Collection</h1>
 
-  <p>
-    Keep track of the anime you've watched.
-  </p>
+<p>
+Keep track of the anime you've watched.
+</p>
 
 
-  <div class="stats">
+<div class="stats">
 
-    <div class="stat">
-
-      <div
-        class="stat-number"
-        id="watchingCount">
-        0
-      </div>
-
-      <div class="stat-label">
-        Watching
-      </div>
-
-    </div>
+<div class="stat">
+<div
+class="stat-number"
+id="watchingCount">
+0
+</div>
+<div class="stat-label">
+Watching
+</div>
+</div>
 
 
-    <div class="stat">
-
-      <div
-        class="stat-number"
-        id="completedCount">
-        0
-      </div>
-
-      <div class="stat-label">
-        Completed
-      </div>
-
-    </div>
+<div class="stat">
+<div
+class="stat-number"
+id="completedCount">
+0
+</div>
+<div class="stat-label">
+Completed
+</div>
+</div>
 
 
-    <div class="stat">
-
-      <div
-        class="stat-number"
-        id="planCount">
-        0
-      </div>
-
-      <div class="stat-label">
-        Plan to Watch
-      </div>
-
-    </div>
+<div class="stat">
+<div
+class="stat-number"
+id="planCount">
+0
+</div>
+<div class="stat-label">
+Plan to Watch
+</div>
+</div>
 
 
-    <div class="stat">
+<div class="stat">
+<div
+class="stat-number"
+id="totalCount">
+0
+</div>
+<div class="stat-label">
+Total
+</div>
+</div>
 
-      <div
-        class="stat-number"
-        id="totalCount">
-        0
-      </div>
-
-      <div class="stat-label">
-        Total
-      </div>
-
-    </div>
-
-  </div>
+</div>
 
 </section>
 
 
 
 <!-- =========================
-     BIG MOVING ANIME
+     MOVING ANIMATION
 ========================= -->
 
 <section class="featured-section">
 
-  <div class="section-heading">
+<div class="featured-heading">
 
-    <div>
-
-      <h2>
-        Featured Anime
-      </h2>
-
-      <p>
-        Your selected anime
-      </p>
-
-    </div>
+<div>
+<h2>Featured Anime</h2>
+<p>Your favourite anime</p>
+</div>
 
 
-    <button
-      class="edit-featured"
-      onclick="openFeaturedEditor()">
+<button
+class="edit-featured"
+onclick="openFeaturedEditor()">
 
-      ✎ Edit
+✦ Edit
 
-    </button>
+</button>
 
-  </div>
+</div>
 
 
-  <div
-    class="featured-window"
-    id="featuredWindow">
+<div
+class="featured-window"
+id="featuredWindow">
 
-    <div
-      class="featured-track"
-      id="featuredTrack">
+<div
+class="featured-track"
+id="featuredTrack">
 
-      <div class="featured-empty">
+<div class="featured-empty">
 
-        Add anime to your collection,
-        then use Edit to choose the anime
-        you want here.
+Choose your favourite anime using Edit.
 
-      </div>
+</div>
 
-    </div>
+</div>
 
-  </div>
+</div>
 
 </section>
 
@@ -1410,48 +1207,56 @@ textarea{
 
 <div class="collection-title">
 
-  <h2>
-    My Anime Collection
-  </h2>
+<h2>My Anime Collection</h2>
 
-  <p>
-    Your personal anime cards
-  </p>
+<p>
+Your personal anime cards
+</p>
 
 </div>
 
 
 <div class="toolbar">
 
-  <h2>
-    Anime
-  </h2>
+<h2>Anime</h2>
 
 
-  <div class="toolbar-right">
+<div class="toolbar-right">
 
-    <button
-      class="primary"
-      onclick="openAnimeModal()">
+<input
+class="search"
+id="search"
+autocomplete="off"
+placeholder="Search anime..."
+oninput="renderAnime()">
 
-      + Add Anime
 
-    </button>
+<button
+class="primary"
+onclick="openAnimeModal()">
 
-  </div>
+Add Anime
+
+</button>
 
 </div>
+
+</div>
+
 
 
 <div
-  class="anime-grid"
-  id="animeGrid">
+class="anime-grid"
+id="animeGrid">
 
-  <div class="empty">
-    Login to see your anime collection.
-  </div>
+<div class="empty">
+
+Login to see your anime collection.
 
 </div>
+
+</div>
+
 
 </main>
 
@@ -1462,204 +1267,193 @@ textarea{
 ========================= -->
 
 <div
-  class="modal"
-  id="animeModal">
+class="modal"
+id="animeModal">
 
-  <div class="modal-box">
+<div class="modal-box">
 
-    <h2 id="animeModalTitle">
-      Add Anime
-    </h2>
-
-
-    <input
-      id="animeTitle"
-      autocomplete="off"
-      placeholder="Anime title">
+<h2 id="animeModalTitle">
+Add Anime
+</h2>
 
 
-    <div class="type-title">
-      Type
-    </div>
+<input
+id="animeTitle"
+autocomplete="off"
+placeholder="Anime title">
 
 
-    <div class="type-grid">
-
-      <div
-        class="type-option active"
-        data-type="Episode"
-        onclick="selectType('Episode')">
-
-        Episode
-
-      </div>
+<div class="type-title">
+Type
+</div>
 
 
-      <div
-        class="type-option"
-        data-type="Movie"
-        onclick="selectType('Movie')">
+<div class="type-grid">
 
-        Movie
+<div
+class="type-option active"
+data-type="Episode"
+onclick="selectType('Episode')">
 
-      </div>
+Episode
 
+</div>
 
-      <div
-        class="type-option"
-        data-type="OVA"
-        onclick="selectType('OVA')">
+<div
+class="type-option"
+data-type="Movie"
+onclick="selectType('Movie')">
 
-        OVA
+Movie
 
-      </div>
+</div>
 
-    </div>
+<div
+class="type-option"
+data-type="OVA"
+onclick="selectType('OVA')">
 
+OVA
 
-    <input
-      type="hidden"
-      id="animeType"
-      value="Episode">
+</div>
 
-
-    <select id="animeStatus">
-
-      <option value="Watching">
-        Watching
-      </option>
-
-      <option value="Completed">
-        Completed
-      </option>
-
-      <option value="Plan to Watch">
-        Plan to Watch
-      </option>
-
-      <option value="On Hold">
-        On Hold
-      </option>
-
-      <option value="Dropped">
-        Dropped
-      </option>
-
-    </select>
+</div>
 
 
-    <input
-      id="animeEpisodes"
-      type="number"
-      min="0"
-      placeholder="Episodes">
+<input
+type="hidden"
+id="animeType"
+value="Episode">
 
 
-    <input
-      id="animeRating"
-      type="number"
-      min="0"
-      max="10"
-      step="0.1"
-      placeholder="Rating / 10">
+<select id="animeStatus">
+
+<option value="Watching">
+Watching
+</option>
+
+<option value="Completed">
+Completed
+</option>
+
+<option value="Plan to Watch">
+Plan to Watch
+</option>
+
+<option value="On Hold">
+On Hold
+</option>
+
+<option value="Dropped">
+Dropped
+</option>
+
+</select>
 
 
-    <input
-      id="animePoster"
-      autocomplete="off"
-      placeholder="Poster image URL">
+<input
+id="animeEpisodes"
+type="number"
+placeholder="Episodes">
 
 
-    <textarea
-      id="animeNotes"
-      placeholder="Notes about this anime..."></textarea>
+<input
+id="animeRating"
+type="number"
+min="0"
+max="10"
+step="0.1"
+placeholder="Rating / 10">
 
 
-    <div class="modal-actions">
-
-      <button
-        class="primary"
-        onclick="saveAnime()">
-
-        Save
-
-      </button>
+<input
+id="animePoster"
+autocomplete="off"
+placeholder="Poster image URL">
 
 
-      <button
-        class="secondary"
-        onclick="closeAnimeModal()">
+<textarea
+id="animeNotes"
+placeholder="Notes about this anime..."></textarea>
 
-        Cancel
 
-      </button>
+<div class="modal-actions">
 
-    </div>
+<button
+class="primary"
+onclick="saveAnime()">
 
-  </div>
+Save
+
+</button>
+
+
+<button
+class="secondary"
+onclick="closeAnimeModal()">
+
+Cancel
+
+</button>
+
+</div>
+
+</div>
 
 </div>
 
 
 
 <!-- =========================
-     FEATURED EDITOR
+     FEATURED EDIT
 ========================= -->
 
 <div
-  class="modal"
-  id="featuredModal">
+class="modal"
+id="featuredModal">
 
-  <div class="modal-box">
+<div class="modal-box">
 
-    <h2>
-      Edit Moving Animation
-    </h2>
+<h2>
+Edit Moving Animation
+</h2>
 
+<p
+style="font-size:12px;color:#74829a;margin-bottom:15px;line-height:1.5;">
 
-    <p
-      style="
-      font-size:12px;
-      color:#74829a;
-      margin-bottom:15px;
-      line-height:1.5;
-      ">
+Choose up to 6 anime. You can also add a different note to each featured anime.
 
-      Select up to 6 anime.
-      Selected anime will appear in
-      the large moving banner.
-
-    </p>
+</p>
 
 
-    <div
-      class="featured-list"
-      id="featuredList">
-    </div>
+<div
+class="featured-list"
+id="featuredList">
+
+</div>
 
 
-    <div class="modal-actions">
+<div class="modal-actions">
 
-      <button
-        class="primary"
-        onclick="saveFeatured()">
+<button
+class="primary"
+onclick="saveFeatured()">
 
-        Save
+Save
 
-      </button>
+</button>
 
+<button
+class="secondary"
+onclick="closeFeaturedEditor()">
 
-      <button
-        class="secondary"
-        onclick="closeFeaturedEditor()">
+Cancel
 
-        Cancel
+</button>
 
-      </button>
+</div>
 
-    </div>
-
-  </div>
+</div>
 
 </div>
 
@@ -1670,105 +1464,115 @@ textarea{
 ========================= -->
 
 <div
-  class="modal"
-  id="detailsModal">
+class="modal"
+id="detailsModal">
 
-  <div class="modal-box details-box">
+<div class="modal-box details-box">
 
-    <div
-      class="details-layout"
-      id="detailsLayout">
-
-
-      <div
-        class="details-poster"
-        id="detailsPoster">
-
-        No Poster
-
-      </div>
+<div
+class="details-layout"
+id="detailsLayout">
 
 
-      <div class="details-content">
+<div
+class="details-poster"
+id="detailsPoster">
 
-        <h2
-          id="detailsTitle">
-          Anime
-        </h2>
+No Poster
 
-
-        <div
-          class="detail-line"
-          id="detailsType">
-          Type:
-        </div>
+</div>
 
 
-        <div
-          class="detail-line"
-          id="detailsStatus">
-          Status:
-        </div>
+<div class="details-content">
+
+<h2
+id="detailsTitle">
+
+Anime
+
+</h2>
 
 
-        <div
-          class="detail-line"
-          id="detailsEpisodes">
-          Episodes:
-        </div>
+<div
+class="detail-line"
+id="detailsType">
+
+Type:
+
+</div>
 
 
-        <div
-          class="detail-line"
-          id="detailsRating">
-          Rating:
-        </div>
+<div
+class="detail-line"
+id="detailsStatus">
+
+Status:
+
+</div>
 
 
-        <div
-          class="notes"
-          id="detailsNotes">
+<div
+class="detail-line"
+id="detailsEpisodes">
 
-          No notes.
+Episodes:
 
-        </div>
-
-      </div>
-
-    </div>
+</div>
 
 
-    <div class="details-actions">
+<div
+class="detail-line"
+id="detailsRating">
 
-      <button
-        class="primary"
-        onclick="editCurrentAnime()">
+Rating:
 
-        Edit
-
-      </button>
+</div>
 
 
-      <button
-        class="secondary"
-        onclick="deleteCurrentAnime()">
+<div
+class="notes"
+id="detailsNotes">
 
-        Delete
+No notes.
 
-      </button>
+</div>
+
+</div>
+
+</div>
 
 
-      <button
-        class="secondary"
-        onclick="closeDetails()">
+<div class="details-actions">
 
-        Close
+<button
+class="primary"
+onclick="editCurrentAnime()">
 
-      </button>
+Edit
 
-    </div>
+</button>
 
-  </div>
+
+<button
+class="secondary"
+onclick="deleteCurrentAnime()">
+
+Delete
+
+</button>
+
+
+<button
+class="secondary"
+onclick="closeDetails()">
+
+Close
+
+</button>
+
+</div>
+
+</div>
 
 </div>
 
@@ -1799,33 +1603,6 @@ let animeList = [];
 let editingId = null;
 
 let currentAnime = null;
-
-
-/* =========================
-   SEARCH
-========================= */
-
-function toggleSearch(){
-
-  const area =
-  document.getElementById("searchArea");
-
-  area.classList.toggle("open");
-
-
-  if(area.classList.contains("open")){
-
-    setTimeout(()=>{
-
-      document
-      .getElementById("search")
-      .focus();
-
-    },150);
-
-  }
-
-}
 
 
 /* =========================
@@ -1860,6 +1637,7 @@ async function logout(){
 }
 
 
+
 /* =========================
    CHECK USER
 ========================= */
@@ -1890,6 +1668,7 @@ async function checkUser(){
 }
 
 
+
 /* =========================
    UI
 ========================= */
@@ -1904,6 +1683,7 @@ function updateUI(session){
   : "Not logged in";
 
 }
+
 
 
 /* =========================
@@ -1960,6 +1740,7 @@ async function loadAnime(){
 }
 
 
+
 /* =========================
    TYPE
 ========================= */
@@ -1983,6 +1764,7 @@ function selectType(type){
   });
 
 }
+
 
 
 /* =========================
@@ -2053,8 +1835,9 @@ function openAnimeModal(anime=null){
 }
 
 
+
 /* =========================
-   CLOSE
+   CLOSE ANIME
 ========================= */
 
 function closeAnimeModal(){
@@ -2066,6 +1849,7 @@ function closeAnimeModal(){
   editingId = null;
 
 }
+
 
 
 /* =========================
@@ -2159,8 +1943,6 @@ async function saveAnime(){
   let result;
 
 
-  /* EDIT */
-
   if(editingId !== null){
 
     result =
@@ -2173,8 +1955,6 @@ async function saveAnime(){
   }
 
 
-  /* NEW */
-
   else{
 
     result =
@@ -2183,7 +1963,8 @@ async function saveAnime(){
     .insert({
       ...animeData,
       user_id:user.id,
-      featured:false
+      featured:false,
+      featured_note:null
     });
 
   }
@@ -2203,6 +1984,7 @@ async function saveAnime(){
   await loadAnime();
 
 }
+
 
 
 /* =========================
@@ -2235,7 +2017,7 @@ function renderAnime(){
 
     grid.innerHTML = `
       <div class="empty">
-        No anime found.
+        No anime in your collection yet.
       </div>
     `;
 
@@ -2250,13 +2032,14 @@ function renderAnime(){
   filtered
   .map((anime,index)=>{
 
+
     const poster =
     anime.poster
     ? `
       <img
-        src="${escapeHtml(anime.poster)}"
-        alt="${escapeHtml(anime.title)}"
-        onerror="this.style.display='none'">
+      src="${escapeHtml(anime.poster)}"
+      alt="${escapeHtml(anime.title)}"
+      onerror="this.style.display='none'">
     `
     : "No Poster";
 
@@ -2265,7 +2048,8 @@ function renderAnime(){
     anime.poster
     ? `
       style="
-      background-image:url('${escapeHtml(anime.poster)}')
+      background-image:
+      url('${escapeHtml(anime.poster)}')
       "
     `
     : "";
@@ -2274,18 +2058,22 @@ function renderAnime(){
     return `
 
       <div
-        class="card"
-        style="animation-delay:${index*.04}s"
-        onclick="openDetails(${anime.id})">
+      class="card"
+      style="animation-delay:${index*.04}s"
+      onclick="openDetails(${anime.id})">
+
 
         <div
-          class="card-bg"
-          ${background}>
+        class="card-bg"
+        ${background}>
         </div>
+
 
         <div class="card-overlay"></div>
 
+
         <div class="card-content">
+
 
           <div class="card-poster">
 
@@ -2293,13 +2081,16 @@ function renderAnime(){
 
           </div>
 
+
           <div class="card-info">
+
 
             <div class="card-title">
 
               ${escapeHtml(anime.title)}
 
             </div>
+
 
             <div class="card-meta">
 
@@ -2309,6 +2100,7 @@ function renderAnime(){
 
               </span>
 
+
               <span class="media-type">
 
                 ${escapeHtml(
@@ -2316,6 +2108,7 @@ function renderAnime(){
                 )}
 
               </span>
+
 
               <span>
 
@@ -2325,11 +2118,13 @@ function renderAnime(){
 
             </div>
 
+
             <div class="status">
 
               ${escapeHtml(anime.status || "")}
 
             </div>
+
 
           </div>
 
@@ -2346,6 +2141,7 @@ function renderAnime(){
   updateStats();
 
 }
+
 
 
 /* =========================
@@ -2386,6 +2182,7 @@ function updateStats(){
 }
 
 
+
 /* =========================
    FEATURED RENDER
 ========================= */
@@ -2393,7 +2190,8 @@ function updateStats(){
 function renderFeatured(){
 
   const track =
-  document.getElementById("featuredTrack");
+  document
+  .getElementById("featuredTrack");
 
 
   const featured =
@@ -2404,17 +2202,11 @@ function renderFeatured(){
 
   if(!featured.length){
 
-    track.style.animation = "none";
-
     track.innerHTML = `
-
       <div class="featured-empty">
-
-        Choose your favourite anime
-        using the Edit button.
-
+        Choose your favourite anime using
+        the Edit button.
       </div>
-
     `;
 
     return;
@@ -2423,9 +2215,8 @@ function renderFeatured(){
 
 
   /*
-    Duplicate the selected anime.
-    First half + second half =
-    seamless infinite animation.
+    Duplicate cards for seamless
+    continuous horizontal movement.
   */
 
   const cards =
@@ -2439,80 +2230,82 @@ function renderFeatured(){
     anime.poster || "";
 
 
-    const background =
-    poster
-    ? `background-image:url('${escapeHtml(poster)}')`
-    : "";
+    const safePoster =
+    escapeHtml(poster);
 
 
     return `
 
       <div class="featured-card">
 
-        <div
-          class="featured-bg"
-          style="${background}">
-        </div>
+        ${
+          poster
+          ? `
+            <img
+            class="featured-image-blur"
+            src="${safePoster}"
+            alt="">
+          `
+          : ""
+        }
 
 
-        <div class="featured-overlay">
-        </div>
+        ${
+          poster
+          ? `
+            <img
+            class="featured-image-main"
+            src="${safePoster}"
+            alt="${escapeHtml(anime.title)}"
+            onerror="this.style.display='none'">
+          `
+          : ""
+        }
 
 
-        <div class="featured-content">
+        <div class="featured-card-overlay"></div>
 
 
-          <div class="featured-poster">
+        <div class="featured-card-content">
 
-            ${
-              poster
-              ? `
-                <img
-                  src="${escapeHtml(poster)}"
-                  alt="${escapeHtml(anime.title)}"
-                  onerror="this.style.display='none'">
-              `
-              : ""
-            }
+          <div class="featured-title">
+
+            ${escapeHtml(anime.title)}
 
           </div>
 
 
-          <div class="featured-info">
+          <div class="featured-badges">
 
-            <div class="featured-title">
-
-              ${escapeHtml(anime.title)}
-
-            </div>
-
-
-            <div class="featured-type">
+            <span class="featured-type">
 
               ${escapeHtml(
                 anime.media_type || "Episode"
               )}
 
-            </div>
+            </span>
 
 
-            <div class="featured-status">
+            <span class="featured-status">
 
               ${escapeHtml(
                 anime.status || ""
               )}
 
-            </div>
-
-
-            <div class="featured-rating">
-
-              ★ ${anime.rating ?? "-"}
-
-            </div>
+            </span>
 
           </div>
 
+
+          ${
+            anime.featured_note
+            ? `
+              <div class="featured-note">
+                ${escapeHtml(anime.featured_note)}
+              </div>
+            `
+            : ""
+          }
 
         </div>
 
@@ -2523,19 +2316,8 @@ function renderFeatured(){
   })
   .join("");
 
-
-  /*
-    Restart animation after changing cards.
-  */
-
-  track.style.animation = "none";
-
-  void track.offsetWidth;
-
-  track.style.animation =
-    "featuredMove 42s linear infinite";
-
 }
+
 
 
 /* =========================
@@ -2556,7 +2338,8 @@ function openFeaturedEditor(){
 
 
   const list =
-  document.getElementById("featuredList");
+  document
+  .getElementById("featuredList");
 
 
   list.innerHTML =
@@ -2574,22 +2357,25 @@ function openFeaturedEditor(){
 
     return `
 
-      <label class="featured-select">
+      <div class="featured-select">
+
 
         ${
           poster
           ? `
             <img
-              src="${escapeHtml(poster)}"
-              alt="">
+            src="${escapeHtml(poster)}"
+            alt="">
           `
           : `
             <div
-              style="
-              width:43px;
-              height:58px;
-              border-radius:6px;
-              background:#101c30;">
+            style="
+            width:43px;
+            height:52px;
+            border-radius:6px;
+            background:#101c30;
+            flex-shrink:0;
+            ">
             </div>
           `
         }
@@ -2612,16 +2398,27 @@ function openFeaturedEditor(){
 
           </div>
 
+
+          <input
+          class="featured-note-input"
+          type="text"
+          maxlength="120"
+          data-note-id="${anime.id}"
+          value="${escapeHtml(
+            anime.featured_note || ""
+          )}"
+          placeholder="Add a note for this anime...">
+
         </div>
 
 
         <input
-          class="featured-checkbox"
-          type="checkbox"
-          data-id="${anime.id}"
-          ${checked}>
+        class="featured-checkbox"
+        type="checkbox"
+        data-id="${anime.id}"
+        ${checked}>
 
-      </label>
+      </div>
 
     `;
 
@@ -2629,11 +2426,47 @@ function openFeaturedEditor(){
   .join("");
 
 
+  /*
+    Checkbox click eka note input ekata
+    interfere wenne nathi wenna.
+  */
+
+  document
+  .getElementById("featuredList")
+  .querySelectorAll(".featured-checkbox")
+  .forEach(cb=>{
+
+    cb.addEventListener("change",()=>{
+
+      const selected =
+      document
+      .querySelectorAll(
+        ".featured-checkbox:checked"
+      )
+      .length;
+
+
+      if(selected > 6){
+
+        cb.checked = false;
+
+        alert(
+          "You can choose maximum 6 anime."
+        );
+
+      }
+
+    });
+
+  });
+
+
   document
   .getElementById("featuredModal")
   .classList.add("show");
 
 }
+
 
 
 /* =========================
@@ -2659,7 +2492,8 @@ async function saveFeatured(){
 
   const checkboxes =
   [
-    ...document.querySelectorAll(
+    ...document
+    .querySelectorAll(
       ".featured-checkbox"
     )
   ];
@@ -2683,15 +2517,42 @@ async function saveFeatured(){
 
 
   /*
-    FIRST:
-    Make every anime false.
+    Read notes before resetting
+    featured status.
+  */
+
+  const noteInputs =
+  [
+    ...document
+    .querySelectorAll(
+      ".featured-note-input"
+    )
+  ];
+
+
+  const notes = {};
+
+
+  noteInputs.forEach(input=>{
+
+    notes[
+      Number(input.dataset.noteId)
+    ] =
+    input.value.trim();
+
+  });
+
+
+  /*
+    Reset all featured.
   */
 
   const resetResult =
   await supabaseClient
   .from("anime")
   .update({
-    featured:false
+    featured:false,
+    featured_note:null
   })
   .eq("user_id",user.id);
 
@@ -2706,20 +2567,25 @@ async function saveFeatured(){
 
 
   /*
-    SECOND:
-    Selected anime become true.
+    Activate selected anime and
+    save individual notes.
   */
 
-  if(selected.length > 0){
+  for(const id of selected){
 
     const result =
     await supabaseClient
     .from("anime")
     .update({
-      featured:true
+
+      featured:true,
+
+      featured_note:
+      notes[id] || null
+
     })
-    .eq("user_id",user.id)
-    .in("id",selected);
+    .eq("id",id)
+    .eq("user_id",user.id);
 
 
     if(result.error){
@@ -2740,6 +2606,7 @@ async function saveFeatured(){
 }
 
 
+
 /* =========================
    CLOSE FEATURED
 ========================= */
@@ -2751,6 +2618,7 @@ function closeFeaturedEditor(){
   .classList.remove("show");
 
 }
+
 
 
 /* =========================
@@ -2810,9 +2678,8 @@ function openDetails(id){
 
 
   const poster =
-  document.getElementById(
-    "detailsPoster"
-  );
+  document
+  .getElementById("detailsPoster");
 
 
   if(currentAnime.poster){
@@ -2820,9 +2687,9 @@ function openDetails(id){
     poster.innerHTML = `
 
       <img
-        src="${escapeHtml(currentAnime.poster)}"
-        alt=""
-        onerror="this.style.display='none'">
+      src="${escapeHtml(currentAnime.poster)}"
+      alt=""
+      onerror="this.style.display='none'">
 
     `;
 
@@ -2835,9 +2702,8 @@ function openDetails(id){
 
 
   const detailsLayout =
-  document.getElementById(
-    "detailsLayout"
-  );
+  document
+  .getElementById("detailsLayout");
 
 
   if(currentAnime.poster){
@@ -2848,9 +2714,7 @@ function openDetails(id){
         rgba(6,11,22,.82),
         rgba(6,11,22,.92)
       ),
-      url("${escapeHtml(
-        currentAnime.poster
-      )}")
+      url("${escapeHtml(currentAnime.poster)}")
     `;
 
     detailsLayout.style.backgroundSize =
@@ -2874,6 +2738,7 @@ function openDetails(id){
 }
 
 
+
 /* =========================
    CLOSE DETAILS
 ========================= */
@@ -2889,8 +2754,9 @@ function closeDetails(){
 }
 
 
+
 /* =========================
-   EDIT CURRENT
+   EDIT CURRENT ANIME
 ========================= */
 
 function editCurrentAnime(){
@@ -2907,6 +2773,7 @@ function editCurrentAnime(){
   openAnimeModal(anime);
 
 }
+
 
 
 /* =========================
@@ -2964,6 +2831,7 @@ async function deleteCurrentAnime(){
 }
 
 
+
 /* =========================
    SECURITY
 ========================= */
@@ -2979,6 +2847,7 @@ function escapeHtml(value){
   .replaceAll("'","&#039;");
 
 }
+
 
 
 /* =========================
