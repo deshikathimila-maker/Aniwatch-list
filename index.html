@@ -2902,6 +2902,10 @@ input[placeholder="Search anime..."]:not(#search){
   box-shadow:0 30px 90px rgba(0,0,0,.52), inset 0 1px 0 rgba(255,255,255,.06);
 }
 
+.auth-modal#passwordResetModal .auth-box{
+  border-color:rgba(168,139,255,.28);
+}
+
 .auth-close{
   position:absolute;
   right:12px;
@@ -2956,6 +2960,23 @@ input[placeholder="Search anime..."]:not(#search){
   color:#a88bff;
   font-size:11px;
   cursor:pointer;
+  display:none !important;
+}
+
+
+.auth-forgot{
+  width:100%;
+  margin-top:6px;
+  border:0;
+  background:transparent;
+  color:#8fa5c8;
+  font-size:10px;
+  cursor:pointer;
+}
+
+.auth-forgot:hover{
+  color:#b8a4ff;
+  text-decoration:underline;
 }
 
 .auth-message{
@@ -3147,15 +3168,6 @@ Login
 </button>
 
 <button
-class="profile-login-btn"
-id="profileSignupBtn"
-onclick="openAuthModal('signup')">
-
-Sign Up
-
-</button>
-
-<button
 class="logout"
 id="profileLogoutBtn"
 onclick="logout()">
@@ -3178,6 +3190,54 @@ Logout
 <!-- =========================
      LOGIN / SIGN UP MODAL
 ========================= -->
+
+<div
+class="modal auth-modal"
+id="passwordResetModal">
+
+  <div class="auth-box">
+
+    <button
+    type="button"
+    class="auth-close"
+    onclick="closePasswordResetModal()"
+    aria-label="Close">
+      ×
+    </button>
+
+    <div class="auth-title">Reset Password</div>
+
+    <div class="auth-subtitle">Enter a new password for your AniWatch List account</div>
+
+    <input
+    class="auth-input"
+    id="newPassword"
+    type="password"
+    autocomplete="new-password"
+    placeholder="New password">
+
+    <input
+    class="auth-input"
+    id="confirmNewPassword"
+    type="password"
+    autocomplete="new-password"
+    placeholder="Confirm new password">
+
+    <button
+    type="button"
+    class="primary auth-submit"
+    onclick="saveNewPassword()">
+      Update Password
+    </button>
+
+    <div
+    class="auth-message"
+    id="passwordResetMessage"></div>
+
+  </div>
+
+</div>
+
 
 <div
 class="modal auth-modal"
@@ -3233,6 +3293,14 @@ id="authModal">
     id="authSwitchBtn"
     onclick="switchAuthMode()">
       Don't have an account? Sign Up
+    </button>
+
+    <button
+    type="button"
+    class="auth-forgot"
+    id="authForgotBtn"
+    onclick="forgotPassword()">
+      Forgot password?
     </button>
 
     <div
@@ -4088,6 +4156,86 @@ function updateAuthModal(){
     : "Already have an account? Login";
 
 }
+
+
+async function forgotPassword(){
+
+  const email =
+    document
+    .getElementById("authEmail")
+    .value
+    .trim();
+
+  const message =
+    document
+    .getElementById("authMessage");
+
+  if(!email){
+    message.textContent = "Enter your email first.";
+    document.getElementById("authEmail").focus();
+    return;
+  }
+
+  message.textContent = "Sending password reset link...";
+
+  const { error } =
+    await supabaseClient.auth.resetPasswordForEmail(
+      email,
+      { redirectTo: window.location.href }
+    );
+
+  if(error){
+    message.textContent = error.message;
+    return;
+  }
+
+  message.textContent = "Password reset link sent. Check your email.";
+}
+
+function closePasswordResetModal(){
+  document.getElementById("passwordResetModal").classList.remove("show");
+}
+
+function openPasswordResetModal(){
+  document.getElementById("newPassword").value = "";
+  document.getElementById("confirmNewPassword").value = "";
+  document.getElementById("passwordResetMessage").textContent = "";
+  document.getElementById("passwordResetModal").classList.add("show");
+}
+
+async function saveNewPassword(){
+  const password = document.getElementById("newPassword").value;
+  const confirmPassword = document.getElementById("confirmNewPassword").value;
+  const message = document.getElementById("passwordResetMessage");
+
+  if(!password || !confirmPassword){
+    message.textContent = "Enter and confirm your new password.";
+    return;
+  }
+  if(password.length < 6){
+    message.textContent = "Password must be at least 6 characters.";
+    return;
+  }
+  if(password !== confirmPassword){
+    message.textContent = "Passwords do not match.";
+    return;
+  }
+
+  message.textContent = "Updating password...";
+  const { error } = await supabaseClient.auth.updateUser({ password });
+
+  if(error){
+    message.textContent = error.message;
+    return;
+  }
+
+  message.textContent = "Password updated successfully.";
+  setTimeout(()=>{
+    closePasswordResetModal();
+    openAuthModal("login");
+  }, 900);
+}
+
 
 async function submitAuth(){
 
@@ -5764,6 +5912,10 @@ supabaseClient
 
     updateUI(session);
 
+    if(event === "PASSWORD_RECOVERY"){
+      openPasswordResetModal();
+      return;
+    }
 
     if(session){
 
