@@ -58,9 +58,110 @@ button{
 }
 
 .brand{
+  position:relative;
+  display:inline-block;
   font-size:25px;
   font-weight:800;
   letter-spacing:.4px;
+  padding-bottom:8px;
+}
+
+.brand::after{
+  content:"";
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:0;
+  height:2px;
+  border-radius:999px;
+  background:linear-gradient(
+    90deg,
+    transparent,
+    #b77cff,
+    #ffffff,
+    #b77cff,
+    transparent
+  );
+  opacity:.15;
+  animation:brandLightning 2.8s ease-in-out infinite;
+}
+
+/* Katana slash */
+.brand::before{
+  content:"";
+  position:absolute;
+  left:-10%;
+  right:-10%;
+  bottom:-3px;
+  height:2px;
+  border-radius:999px;
+  background:linear-gradient(
+    90deg,
+    transparent 0%,
+    transparent 28%,
+    rgba(255,255,255,.95) 45%,
+    #b77cff 52%,
+    rgba(255,255,255,.85) 57%,
+    transparent 75%,
+    transparent 100%
+  );
+  transform:skewX(-28deg) translateX(-120px) scaleX(.15);
+  opacity:0;
+  filter:blur(.2px);
+  animation:katanaSlash 3.4s ease-in-out infinite;
+}
+
+@keyframes brandLightning{
+
+  0%,72%,100%{
+    opacity:.12;
+    transform:scaleX(.65);
+    filter:blur(1px);
+  }
+
+  75%{
+    opacity:1;
+    transform:scaleX(1);
+    filter:blur(0);
+  }
+
+  78%{
+    opacity:.25;
+    transform:scaleX(.8);
+  }
+
+  81%{
+    opacity:.9;
+    transform:scaleX(1);
+  }
+
+}
+
+@keyframes katanaSlash{
+
+  0%,64%,100%{
+    opacity:0;
+    transform:skewX(-28deg) translateX(-120px) scaleX(.15);
+  }
+
+  67%{
+    opacity:.25;
+  }
+
+  70%{
+    opacity:1;
+    transform:skewX(-28deg) translateX(0) scaleX(1);
+  }
+
+  73%{
+    opacity:.7;
+  }
+
+  77%{
+    opacity:0;
+    transform:skewX(-28deg) translateX(120px) scaleX(.15);
+  }
+
 }
 
 .brand-ani{
@@ -130,51 +231,82 @@ button{
 .container{
   max-width:1150px;
   margin:auto;
-  padding:25px 20px 60px;
-}
-
-.hero{
-  padding:20px 0 10px;
-}
-
-.hero h1{
-  font-size:34px;
-  margin-bottom:6px;
-}
-
-.hero p{
-  color:#8491a8;
-  font-size:14px;
+  padding:20px 20px 60px;
 }
 
 
 /* =========================
-   STATS
+   SEARCH / ADD
 ========================= */
 
-.stats{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
+.toolbar{
+  display:flex;
+  flex-direction:column;
+  align-items:stretch;
   gap:10px;
-  margin-top:18px;
+  margin:0 0 20px;
 }
 
-.stat{
-  background:rgba(12,22,40,.78);
-  border:1px solid #172a49;
+.toolbar-right{
+  display:flex;
+  gap:9px;
+  width:100%;
+}
+
+.search{
+  flex:1;
+  width:auto;
+  background:rgba(12,22,40,.72);
+  color:#fff;
+  border:1px solid #29456e;
   border-radius:11px;
-  padding:10px 12px;
+  padding:12px 14px;
+  outline:none;
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
 }
 
-.stat-number{
-  font-size:19px;
+.search:focus{
+  border-color:#4d83cf;
+  box-shadow:0 0 0 3px rgba(77,131,207,.10);
+}
+
+.toolbar .primary{
+  padding:8px 12px;
+  font-size:11px;
+  border-radius:9px;
+  background:rgba(27,95,183,.40);
+  border:1px solid rgba(75,130,209,.50);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+  box-shadow:0 6px 20px rgba(0,0,0,.18);
+  white-space:nowrap;
+}
+
+.toolbar .primary:hover{
+  background:rgba(39,112,208,.58);
+  transform:translateY(-1px);
+}
+
+.primary{
+  border:1px solid #4b82d1;
+  background:#1b5fb7;
+  color:#fff;
+  border-radius:10px;
+  padding:11px 16px;
   font-weight:bold;
 }
 
-.stat-label{
-  color:#71809a;
-  font-size:11px;
-  margin-top:3px;
+.primary:hover{
+  background:#2670d0;
+}
+
+.secondary{
+  border:1px solid #263b61;
+  background:#101d31;
+  color:#fff;
+  border-radius:10px;
+  padding:10px 14px;
 }
 
 
@@ -183,7 +315,7 @@ button{
 ========================= */
 
 .featured-section{
-  margin-top:24px;
+  margin-top:8px;
 }
 
 .featured-heading{
@@ -205,13 +337,13 @@ button{
 
 .edit-featured{
   border:1px solid rgba(150,175,220,.28);
-  background:rgba(24,38,63,.45);
-  backdrop-filter:blur(14px);
-  -webkit-backdrop-filter:blur(14px);
+  background:rgba(24,38,63,.35);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
   color:#dce8ff;
-  padding:7px 11px;
-  border-radius:9px;
-  font-size:11px;
+  padding:6px 10px;
+  border-radius:8px;
+  font-size:10px;
   transition:.25s ease;
 }
 
@@ -232,7 +364,7 @@ button{
       transparent 35%
     ),
     #07101e;
-  min-height:280px;
+  min-height:330px;
   box-shadow:
     0 18px 55px rgba(0,0,0,.28),
     inset 0 0 35px rgba(71,104,160,.05);
@@ -258,9 +390,9 @@ button{
   display:flex;
   align-items:center;
   width:max-content;
-  min-height:280px;
-  padding:25px 10px;
-  animation:featuredSlide 34s linear infinite;
+  min-height:330px;
+  padding:22px 10px;
+  animation:featuredSlide 42s linear infinite;
   will-change:transform;
 }
 
@@ -270,38 +402,30 @@ button{
 
 
 /*
-  LARGE IMAGE CARD
+  LARGE HORIZONTAL MOVING CARD
 */
 
 .featured-card{
   position:relative;
-  width:430px;
-  height:235px;
-  margin:0 8px;
+  width:560px;
+  height:285px;
+  margin:0 10px;
   flex-shrink:0;
   overflow:hidden;
-  border-radius:18px;
-  border:1px solid rgba(255,255,255,.13);
+  border-radius:20px;
+  border:1px solid rgba(255,255,255,.10);
   background:#101a2c;
   box-shadow:
-    0 18px 45px rgba(0,0,0,.38);
+    0 20px 50px rgba(0,0,0,.42);
   transition:
     transform .35s ease,
     box-shadow .35s ease;
 }
 
 .featured-card:hover{
-  transform:scale(1.035);
+  transform:scale(1.025);
   box-shadow:
-    0 24px 55px rgba(0,0,0,.48);
-}
-
-.featured-image{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  object-fit:cover;
+    0 25px 60px rgba(0,0,0,.50);
 }
 
 .featured-image-blur{
@@ -321,7 +445,13 @@ button{
   width:100%;
   height:100%;
   object-fit:cover;
+  object-position:center;
   z-index:1;
+  transition:transform .5s ease;
+}
+
+.featured-card:hover .featured-image-main{
+  transform:scale(1.035);
 }
 
 .featured-card-overlay{
@@ -330,15 +460,9 @@ button{
   inset:0;
   background:
     linear-gradient(
-      90deg,
-      rgba(3,8,18,.92),
-      rgba(3,8,18,.20) 55%,
-      rgba(3,8,18,.75)
-    ),
-    linear-gradient(
       0deg,
-      rgba(3,8,18,.88),
-      transparent 55%
+      rgba(3,8,18,.92),
+      rgba(3,8,18,.08) 65%
     );
 }
 
@@ -353,7 +477,7 @@ button{
 }
 
 .featured-title{
-  max-width:75%;
+  max-width:80%;
   font-size:21px;
   font-weight:800;
   white-space:nowrap;
@@ -399,7 +523,7 @@ button{
 
 .featured-empty{
   width:100%;
-  min-height:280px;
+  min-height:305px;
   display:flex;
   align-items:center;
   justify-content:center;
@@ -428,82 +552,203 @@ button{
 
 
 /* =========================
-   COLLECTION
+   STATS
 ========================= */
 
-.collection-title{
-  margin-top:27px;
-  margin-bottom:12px;
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:10px;
+  margin-top:22px;
 }
 
-.collection-title h2{
-  font-size:20px;
+.stat{
+  background:rgba(12,22,40,.68);
+  border:1px solid #172a49;
+  border-radius:11px;
+  padding:10px 12px;
+  cursor:pointer;
+  transition:.25s ease;
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
 }
 
-.collection-title p{
-  color:#687791;
-  font-size:12px;
-  margin-top:4px;
+.stat:hover{
+  transform:translateY(-2px);
+}
+
+.stat.active{
+  box-shadow:
+    0 0 0 1px currentColor,
+    0 8px 25px rgba(0,0,0,.25);
+}
+
+.stat:nth-child(1){
+  color:#62a8ff;
+  border-color:rgba(98,168,255,.35);
+}
+
+.stat:nth-child(2){
+  color:#55d98b;
+  border-color:rgba(85,217,139,.35);
+}
+
+.stat:nth-child(3){
+  color:#c08cff;
+  border-color:rgba(192,140,255,.35);
+}
+
+.stat:nth-child(4){
+  color:#f4c76b;
+  border-color:rgba(244,199,107,.35);
+}
+
+.stat-number{
+  font-size:19px;
+  font-weight:bold;
+}
+
+.stat-label{
+  color:inherit;
+  opacity:.72;
+  font-size:11px;
+  margin-top:3px;
 }
 
 
 /* =========================
-   TOOLBAR
+   STATUS LIST
 ========================= */
 
-.toolbar{
+.status-list{
+  display:none;
+  margin-top:12px;
+  margin-bottom:18px;
+  padding:10px;
+  background:rgba(8,16,30,.72);
+  border:1px solid rgba(61,91,138,.35);
+  border-radius:15px;
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+  max-height:390px;
+  overflow-y:auto;
+}
+
+.status-list.show{
+  display:block;
+}
+
+.status-list-item{
   display:flex;
-  justify-content:space-between;
   align-items:center;
   gap:12px;
-  margin:15px 0 17px;
-}
-
-.toolbar h2{
-  font-size:19px;
-}
-
-.toolbar-right{
-  display:flex;
-  gap:9px;
-  flex:1;
-  justify-content:flex-end;
-}
-
-.search{
-  width:330px;
-  background:#0c1628;
-  color:#fff;
-  border:1px solid #29456e;
+  padding:9px;
+  margin-bottom:7px;
   border-radius:11px;
-  padding:12px 14px;
-  outline:none;
+  background:rgba(17,29,49,.68);
+  border:1px solid rgba(65,91,135,.22);
+  cursor:pointer;
+  transition:.2s ease;
 }
 
-.search:focus{
-  border-color:#4d83cf;
-  box-shadow:0 0 0 3px rgba(77,131,207,.10);
+.status-list-item:last-child{
+  margin-bottom:0;
 }
 
-.primary{
-  border:1px solid #4b82d1;
-  background:#1b5fb7;
-  color:#fff;
-  border-radius:10px;
-  padding:11px 16px;
+.status-list-item:hover{
+  transform:translateX(3px);
+}
+
+.status-list-item.status-watching{
+  border-color:rgba(98,168,255,.35);
+}
+
+.status-list-item.status-watching:hover{
+  border-color:#62a8ff;
+}
+
+.status-list-item.status-completed{
+  border-color:rgba(85,217,139,.35);
+}
+
+.status-list-item.status-completed:hover{
+  border-color:#55d98b;
+}
+
+.status-list-item.status-plan{
+  border-color:rgba(192,140,255,.35);
+}
+
+.status-list-item.status-plan:hover{
+  border-color:#c08cff;
+}
+
+.status-list-item.status-hold{
+  border-color:rgba(244,199,107,.35);
+}
+
+.status-list-item.status-hold:hover{
+  border-color:#f4c76b;
+}
+
+.status-list-item.status-dropped{
+  border-color:rgba(255,105,125,.35);
+}
+
+.status-list-item.status-dropped:hover{
+  border-color:#ff697d;
+}
+
+.status-list-poster{
+  width:58px;
+  height:74px;
+  flex-shrink:0;
+  border-radius:8px;
+  overflow:hidden;
+  background:#101c30;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#66758d;
+  font-size:9px;
+}
+
+.status-list-poster img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.status-list-info{
+  min-width:0;
+  flex:1;
+}
+
+.status-list-title{
+  font-size:13px;
   font-weight:bold;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
 }
 
-.primary:hover{
-  background:#2670d0;
+.status-list-meta{
+  display:flex;
+  gap:10px;
+  margin-top:7px;
+  color:#8795ab;
+  font-size:10px;
 }
 
-.secondary{
-  border:1px solid #263b61;
-  background:#101d31;
-  color:#fff;
-  border-radius:10px;
-  padding:10px 14px;
+.status-list-rating{
+  color:#cbb9ff;
+}
+
+.status-list-empty{
+  text-align:center;
+  padding:25px;
+  color:#71809a;
+  font-size:12px;
 }
 
 
@@ -891,7 +1136,8 @@ textarea{
   }
 
   .featured-card{
-    width:390px;
+    width:440px;
+    height:245px;
   }
 
 }
@@ -906,11 +1152,6 @@ textarea{
     grid-template-columns:repeat(4,1fr);
   }
 
-  .toolbar{
-    flex-direction:column;
-    align-items:stretch;
-  }
-
   .toolbar-right{
     width:100%;
   }
@@ -920,16 +1161,16 @@ textarea{
   }
 
   .featured-window{
-    min-height:245px;
+    min-height:280px;
   }
 
   .featured-track{
-    min-height:245px;
+    min-height:280px;
   }
 
   .featured-card{
-    width:340px;
-    height:215px;
+    width:400px;
+    height:230px;
   }
 
 }
@@ -953,10 +1194,6 @@ textarea{
   .profile-btn{
     padding:8px 11px;
     font-size:12px;
-  }
-
-  .hero h1{
-    font-size:28px;
   }
 
   .stats{
@@ -993,19 +1230,19 @@ textarea{
   }
 
   .featured-window{
-    min-height:215px;
+    min-height:240px;
     border-radius:16px;
   }
 
   .featured-track{
-    min-height:215px;
-    padding:15px 5px;
+    min-height:240px;
+    padding:12px 5px;
   }
 
   .featured-card{
-    width:300px;
-    height:185px;
-    border-radius:15px;
+    width:360px;
+    height:215px;
+    border-radius:17px;
   }
 
   .featured-card-content{
@@ -1020,12 +1257,44 @@ textarea{
     font-size:10px;
   }
 
+  .toolbar-right{
+    gap:7px;
+  }
+
+  .search{
+    min-width:0;
+    padding:11px 12px;
+  }
+
+  .toolbar .primary{
+    padding:8px 10px;
+    font-size:10px;
+  }
+
   .details-layout{
     grid-template-columns:1fr;
   }
 
   .details-poster{
     height:330px;
+  }
+
+}
+
+
+/* =========================
+   REDUCED MOTION
+========================= */
+
+@media(prefers-reduced-motion:reduce){
+
+  .featured-track{
+    animation:none;
+  }
+
+  .brand::after,
+  .brand::before{
+    animation:none;
   }
 
 }
@@ -1090,67 +1359,33 @@ Logout
 <main class="container">
 
 
-<section class="hero">
+<!-- =========================
+     SEARCH / ADD
+========================= -->
 
-<h1>My Anime Collection</h1>
+<div class="toolbar">
 
-<p>
-Keep track of the anime you've watched.
-</p>
+<div class="toolbar-right">
 
-
-<div class="stats">
-
-<div class="stat">
-<div
-class="stat-number"
-id="watchingCount">
-0
-</div>
-<div class="stat-label">
-Watching
-</div>
-</div>
+<input
+class="search"
+id="search"
+autocomplete="off"
+placeholder="Search anime..."
+oninput="renderAnime()">
 
 
-<div class="stat">
-<div
-class="stat-number"
-id="completedCount">
-0
-</div>
-<div class="stat-label">
-Completed
-</div>
-</div>
+<button
+class="primary"
+onclick="openAnimeModal()">
 
++ Add Anime
 
-<div class="stat">
-<div
-class="stat-number"
-id="planCount">
-0
-</div>
-<div class="stat-label">
-Plan to Watch
-</div>
-</div>
-
-
-<div class="stat">
-<div
-class="stat-number"
-id="totalCount">
-0
-</div>
-<div class="stat-label">
-Total
-</div>
-</div>
+</button>
 
 </div>
 
-</section>
+</div>
 
 
 
@@ -1202,48 +1437,96 @@ Choose your favourite anime using Edit.
 
 
 <!-- =========================
-     COLLECTION
+     STATS
 ========================= -->
 
-<div class="collection-title">
+<div class="stats">
 
-<h2>My Anime Collection</h2>
 
-<p>
-Your personal anime cards
-</p>
+<div
+class="stat"
+onclick="showStatusList('Watching',this)">
 
+<div
+class="stat-number"
+id="watchingCount">
+0
 </div>
 
-
-<div class="toolbar">
-
-<h2>Anime</h2>
-
-
-<div class="toolbar-right">
-
-<input
-class="search"
-id="search"
-autocomplete="off"
-placeholder="Search anime..."
-oninput="renderAnime()">
-
-
-<button
-class="primary"
-onclick="openAnimeModal()">
-
-Add Anime
-
-</button>
-
+<div class="stat-label">
+Watching
 </div>
 
 </div>
 
 
+<div
+class="stat"
+onclick="showStatusList('Completed',this)">
+
+<div
+class="stat-number"
+id="completedCount">
+0
+</div>
+
+<div class="stat-label">
+Completed
+</div>
+
+</div>
+
+
+<div
+class="stat"
+onclick="showStatusList('Plan to Watch',this)">
+
+<div
+class="stat-number"
+id="planCount">
+0
+</div>
+
+<div class="stat-label">
+Plan to Watch
+</div>
+
+</div>
+
+
+<div
+class="stat"
+onclick="showStatusList('All',this)">
+
+<div
+class="stat-number"
+id="totalCount">
+0
+</div>
+
+<div class="stat-label">
+Total
+</div>
+
+</div>
+
+</div>
+
+
+
+<!-- =========================
+     STATUS LIST
+========================= -->
+
+<div
+id="statusList">
+</div>
+
+
+
+<!-- =========================
+     ANIME GRID
+========================= -->
 
 <div
 class="anime-grid"
@@ -1634,8 +1917,9 @@ async function logout(){
 
   renderFeatured();
 
-}
+  clearStatusList();
 
+}
 
 
 /* =========================
@@ -1668,7 +1952,6 @@ async function checkUser(){
 }
 
 
-
 /* =========================
    UI
 ========================= */
@@ -1683,7 +1966,6 @@ function updateUI(session){
   : "Not logged in";
 
 }
-
 
 
 /* =========================
@@ -1737,8 +2019,9 @@ async function loadAnime(){
 
   renderFeatured();
 
-}
+  updateStats();
 
+}
 
 
 /* =========================
@@ -1764,7 +2047,6 @@ function selectType(type){
   });
 
 }
-
 
 
 /* =========================
@@ -1835,7 +2117,6 @@ function openAnimeModal(anime=null){
 }
 
 
-
 /* =========================
    CLOSE ANIME
 ========================= */
@@ -1849,7 +2130,6 @@ function closeAnimeModal(){
   editingId = null;
 
 }
-
 
 
 /* =========================
@@ -1984,7 +2264,6 @@ async function saveAnime(){
   await loadAnime();
 
 }
-
 
 
 /* =========================
@@ -2143,7 +2422,6 @@ function renderAnime(){
 }
 
 
-
 /* =========================
    STATS
 ========================= */
@@ -2181,6 +2459,185 @@ function updateStats(){
 
 }
 
+
+/* =========================
+   STATUS LIST
+========================= */
+
+function showStatusList(status,clickedElement){
+
+  document
+  .querySelectorAll(".stat")
+  .forEach(stat=>{
+    stat.classList.remove("active");
+  });
+
+
+  clickedElement.classList.add("active");
+
+
+  const oldList =
+  document.getElementById("statusList");
+
+
+  oldList.innerHTML = "";
+
+
+  let filtered;
+
+
+  if(status === "All"){
+
+    filtered = [...animeList];
+
+  }else{
+
+    filtered =
+    animeList.filter(
+      anime => anime.status === status
+    );
+
+  }
+
+
+  const list =
+  document.createElement("div");
+
+
+  list.className =
+  "status-list show";
+
+
+  if(!filtered.length){
+
+    list.innerHTML = `
+      <div class="status-list-empty">
+        No anime in this list yet.
+      </div>
+    `;
+
+  }else{
+
+    list.innerHTML =
+    filtered
+    .map(anime=>{
+
+      const poster =
+      anime.poster
+      ? `
+        <img
+        src="${escapeHtml(anime.poster)}"
+        alt="${escapeHtml(anime.title)}"
+        onerror="this.style.display='none'">
+      `
+      : "";
+
+
+      let statusClass = "";
+
+      if(anime.status === "Watching"){
+        statusClass = "status-watching";
+      }
+      else if(anime.status === "Completed"){
+        statusClass = "status-completed";
+      }
+      else if(anime.status === "Plan to Watch"){
+        statusClass = "status-plan";
+      }
+      else if(anime.status === "On Hold"){
+        statusClass = "status-hold";
+      }
+      else if(anime.status === "Dropped"){
+        statusClass = "status-dropped";
+      }
+
+
+      return `
+
+        <div
+        class="status-list-item ${statusClass}"
+        onclick="openDetails(${anime.id})">
+
+
+          <div class="status-list-poster">
+
+            ${
+              poster
+              || "No Poster"
+            }
+
+          </div>
+
+
+          <div class="status-list-info">
+
+            <div class="status-list-title">
+
+              ${escapeHtml(anime.title)}
+
+            </div>
+
+
+            <div class="status-list-meta">
+
+              <span>
+
+                ${anime.episodes ?? "-"} episodes
+
+              </span>
+
+
+              <span class="status-list-rating">
+
+                ★ ${anime.rating ?? "-"}
+
+              </span>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      `;
+
+    })
+    .join("");
+
+  }
+
+
+  oldList.appendChild(list);
+
+
+  oldList.scrollIntoView({
+    behavior:"smooth",
+    block:"nearest"
+  });
+
+}
+
+
+function clearStatusList(){
+
+  const list =
+  document.getElementById("statusList");
+
+
+  if(list){
+
+    list.innerHTML = "";
+
+  }
+
+
+  document
+  .querySelectorAll(".stat")
+  .forEach(stat=>{
+    stat.classList.remove("active");
+  });
+
+}
 
 
 /* =========================
@@ -2224,7 +2681,7 @@ function renderFeatured(){
 
 
   track.innerHTML =
-  cards.map(anime=>{
+  cards.map((anime,index)=>{
 
     const poster =
     anime.poster || "";
@@ -2317,7 +2774,6 @@ function renderFeatured(){
   .join("");
 
 }
-
 
 
 /* =========================
@@ -2426,11 +2882,6 @@ function openFeaturedEditor(){
   .join("");
 
 
-  /*
-    Checkbox click eka note input ekata
-    interfere wenne nathi wenna.
-  */
-
   document
   .getElementById("featuredList")
   .querySelectorAll(".featured-checkbox")
@@ -2466,7 +2917,6 @@ function openFeaturedEditor(){
   .classList.add("show");
 
 }
-
 
 
 /* =========================
@@ -2516,11 +2966,6 @@ async function saveFeatured(){
   }
 
 
-  /*
-    Read notes before resetting
-    featured status.
-  */
-
   const noteInputs =
   [
     ...document
@@ -2543,10 +2988,6 @@ async function saveFeatured(){
   });
 
 
-  /*
-    Reset all featured.
-  */
-
   const resetResult =
   await supabaseClient
   .from("anime")
@@ -2565,11 +3006,6 @@ async function saveFeatured(){
 
   }
 
-
-  /*
-    Activate selected anime and
-    save individual notes.
-  */
 
   for(const id of selected){
 
@@ -2606,7 +3042,6 @@ async function saveFeatured(){
 }
 
 
-
 /* =========================
    CLOSE FEATURED
 ========================= */
@@ -2618,7 +3053,6 @@ function closeFeaturedEditor(){
   .classList.remove("show");
 
 }
-
 
 
 /* =========================
@@ -2738,7 +3172,6 @@ function openDetails(id){
 }
 
 
-
 /* =========================
    CLOSE DETAILS
 ========================= */
@@ -2752,7 +3185,6 @@ function closeDetails(){
   currentAnime = null;
 
 }
-
 
 
 /* =========================
@@ -2773,7 +3205,6 @@ function editCurrentAnime(){
   openAnimeModal(anime);
 
 }
-
 
 
 /* =========================
@@ -2831,7 +3262,6 @@ async function deleteCurrentAnime(){
 }
 
 
-
 /* =========================
    SECURITY
 ========================= */
@@ -2847,7 +3277,6 @@ function escapeHtml(value){
   .replaceAll("'","&#039;");
 
 }
-
 
 
 /* =========================
@@ -2873,6 +3302,8 @@ supabaseClient
       renderAnime();
 
       renderFeatured();
+
+      clearStatusList();
 
     }
 
