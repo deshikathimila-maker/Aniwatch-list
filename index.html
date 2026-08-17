@@ -3568,6 +3568,91 @@ input[placeholder="Search anime..."]:not(#search){
 }
 </style>
 
+
+<style id="anime-search-group-only">
+.anime-modal-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:12px;
+}
+.anime-modal-head h2{
+  margin:0;
+}
+.anime-modal-close{
+  width:34px;
+  height:34px;
+  flex:none;
+  border-radius:50%;
+  border:1px solid rgba(255,255,255,.16);
+  background:rgba(255,255,255,.07);
+  color:inherit;
+  font-size:22px;
+  line-height:1;
+  cursor:pointer;
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 6px 18px rgba(0,0,0,.18);
+}
+.anime-search-results{
+  max-height:300px;
+}
+.anime-search-result{
+  min-height:74px;
+}
+.anime-search-result-title{
+  white-space:normal;
+  overflow:hidden;
+  display:-webkit-box;
+  -webkit-box-orient:vertical;
+  -webkit-line-clamp:2;
+  line-height:1.25;
+  font-size:12px;
+}
+.anime-type-strip{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:5px;
+  width:max-content;
+  max-width:100%;
+  margin:8px auto 12px;
+  padding:4px;
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:15px;
+  background:rgba(255,255,255,.045);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.05);
+}
+.anime-type-tab{
+  border:0;
+  border-radius:11px;
+  padding:6px 10px;
+  background:transparent;
+  color:inherit;
+  opacity:.62;
+  font-size:10px;
+  cursor:pointer;
+  white-space:nowrap;
+}
+.anime-type-tab.active{
+  opacity:1;
+  background:rgba(255,255,255,.10);
+}
+@media(max-width:520px){
+  .anime-type-strip{
+    width:auto;
+  }
+  .anime-type-tab{
+    flex:1;
+    padding:6px 7px;
+    font-size:9px;
+  }
+}
+</style>
+
 </head>
 
 
@@ -4115,6 +4200,15 @@ id="statusList">
 
 </div>
 
+<div
+  class="anime-type-strip"
+  id="animeTypeStrip">
+  <button type="button" class="anime-type-tab active" data-kind="all" onclick="showAnimeTypeGroup('all',this)">All</button>
+  <button type="button" class="anime-type-tab" data-kind="Episode" onclick="showAnimeTypeGroup('Episode',this)">Seasons</button>
+  <button type="button" class="anime-type-tab" data-kind="OVA" onclick="showAnimeTypeGroup('OVA',this)">OVA</button>
+  <button type="button" class="anime-type-tab" data-kind="Movie" onclick="showAnimeTypeGroup('Movie',this)">Movies</button>
+</div>
+
 
 
 <div
@@ -4144,15 +4238,24 @@ id="animeModal">
 
 <div class="modal-box">
 
-<h2 id="animeModalTitle">
-Add Anime
-</h2>
+<div class="anime-modal-head">
+  <h2 id="animeModalTitle">
+  Add Anime
+  </h2>
+
+  <button
+    type="button"
+    class="anime-modal-close"
+    onclick="closeAnimeModal()"
+    aria-label="Close Add Anime">×</button>
+</div>
 <div id="animeSearchArea">
   <div class="anime-search-wrap">
     <input
       id="animeSearchInput"
       autocomplete="off"
       placeholder="Search Anime"
+      oninput="queueAnimeLiveSearch()"
       onkeydown="if(event.key==='Enter'){event.preventDefault();searchAnimeAPI();}">
     <button
       type="button"
@@ -5507,6 +5610,181 @@ function escapeHtml(value){
 }
 
 
+
+/* =========================
+   LIVE ANIME SEARCH + TYPE GROUPS
+   Requested changes only
+========================= */
+
+let animeLiveSearchTimer = null;
+
+function queueAnimeLiveSearch(){
+
+  clearTimeout(animeLiveSearchTimer);
+
+  const input =
+    document.getElementById("animeSearchInput");
+
+  if(!input) return;
+
+  const q = input.value.trim();
+
+  const results =
+    document.getElementById("animeSearchResults");
+
+  if(!q){
+    if(results) results.innerHTML = "";
+    return;
+  }
+
+  /* Start showing matches before the Search button is pressed. */
+  animeLiveSearchTimer =
+    setTimeout(()=>{
+      searchAnimeAPI();
+    },420);
+}
+
+function showAnimeTypeGroup(kind,button){
+
+  document
+  .querySelectorAll(".anime-type-tab")
+  .forEach(tab=>{
+    tab.classList.remove("active");
+  });
+
+  if(button){
+    button.classList.add("active");
+  }
+
+  const grid =
+    document.getElementById("animeGrid");
+
+  if(!grid) return;
+
+  const search =
+    (document.getElementById("search")?.value || "")
+    .toLowerCase()
+    .trim();
+
+  let list =
+    animeList.filter(anime=>
+      (anime.title || "")
+      .toLowerCase()
+      .includes(search)
+    );
+
+  if(kind !== "all"){
+    list =
+      list.filter(anime=>{
+        const type =
+          String(anime.media_type || "Episode").toLowerCase();
+
+        if(kind === "Episode"){
+          return type === "episode" || type === "tv" || type === "season";
+        }
+
+        return type === kind.toLowerCase();
+      });
+  }
+
+  renderAnimeListOnly(list);
+}
+
+function renderAnimeListOnly(list){
+
+  const grid =
+    document.getElementById("animeGrid");
+
+  if(!grid) return;
+
+  if(!list.length){
+
+    grid.innerHTML = `
+      <div class="empty">
+        No anime in this group yet.
+      </div>
+    `;
+
+    return;
+  }
+
+  grid.innerHTML =
+    list.map((anime,index)=>{
+
+      const poster =
+        anime.poster
+        ? `
+          <img
+          src="${escapeHtml(anime.poster)}"
+          alt="${escapeHtml(anime.title)}"
+          onerror="this.style.display='none'">
+        `
+        : "No Poster";
+
+      const background =
+        anime.poster
+        ? `style="background-image:url('${escapeHtml(anime.poster)}')"`
+        : "";
+
+      const statusClass =
+        getStatusClass(anime.status);
+
+      const rating =
+        anime.rating != null
+        ? `${anime.rating}/10`
+        : "-";
+
+      return `
+        <div
+        class="card"
+        style="animation-delay:${index*.04}s"
+        onclick="openDetails(${anime.id})">
+
+          <div class="card-bg" ${background}></div>
+          <div class="card-overlay"></div>
+
+          <div class="card-content">
+
+            <div class="card-poster">
+              ${poster}
+            </div>
+
+            <div class="card-info">
+
+              <div class="card-title">
+                ${escapeHtml(anime.title)}
+              </div>
+
+              <div class="card-meta">
+
+                <span class="rating-box">
+                  ★ ${rating}
+                </span>
+
+                <span class="media-type">
+                  ${escapeHtml(anime.media_type || "Episode")}
+                </span>
+
+                <span>
+                  ${anime.episodes ?? "-"} eps
+                </span>
+
+              </div>
+
+              <div class="status ${statusClass}">
+                ${escapeHtml(anime.status || "")}
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+      `;
+
+    }).join("");
+}
+
+
 /* =========================
    OPEN ADD / EDIT
 ========================= */
@@ -5775,6 +6053,12 @@ function getStatusClass(status){
 ========================= */
 
 function renderAnime(){
+
+  document
+  .querySelectorAll(".anime-type-tab")
+  .forEach((tab,index)=>{
+    tab.classList.toggle("active",index===0);
+  });
 
   const grid =
   document.getElementById("animeGrid");
