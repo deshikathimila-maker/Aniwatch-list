@@ -3385,6 +3385,38 @@ input[placeholder="Search anime..."]:not(#search){
 }
 </style>
 
+
+<style id="profile-requested-only">
+@media(max-width:500px){
+  .profile-page-stats{
+    grid-template-columns:repeat(4,minmax(0,1fr)) !important;
+    gap:6px !important;
+  }
+  .profile-stat{
+    min-width:0 !important;
+    min-height:72px !important;
+    padding:10px 4px !important;
+    border-radius:15px !important;
+  }
+  .profile-stat-number{
+    font-size:20px !important;
+  }
+  .profile-stat-label{
+    font-size:6px !important;
+    letter-spacing:.35px !important;
+    white-space:nowrap !important;
+  }
+}
+
+/* When a poster is opened FROM the Profile page, keep the Profile page
+   underneath instead of making it look like the main-page detail screen. */
+#detailsModal.profile-details-mode{
+  background:rgba(2,6,15,.42) !important;
+  backdrop-filter:blur(6px) !important;
+  -webkit-backdrop-filter:blur(6px) !important;
+}
+</style>
+
 </head>
 
 
@@ -3625,8 +3657,7 @@ id="profilePageModal">
     </div>
 
     <div class="profile-cover">
-      <div class="profile-cover-label">Cover</div>
-    </div>
+      </div>
 
     <div class="profile-avatar-wrap">
       <div class="profile-avatar-ring"></div>
@@ -6205,9 +6236,22 @@ function openDetails(id){
   }
 
 
-  document
-  .getElementById("detailsModal")
-  .classList.add("show");
+  const detailsModal =
+    document.getElementById("detailsModal");
+
+  const profilePage =
+    document.getElementById("profilePageModal");
+
+  if(
+    profilePage &&
+    profilePage.classList.contains("show")
+  ){
+    detailsModal.classList.add("profile-details-mode");
+  }else{
+    detailsModal.classList.remove("profile-details-mode");
+  }
+
+  detailsModal.classList.add("show");
 
 }
 
@@ -6218,9 +6262,13 @@ function openDetails(id){
 
 function closeDetails(){
 
-  document
-  .getElementById("detailsModal")
-  .classList.remove("show");
+  const detailsModal =
+    document.getElementById("detailsModal");
+
+  detailsModal.classList.remove(
+    "show",
+    "profile-details-mode"
+  );
 
   currentAnime = null;
 
