@@ -10,7 +10,15 @@
 
 <title>AniWatch List</title>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">document.addEventListener("click", (event)=>{
+  const menu = document.getElementById("profileToolsMenu");
+  const trigger = document.querySelector(".profile-tools-trigger");
+  if(menu && menu.classList.contains("show") && !menu.contains(event.target) && event.target !== trigger){
+    menu.classList.remove("show");
+  }
+});
+
+</script>
 
 <style>
 
@@ -3190,6 +3198,193 @@ input[placeholder="Search anime..."]:not(#search){
 }
 </style>
 
+
+<style id="profile-requested-layout">
+.profile-page-shell{
+  position:relative;
+  width:calc(100% - 40px);
+  max-width:1150px;
+  max-height:92vh;
+  padding:20px;
+}
+.profile-hero{
+  position:relative;
+  text-align:left;
+  padding:0 0 18px;
+  overflow:hidden;
+}
+.profile-cover{
+  position:relative;
+  width:100%;
+  height:185px;
+  border-radius:18px;
+  border:1px solid rgba(175,200,235,.18);
+  background:
+    radial-gradient(circle at 18% 25%, rgba(139,92,246,.18), transparent 30%),
+    radial-gradient(circle at 82% 20%, rgba(45,125,220,.16), transparent 32%),
+    rgba(255,255,255,.045);
+  backdrop-filter:blur(22px);
+  -webkit-backdrop-filter:blur(22px);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.06);
+  overflow:hidden;
+}
+.profile-cover::after{
+  content:"";
+  position:absolute;
+  inset:-30%;
+  background:linear-gradient(110deg,transparent 35%,rgba(255,255,255,.08) 50%,transparent 65%);
+  transform:translateX(-55%);
+  animation:profileCoverShine 7s ease-in-out infinite;
+}
+.profile-cover-label{
+  position:absolute;
+  left:18px;
+  bottom:14px;
+  z-index:2;
+  padding:5px 9px;
+  border:1px solid rgba(180,205,240,.16);
+  border-radius:999px;
+  background:rgba(255,255,255,.055);
+  color:rgba(230,240,255,.52);
+  font-size:9px;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+}
+@keyframes profileCoverShine{
+  0%,55%{transform:translateX(-55%);opacity:0}
+  65%{opacity:1}
+  82%,100%{transform:translateX(55%);opacity:0}
+}
+.profile-avatar-wrap{
+  margin:-52px 0 10px 28px;
+  z-index:3;
+}
+.profile-avatar{
+  font-size:13px;
+  letter-spacing:1px;
+  text-transform:uppercase;
+}
+.profile-page-title{
+  margin-left:28px;
+}
+.profile-page-subtitle{
+  margin-left:28px;
+}
+.profile-page-close{
+  position:absolute;
+  left:20px;
+  top:20px;
+  width:38px;
+  height:38px;
+  border-radius:12px;
+  z-index:20;
+  background:rgba(255,255,255,.075);
+  border:1px solid rgba(190,215,245,.20);
+  box-shadow:0 8px 25px rgba(0,0,0,.18), inset 0 1px 0 rgba(255,255,255,.08);
+}
+.profile-page-tools{
+  position:absolute;
+  right:20px;
+  top:20px;
+  z-index:20;
+}
+.profile-tools-trigger{
+  width:38px;
+  height:38px;
+  border-radius:12px;
+  border:1px solid rgba(190,215,245,.20);
+  background:rgba(255,255,255,.075);
+  color:#edf4ff;
+  font-size:20px;
+  line-height:1;
+  cursor:pointer;
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  box-shadow:0 8px 25px rgba(0,0,0,.18), inset 0 1px 0 rgba(255,255,255,.08);
+}
+.profile-tools-menu{
+  display:none;
+  position:absolute;
+  right:0;
+  top:46px;
+  min-width:150px;
+  padding:6px;
+  border:1px solid rgba(180,205,240,.18);
+  border-radius:14px;
+  background:rgba(10,18,34,.82);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  box-shadow:0 18px 45px rgba(0,0,0,.30);
+}
+.profile-tools-menu.show{display:block}
+.profile-tools-menu button{
+  width:100%;
+  border:0;
+  background:transparent;
+  color:#eaf2ff;
+  text-align:left;
+  padding:9px 10px;
+  border-radius:9px;
+  font-size:11px;
+  cursor:pointer;
+}
+.profile-tools-menu button:hover{
+  background:rgba(255,255,255,.08);
+}
+.profile-edit-modal{
+  z-index:80;
+  background:rgba(2,6,15,.70);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+}
+.profile-edit-box{
+  width:min(420px,calc(100% - 30px));
+  padding:18px;
+  border-radius:20px;
+  border:1px solid rgba(175,200,235,.18);
+  background:rgba(10,18,34,.82);
+  backdrop-filter:blur(24px);
+  -webkit-backdrop-filter:blur(24px);
+  box-shadow:0 25px 70px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.06);
+}
+.profile-edit-title{
+  font-size:17px;
+  font-weight:800;
+  margin-bottom:12px;
+}
+.profile-edit-input{
+  width:100%;
+  box-sizing:border-box;
+  padding:10px 12px;
+  border-radius:11px;
+  border:1px solid rgba(175,200,235,.18);
+  background:rgba(255,255,255,.055);
+  color:#edf4ff;
+  outline:none;
+}
+.profile-edit-actions{
+  display:flex;
+  gap:8px;
+  margin-top:12px;
+}
+.profile-edit-actions button{flex:1}
+@media(max-width:500px){
+  .profile-page-shell{
+    width:calc(100% - 18px);
+    padding:13px;
+  }
+  .profile-cover{height:145px}
+  .profile-avatar-wrap{
+    margin:-44px 0 9px 18px;
+  }
+  .profile-page-title,.profile-page-subtitle{margin-left:18px}
+  .profile-page-close{left:13px;top:13px}
+  .profile-page-tools{right:13px;top:13px}
+}
+</style>
+
 </head>
 
 
@@ -3416,12 +3611,29 @@ id="profilePageModal">
       ×
     </button>
 
-    <div class="profile-avatar-wrap">
-      <div class="profile-avatar-ring"></div>
-      <div class="profile-avatar" id="profileAvatar">A</div>
+    <div class="profile-page-tools">
+      <button
+      type="button"
+      class="profile-tools-trigger"
+      onclick="toggleProfileTools(event)"
+      aria-label="Profile options">⋮</button>
+
+      <div class="profile-tools-menu" id="profileToolsMenu">
+        <button type="button" onclick="openEditProfile()">Edit Profile</button>
+        <button type="button" onclick="logout();closeProfilePage();">Log out</button>
+      </div>
     </div>
 
-    <div class="profile-page-title">Profile</div>
+    <div class="profile-cover">
+      <div class="profile-cover-label">Cover</div>
+    </div>
+
+    <div class="profile-avatar-wrap">
+      <div class="profile-avatar-ring"></div>
+      <div class="profile-avatar" id="profileAvatar">Profile</div>
+    </div>
+
+    <div class="profile-page-title" id="profilePageTitle">Profile</div>
 
     <div
     class="profile-page-subtitle"
@@ -3464,19 +3676,6 @@ id="profilePageModal">
 
 
     <button
-    class="profile-stat profile-stat-completed"
-    onclick="showProfileCategory('Completed',this)">
-
-      <div
-      class="profile-stat-number"
-      id="profileCompletedCount">0</div>
-
-      <div class="profile-stat-label">Completed</div>
-
-    </button>
-
-
-    <button
     class="profile-stat profile-stat-plan"
     onclick="showProfileCategory('Plan to Watch',this)">
 
@@ -3485,6 +3684,19 @@ id="profilePageModal">
       id="profilePlanCount">0</div>
 
       <div class="profile-stat-label">Plan to Watch</div>
+
+    </button>
+
+
+    <button
+    class="profile-stat profile-stat-completed"
+    onclick="showProfileCategory('Completed',this)">
+
+      <div
+      class="profile-stat-number"
+      id="profileCompletedCount">0</div>
+
+      <div class="profile-stat-label">Completed</div>
 
     </button>
 
@@ -3530,26 +3742,33 @@ id="profilePageModal">
     </div>
 
   </div>
-
-
-  <div class="profile-page-actions">
-
-    <button
-    class="secondary"
-    onclick="logout();closeProfilePage();">
-      Logout
-    </button>
-
-    <button
-    class="secondary"
-    onclick="closeProfilePage();">
-      Close
-    </button>
-
-  </div>
+</div>
 
 </div>
 
+
+<!-- =========================
+     EDIT PROFILE
+========================= -->
+
+<div class="modal profile-edit-modal" id="profileEditModal">
+  <div class="profile-edit-box">
+    <div class="profile-edit-title">Edit Profile</div>
+
+    <input
+      class="profile-edit-input"
+      id="profileNameInput"
+      type="text"
+      maxlength="40"
+      placeholder="Enter your name">
+
+    <div class="profile-edit-actions">
+      <button type="button" class="secondary" onclick="closeEditProfile()">Cancel</button>
+      <button type="button" class="primary" onclick="saveProfileName()">Save</button>
+    </div>
+
+    <div class="auth-message" id="profileEditMessage"></div>
+  </div>
 </div>
 
 
@@ -4112,6 +4331,11 @@ function openProfilePage(){
   .getElementById("profileMenu")
   .classList.remove("show");
 
+  const tools =
+    document.getElementById("profileToolsMenu");
+
+  if(tools) tools.classList.remove("show");
+
   document
   .getElementById("profilePageModal")
   .classList.add("show");
@@ -4134,6 +4358,105 @@ function closeProfilePage(){
   document
   .getElementById("profilePageModal")
   .classList.remove("show");
+
+  const tools =
+    document.getElementById("profileToolsMenu");
+
+  if(tools) tools.classList.remove("show");
+
+}
+
+
+function toggleProfileTools(event){
+
+  if(event) event.stopPropagation();
+
+  const menu =
+    document.getElementById("profileToolsMenu");
+
+  if(menu) menu.classList.toggle("show");
+
+}
+
+
+function openEditProfile(){
+
+  const menu =
+    document.getElementById("profileToolsMenu");
+
+  if(menu) menu.classList.remove("show");
+
+  const input =
+    document.getElementById("profileNameInput");
+
+  const currentName =
+    sessionStorage.getItem("aniwatch_profile_name") || "";
+
+  if(input) input.value = currentName;
+
+  document
+  .getElementById("profileEditMessage")
+  .textContent = "";
+
+  document
+  .getElementById("profileEditModal")
+  .classList.add("show");
+
+}
+
+
+function closeEditProfile(){
+
+  document
+  .getElementById("profileEditModal")
+  .classList.remove("show");
+
+}
+
+
+async function saveProfileName(){
+
+  const input =
+    document.getElementById("profileNameInput");
+
+  const message =
+    document.getElementById("profileEditMessage");
+
+  const name =
+    (input?.value || "").trim();
+
+  if(!name){
+
+    if(message) message.textContent = "Please enter your name.";
+
+    return;
+  }
+
+  try{
+
+    const { data, error } =
+      await supabaseClient.auth.updateUser({
+        data:{display_name:name}
+      });
+
+    if(error) throw error;
+
+    sessionStorage.setItem("aniwatch_profile_name", name);
+
+    const title =
+      document.getElementById("profilePageTitle");
+
+    if(title) title.textContent = name;
+
+    if(message) message.textContent = "Profile updated.";
+
+    setTimeout(closeEditProfile, 500);
+
+  }catch(error){
+
+    if(message) message.textContent = error.message;
+
+  }
 
 }
 
@@ -4433,6 +4756,16 @@ function updateUI(session){
   ? session.user.email
   : "Not logged in";
 
+  const profileTitle =
+    document.getElementById("profilePageTitle");
+
+  const profileName =
+    session?.user?.user_metadata?.display_name ||
+    sessionStorage.getItem("aniwatch_profile_name") ||
+    "Profile";
+
+  if(profileTitle) profileTitle.textContent = profileName;
+
   const avatar =
     document.getElementById("profileAvatar");
 
@@ -4444,7 +4777,7 @@ function updateUI(session){
     avatar.textContent =
       email
       ? email.charAt(0).toUpperCase()
-      : "A";
+      : "Profile";
   }
 
   const loginBtn = document.getElementById("profileLoginBtn");
