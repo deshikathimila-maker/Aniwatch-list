@@ -3653,6 +3653,17 @@ input[placeholder="Search anime..."]:not(#search){
 }
 </style>
 
+
+<style id="anime-search-ui-small-fix">
+.anime-search-btn{
+  padding:0 10px;
+  min-width:62px;
+  height:34px;
+  border-radius:10px;
+  font-size:11px;
+}
+</style>
+
 </head>
 
 
@@ -4330,14 +4341,6 @@ Completed
 Plan to Watch
 </option>
 
-<option value="On Hold">
-On Hold
-</option>
-
-<option value="Dropped">
-Dropped
-</option>
-
 </select>
 
 
@@ -4382,15 +4385,6 @@ class="primary"
 onclick="saveAnime()">
 
 Save
-
-</button>
-
-
-<button
-class="secondary"
-onclick="closeAnimeModal()">
-
-Cancel
 
 </button>
 
@@ -5421,9 +5415,10 @@ async function searchAnimeAPI(){
 
               const a = item.attributes || {};
               const poster =
+                a.posterImage?.original ||
+                a.posterImage?.large ||
                 a.posterImage?.medium ||
                 a.posterImage?.small ||
-                a.posterImage?.original ||
                 "";
 
               const year =
@@ -5472,6 +5467,8 @@ async function searchAnimeAPI(){
       items.map((item,index)=>{
 
         const image =
+          item.images?.jpg?.large_image_url ||
+          item.images?.webp?.large_image_url ||
           item.images?.jpg?.image_url ||
           item.images?.webp?.image_url ||
           "";
@@ -5549,6 +5546,8 @@ function selectAnimeSearchResult(index){
     "";
 
   const poster =
+    item.images?.jpg?.large_image_url ||
+    item.images?.webp?.large_image_url ||
     item.images?.jpg?.image_url ||
     item.images?.webp?.image_url ||
     "";
