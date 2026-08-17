@@ -3417,6 +3417,91 @@ input[placeholder="Search anime..."]:not(#search){
 }
 </style>
 
+
+<style id="main-status-tabs-only">
+/* Main page: only the four existing status controls, in the requested order. */
+.stats{
+  display:flex !important;
+  align-items:center;
+  gap:2px !important;
+  padding:5px !important;
+  margin-top:18px;
+  border:1px solid rgba(255,255,255,.10);
+  border-radius:999px;
+  background:rgba(8,12,22,.52);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+  box-shadow:0 8px 24px rgba(0,0,0,.16);
+  overflow-x:auto;
+  scrollbar-width:none;
+}
+.stats::-webkit-scrollbar{display:none}
+
+.stats .stat{
+  flex:1 1 0;
+  min-width:0;
+  position:relative;
+  background:transparent !important;
+  border:1px solid transparent !important;
+  border-radius:999px;
+  padding:10px 9px;
+  color:#a9adba !important;
+  box-shadow:none !important;
+  text-align:center;
+  white-space:nowrap;
+  transition:.25s ease;
+}
+.stats .stat:hover{
+  transform:none;
+  color:#d7d9e1 !important;
+  background:rgba(255,255,255,.045) !important;
+}
+.stats .stat.active{
+  box-shadow:0 0 16px currentColor !important;
+  border-color:currentColor !important;
+  color:#fff !important;
+}
+.stats .stat:nth-child(1).active{
+  color:#73b7ff !important;
+  background:rgba(98,168,255,.20) !important;
+}
+.stats .stat:nth-child(2).active{
+  color:#c59aff !important;
+  background:rgba(192,140,255,.20) !important;
+}
+.stats .stat:nth-child(3).active{
+  color:#69e49b !important;
+  background:rgba(85,217,139,.20) !important;
+}
+.stats .stat:nth-child(4).active{
+  color:#f3c96f !important;
+  background:rgba(244,199,107,.20) !important;
+}
+.stats .stat-number{
+  font-size:17px;
+}
+.stats .stat-label{
+  font-size:10px;
+  margin-top:2px;
+}
+
+@media(max-width:500px){
+  .stats{
+    gap:1px !important;
+    padding:4px !important;
+  }
+  .stats .stat{
+    padding:9px 5px;
+  }
+  .stats .stat-number{
+    font-size:15px;
+  }
+  .stats .stat-label{
+    font-size:8px;
+  }
+}
+</style>
+
 </head>
 
 
@@ -3874,27 +3959,7 @@ id="watchingCount">
 Watching
 </div>
 
-</div>
-
-
-<div
-class="stat"
-onclick="showStatusList('Completed',this)">
-
-<div
-class="stat-number"
-id="completedCount">
-0
-</div>
-
-<div class="stat-label">
-Completed
-</div>
-
-</div>
-
-
-<div
+</div><div
 class="stat"
 onclick="showStatusList('Plan to Watch',this)">
 
@@ -3908,10 +3973,21 @@ id="planCount">
 Plan to Watch
 </div>
 
-</div>
-
+</div><div
+class="stat"
+onclick="showStatusList('Completed',this)">
 
 <div
+class="stat-number"
+id="completedCount">
+0
+</div>
+
+<div class="stat-label">
+Completed
+</div>
+
+</div><div
 class="stat"
 onclick="showStatusList('All',this)">
 
@@ -6246,7 +6322,8 @@ function openDetails(id){
     profilePage &&
     profilePage.classList.contains("show")
   ){
-    detailsModal.classList.add("profile-details-mode");
+    profilePage.classList.remove("show");
+    detailsModal.classList.remove("profile-details-mode");
   }else{
     detailsModal.classList.remove("profile-details-mode");
   }
