@@ -5257,7 +5257,7 @@ function normalizeAnimeTitle(title){
 }
 
 async function importAniSakuraWatchlist(user, existingList){
-  const importKey = "aniwatch_anisakura_import_v3_" + user.id;
+  const importKey = "aniwatch_anisakura_import_v4_" + user.id;
   if(localStorage.getItem(importKey) === "done") return false;
 
   const existingTitles = new Set(
