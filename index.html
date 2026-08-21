@@ -1746,7 +1746,7 @@ textarea{
   border-radius:14px;
 }
 .card-poster{
-  height:215px !important;
+  height:185px !important;
   margin:7px 7px 0 !important;
 }
 .card-info{
@@ -1857,7 +1857,7 @@ textarea{
     border-radius:13px;
   }
   .card-poster{
-    height:185px !important;
+    height:155px !important;
   }
   .card-info{
     padding:7px !important;
@@ -3649,6 +3649,44 @@ input[placeholder="Search anime..."]:not(#search){
   padding:6px 2px;
 }
 </style>
+<style id="relation-season-number-style">
+.relation-order-wrap{
+  display:none;
+  margin:10px 0 4px;
+  padding:12px 14px;
+  border:1px solid rgba(255,255,255,.13);
+  border-radius:16px;
+  background:rgba(255,255,255,.055);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 8px 24px rgba(0,0,0,.18);
+}
+.relation-order-wrap.show{display:block;}
+.relation-order-label{
+  display:block;
+  font-size:12px;
+  font-weight:700;
+  opacity:.78;
+  margin-bottom:7px;
+}
+#relationOrder{
+  width:100%;
+  box-sizing:border-box;
+  border:1px solid rgba(255,255,255,.14);
+  border-radius:12px;
+  background:rgba(0,0,0,.22);
+  color:inherit;
+  padding:10px 12px;
+  outline:none;
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+}
+.relation-order-hint{
+  font-size:10px;
+  opacity:.52;
+  margin-top:6px;
+}
+</style>
 <style id="anime-search-group-only">
 .anime-modal-head{
   display:flex;
@@ -3944,6 +3982,157 @@ input[placeholder="Search anime..."]:not(#search){
     font-size:30px;
   }
 }
+
+/* =========================================================
+   SCREENSHOT-STYLE OPEN ANIME CARD
+   Visual-only presentation changes requested by the user.
+   ========================================================= */
+#detailsModal{
+  padding:0 !important;
+  align-items:stretch !important;
+  justify-content:stretch !important;
+  background:rgba(2,5,10,.64) !important;
+  overflow:hidden;
+}
+#detailsModal .details-box{
+  position:relative;
+  width:100vw !important;
+  max-width:none !important;
+  max-height:100vh !important;
+  height:100vh !important;
+  margin:0 !important;
+  padding:0 !important;
+  border:0 !important;
+  border-radius:0 !important;
+  overflow-y:auto !important;
+  overflow-x:hidden !important;
+  background:rgba(4,8,15,.60) !important;
+  box-shadow:none !important;
+  backdrop-filter:blur(26px);
+  -webkit-backdrop-filter:blur(26px);
+}
+#detailsModal .details-box::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:linear-gradient(180deg,rgba(0,0,0,.10) 0%,rgba(0,0,0,.30) 52%,rgba(0,0,0,.84) 100%);
+  z-index:0;
+}
+#detailsModal .details-layout{
+  position:relative;
+  z-index:1;
+  display:grid !important;
+  grid-template-columns:225px minmax(0,1fr) !important;
+  align-items:end;
+  gap:22px !important;
+  min-height:0 !important;
+  padding:28px 18px 12px !important;
+  border:0 !important;
+  border-radius:0 !important;
+  background:transparent !important;
+  overflow:visible !important;
+}
+#detailsModal .details-poster{
+  width:225px !important;
+  height:325px !important;
+  margin:0 !important;
+  border-radius:18px !important;
+  overflow:hidden;
+  background:rgba(10,16,28,.75);
+  border:1px solid rgba(255,255,255,.12);
+  box-shadow:0 18px 45px rgba(0,0,0,.46),0 0 24px rgba(130,100,255,.10);
+}
+#detailsModal .details-content{
+  min-width:0;
+  padding:0 12px 4px !important;
+  justify-content:flex-end !important;
+}
+#detailsModal .details-content h2{
+  font-size:clamp(30px,4vw,52px) !important;
+  letter-spacing:1.4px;
+  text-transform:uppercase;
+  margin:0 0 14px !important;
+  color:#f7f9ff;
+  text-shadow:0 4px 20px rgba(0,0,0,.45);
+}
+#detailsModal .detail-line{
+  display:inline-flex;
+  width:max-content;
+  max-width:100%;
+  margin:4px 5px 4px 0 !important;
+  padding:7px 11px;
+  border-radius:999px;
+  color:#bfc9d8 !important;
+  font-size:11px !important;
+  background:rgba(255,255,255,.055);
+  border:1px solid rgba(255,255,255,.10);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+}
+#detailsModal .notes{
+  margin-top:10px !important;
+  padding:10px 12px;
+  max-width:720px;
+  border-radius:12px;
+  color:#aeb9ca;
+  font-size:11px;
+  line-height:1.5;
+}
+#detailsModal .related-anime-section{
+  position:relative;
+  z-index:2;
+  margin:6px 18px 0 !important;
+  padding:12px !important;
+  border-radius:16px;
+  background:rgba(4,9,18,.42) !important;
+  border:1px solid rgba(180,205,240,.12) !important;
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+}
+#detailsModal .details-actions{
+  position:relative;
+  z-index:3;
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin:12px 18px 26px !important;
+}
+#detailsModal .details-actions button{
+  min-height:42px;
+  padding:0 18px;
+  border-radius:999px;
+}
+@media(max-width:700px){
+  #detailsModal .details-box{
+    height:100dvh !important;
+    max-height:100dvh !important;
+  }
+  #detailsModal .details-layout{
+    display:block !important;
+    padding:24px 16px 8px !important;
+  }
+  #detailsModal .details-poster{
+    width:225px !important;
+    height:325px !important;
+    margin:0 0 18px 0 !important;
+  }
+  #detailsModal .details-content{
+    padding:0 !important;
+  }
+  #detailsModal .details-content h2{
+    font-size:34px !important;
+    letter-spacing:1px;
+    line-height:1.05;
+  }
+  #detailsModal .related-anime-section{
+    margin:8px 16px 0 !important;
+  }
+  #detailsModal .details-actions{
+    margin:12px 16px 28px !important;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -4244,6 +4433,11 @@ OVA
 </div>
 </div>
 <input id="animeType" type="hidden" value="Episode"/>
+<div class="relation-order-wrap" id="relationOrderWrap">
+  <label class="relation-order-label" for="relationOrder">Season Number</label>
+  <input id="relationOrder" min="1" step="1" type="number" placeholder="e.g. 1"/>
+  <div class="relation-order-hint">Choose which season number this anime should be saved as.</div>
+</div>
 <select id="animeStatus">
 <option value="Watching">
 Watching
@@ -5737,6 +5931,25 @@ function renderRelatedAnime(anime){
 }
 
 
+function updateRelationOrderUI(){
+  const wrap = document.getElementById("relationOrderWrap");
+  const input = document.getElementById("relationOrder");
+  if(!wrap || !input) return;
+
+  const isSeasonRelation =
+    !!pendingRelation &&
+    String(pendingRelation.type) === "Season";
+
+  wrap.classList.toggle("show", isSeasonRelation);
+
+  if(isSeasonRelation){
+    input.value = Number(pendingRelation.order) || 1;
+  }else{
+    input.value = "";
+  }
+}
+
+
 /* =========================
    OPEN ADD / EDIT
 ========================= */
@@ -5822,6 +6035,7 @@ function openAnimeModal(anime=null){
     : (anime?.media_type || "Episode");
 
   selectType(modalType);
+  updateRelationOrderUI();
 
 
   document
@@ -5842,6 +6056,10 @@ function closeAnimeModal(){
   .classList.remove("show");
 
   editingId = null;
+  const relationWrap = document.getElementById("relationOrderWrap");
+  const relationInput = document.getElementById("relationOrder");
+  if(relationWrap) relationWrap.classList.remove("show");
+  if(relationInput) relationInput.value = "";
 
 }
 
@@ -5944,6 +6162,19 @@ async function saveAnime(){
 
   const existingRelation =
     readRelationMeta(existingAnime);
+
+  if(pendingRelation && String(pendingRelation.type) === "Season"){
+    const selectedOrder = Number(
+      document.getElementById("relationOrder")?.value
+    );
+
+    if(!Number.isInteger(selectedOrder) || selectedOrder < 1){
+      alert("Please enter a valid Season Number (1 or higher).");
+      return;
+    }
+
+    pendingRelation.order = selectedOrder;
+  }
 
   const relation =
     pendingRelation || existingRelation;
@@ -6968,6 +7199,10 @@ function openDetails(id, fromProfile = false){
   document
   .getElementById("detailsLayout");
 
+  const detailsBox =
+  document
+  .querySelector("#detailsModal .details-box");
+
 
   if(currentAnime.poster){
 
@@ -6986,10 +7221,21 @@ function openDetails(id, fromProfile = false){
     detailsLayout.style.backgroundPosition =
     "center";
 
+    if(detailsBox){
+      detailsBox.style.backgroundImage =
+      `linear-gradient(rgba(3,7,14,.52),rgba(3,7,14,.84)),url("${escapeHtml(currentAnime.poster)}")`;
+      detailsBox.style.backgroundSize = "cover";
+      detailsBox.style.backgroundPosition = "center";
+    }
+
   }else{
 
     detailsLayout.style.backgroundImage =
     "none";
+
+    if(detailsBox){
+      detailsBox.style.backgroundImage = "none";
+    }
 
   }
 
