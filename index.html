@@ -1118,19 +1118,45 @@ textarea{
   box-shadow:0 24px 80px rgba(0,0,0,.42);
   backdrop-filter:blur(22px);
   -webkit-backdrop-filter:blur(22px);
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+}
+
+/* Soft blurred glass copy of the anime poster behind the details. */
+.details-box::before{
+  content:"";
+  position:absolute;
+  inset:-28px;
+  background-image:var(--detail-bg);
+  background-size:cover;
+  background-position:center;
+  filter:blur(24px);
+  opacity:.30;
+  transform:scale(1.08);
+  z-index:-2;
+}
+.details-box::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(135deg,rgba(7,12,24,.62),rgba(8,15,28,.86));
+  z-index:-1;
+  pointer-events:none;
 }
 
 .details-box .details-layout{
-  min-height:460px;
-  grid-template-columns:280px 1fr;
-  gap:28px;
+  min-height:400px;
+  grid-template-columns:230px 1fr;
+  gap:24px;
   padding:0;
   border-radius:18px;
 }
 
 .details-box .details-poster{
-  height:430px;
+  height:350px;
   border-radius:16px;
+  box-shadow:0 18px 45px rgba(0,0,0,.30);
 }
 
 .details-box .details-content{
@@ -1150,13 +1176,16 @@ textarea{
     padding:14px;
     border-radius:18px;
   }
-  .details-box .details-layout{
+ .details-box .details-layout{
     grid-template-columns:1fr;
     min-height:0;
     gap:14px;
   }
   .details-box .details-poster{
-    height:380px;
+    height:300px;
+    max-width:210px;
+    width:100%;
+    margin:0 auto;
   }
   .details-box .details-content{
     padding:8px 10px 16px;
@@ -7244,6 +7273,10 @@ function openDetails(id, fromProfile = false){
       `linear-gradient(rgba(3,7,14,.52),rgba(3,7,14,.84)),url("${escapeHtml(currentAnime.poster)}")`;
       detailsBox.style.backgroundSize = "cover";
       detailsBox.style.backgroundPosition = "center";
+      detailsBox.style.setProperty(
+        "--detail-bg",
+        `url("${escapeHtml(currentAnime.poster)}")`
+      );
     }
 
   }else{
@@ -7253,6 +7286,7 @@ function openDetails(id, fromProfile = false){
 
     if(detailsBox){
       detailsBox.style.backgroundImage = "none";
+      detailsBox.style.removeProperty("--detail-bg");
     }
 
   }
