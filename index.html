@@ -1265,6 +1265,14 @@ textarea{
   border-color:rgba(180,145,255,.30);
 }
 
+/* Highlight the season currently being viewed without changing other buttons. */
+.related-anime-btn.selected-related{
+  background:linear-gradient(135deg,rgba(167,105,255,.38),rgba(111,76,255,.24)) !important;
+  border-color:rgba(190,145,255,.72) !important;
+  color:#ffffff !important;
+  box-shadow:0 0 18px rgba(155,105,255,.24), inset 0 1px 0 rgba(255,255,255,.10);
+}
+
 
 /* =========================
    MOBILE
@@ -5082,11 +5090,15 @@ function showProfileCategory(status,clickedElement){
     ? "All Anime"
     : status;
 
+  /* Related Season/Movie/OVA records are shown through the parent
+     anime's details page, not as separate Profile cards. */
+  const topLevelAnime = animeList.filter(anime => !readRelationMeta(anime));
+
   const list =
     getUniqueAnimeList(
       status === "All"
-      ? animeList
-      : animeList.filter(
+      ? topLevelAnime
+      : topLevelAnime.filter(
           anime=>anime.status===status
         )
     );
@@ -5916,8 +5928,10 @@ function renderRelatedAnime(anime){
   children.forEach(child=>{
     const childMeta = readRelationMeta(child);
     const label = relationLabel(childMeta);
-    const active = String(child.id) === String(anime.id) ? "" : "";
-    html += `<button type="button" class="related-anime-btn" ${active} onclick="openRelatedAnime(${child.id})">${escapeHtml(label || child.title || "Related")}</button>`;
+    const active = String(child.id) === String(anime.id)
+      ? " selected-related"
+      : "";
+    html += `<button type="button" class="related-anime-btn${active}" onclick="openRelatedAnime(${child.id})">${escapeHtml(label || child.title || "Related")}</button>`;
   });
 
   const ownerId = parent?.id || anime.id;
@@ -6285,9 +6299,13 @@ function renderAnime(){
   .trim();
 
 
+  /* Related Season/Movie/OVA records belong inside their parent
+     details page. They must NOT appear as separate main-page cards. */
+  const topLevelAnime = animeList.filter(anime => !readRelationMeta(anime));
+
   const filtered =
   getUniqueAnimeList(
-    animeList.filter(anime=>
+    topLevelAnime.filter(anime=>
       (anime.title || "")
       .toLowerCase()
       .includes(search)
