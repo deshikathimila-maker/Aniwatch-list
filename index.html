@@ -5492,6 +5492,8 @@ function showProfileCategory(status,clickedElement){
     document
     .getElementById("profileAnimeGrid");
 
+  initProfileCardClicks();
+
   if(!list.length){
 
     grid.innerHTML = `
@@ -5518,8 +5520,9 @@ function showProfileCategory(status,clickedElement){
       return `
         <div
         class="profile-anime-card"
+        data-anime-id="${escapeHtml(String(anime.id))}"
         style="animation-delay:${Math.min(index*35,350)}ms"
-        onclick="event.stopPropagation(); openDetailsFromProfile('${anime.id}')">
+        onclick="event.stopPropagation(); openDetailsFromProfile(this.dataset.animeId)">
 
           <img
           class="profile-anime-poster"
@@ -7445,7 +7448,26 @@ function closeFeaturedEditor(){
 ========================= */
 
 function openDetailsFromProfile(id){
-  openDetails(id, true);
+  const normalizedId = String(id);
+  const anime = animeList.find(a => String(a.id) === normalizedId);
+  if(!anime) return;
+  openDetails(normalizedId, true);
+}
+
+/* Reliable profile-card click handler: profile cards are created dynamically,
+   so handle clicks from the grid itself as well as the inline handler. */
+function initProfileCardClicks(){
+  const grid = document.getElementById("profileAnimeGrid");
+  if(!grid || grid.dataset.cardClicksReady === "1") return;
+  grid.dataset.cardClicksReady = "1";
+  grid.addEventListener("click", function(event){
+    const card = event.target.closest(".profile-anime-card");
+    if(!card || !grid.contains(card)) return;
+    event.preventDefault();
+    event.stopPropagation();
+    const id = card.dataset.animeId;
+    if(id !== undefined) openDetailsFromProfile(id);
+  });
 }
 
 function openDetails(id, fromProfile = false){
