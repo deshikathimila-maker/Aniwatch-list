@@ -1165,66 +1165,84 @@ textarea{
   line-height:1.5;
 }
 
-.details-parts{
-  margin-top:18px;
-  display:grid;
-  gap:10px;
+.series-seasons,
+.series-extras{
+  margin-top:16px;
 }
 
-.details-parts-title{
-  font-size:13px;
-  font-weight:700;
-  color:#fff;
-  margin-bottom:2px;
-}
-
-.detail-part-card{
-  display:grid;
-  grid-template-columns:58px 1fr auto;
-  align-items:center;
-  gap:10px;
-  padding:8px;
-  border-radius:10px;
-  background:rgba(255,255,255,.05);
-  border:1px solid rgba(255,255,255,.07);
-}
-
-.detail-part-poster{
-  width:58px;
-  height:78px;
-  border-radius:7px;
-  overflow:hidden;
-  background:#101c30;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  color:#66758d;
-  font-size:8px;
-  text-align:center;
-}
-
-.detail-part-poster img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
-
-.detail-part-name{
+.series-section-title{
   font-size:12px;
-  font-weight:700;
+  font-weight:800;
+  letter-spacing:.4px;
+  margin-bottom:9px;
+  color:#e7efff;
 }
 
-.detail-part-type{
+.series-season-row{
+  display:flex;
+  gap:8px;
+  overflow-x:auto;
+  padding:2px 1px 7px;
+  scrollbar-width:none;
+}
+.series-season-row::-webkit-scrollbar{display:none;}
+
+.series-season-btn{
+  flex:0 0 auto;
+  min-width:82px;
+  border:1px solid rgba(125,105,220,.22);
+  background:rgba(18,24,39,.82);
+  color:#d8def0;
+  border-radius:13px;
+  padding:8px 10px;
+  cursor:pointer;
+  text-align:center;
+  transition:.2s ease;
+}
+.series-season-btn:hover,
+.series-season-btn.active{
+  border-color:rgba(172,120,255,.72);
+  box-shadow:0 0 18px rgba(157,95,255,.18);
+  color:#fff;
+}
+.series-season-number{
+  display:block;
+  font-size:10px;
+  font-weight:800;
+}
+.series-season-name{
+  display:block;
+  margin-top:4px;
+  font-size:9px;
+  color:#8e9bb0;
+  max-width:105px;
+  overflow:hidden;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+}
+.series-season-eps{
+  display:block;
   margin-top:3px;
   font-size:9px;
-  color:#8d9bb0;
+  color:#bca5ff;
 }
-
-.detail-part-episodes{
-  font-size:10px;
-  color:#b7c3d5;
-  white-space:nowrap;
+.series-extra-list{display:grid;gap:7px;}
+.series-extra-item{
+  display:grid;
+  grid-template-columns:42px 1fr auto;
+  align-items:center;
+  gap:9px;
+  padding:7px;
+  border-radius:10px;
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.06);
 }
+.series-extra-poster{
+  width:42px;height:56px;border-radius:6px;object-fit:cover;background:#101828;
+}
+.series-extra-title{font-size:10px;font-weight:700;}
+.series-extra-type{margin-top:3px;font-size:9px;color:#7f8ca1;}
+.series-extra-eps{font-size:9px;color:#b7c2d3;white-space:nowrap;}
 
 .details-actions{
   display:flex;
@@ -4495,18 +4513,18 @@ id="featuredList">
 <div class="modal-actions">
 
 <button
-class="primary"
-onclick="saveFeatured()">
+class="secondary"
+onclick="closeFeaturedEditor()">
 
-Save
+← Back
 
 </button>
 
 <button
-class="secondary"
-onclick="closeFeaturedEditor()">
+class="primary"
+onclick="saveFeatured()">
 
-Cancel
+Save
 
 </button>
 
@@ -4600,8 +4618,8 @@ No notes.
 
 </div>
 
-
-<div class="details-parts" id="detailsParts"></div>
+<div class="series-seasons" id="seriesSeasons"></div>
+<div class="series-extras" id="seriesExtras"></div>
 
 <div class="details-actions">
 
@@ -5363,58 +5381,9 @@ async function importAniSakuraWatchlist(user, existingList){
 
 function inferAniSakuraMediaType(title){
   const t = String(title || "").toLowerCase();
-
-  if(/\b(ova|oad|special|specials|prologue)\b/.test(t)){
-    return "OVA";
-  }
-
-  if(/\b(movie|film)\b/.test(t)){
-    return "Movie";
-  }
-
+  if(/\b(ova|oad)\b/.test(t)) return "OVA";
+  if(/\b(movie|film)\b/.test(t)) return "Movie";
   return "Episode";
-}
-
-/*
-  AniSakura grouping key.
-
-  Examples:
-    "My Hero Academia" + "My Hero Academia 2"
-    "My Hero Academia" + "My Hero Academia Season 6"
-    "Dan Da Dan" + "Dan Da Dan Season 2"
-    "That Time ... Slime" + "That Time ... Slime Season 3"
-    "One Punch Man" + "One-Punch Man Season 3"
-
-  We deliberately do NOT save a new parent column in Supabase. The existing
-  title/media_type fields remain the source of truth; grouping is calculated
-  when the list is displayed and in the Details view.
-*/
-function getAniSakuraGroupKey(title){
-  let value = String(title || "")
-    .toLowerCase()
-    .replace(/[–—]/g, "-")
-    .replace(/one-punch/g, "one punch")
-    .replace(/\s+/g, " ")
-    .trim();
-
-  value = value
-    .replace(/\s*[:\-]\s*(the movie|movie|film|ova|oad|specials?|special|prologue)\b.*$/i, "")
-    .replace(/\s*\((?:tv|movie|ova|oad|specials?)\)\s*$/i, "")
-    .replace(/\s+(?:season|series)\s*\d+(?:\s*[:\-].*)?$/i, "")
-    .replace(/\s+\d+(?:st|nd|rd|th)\s+season(?:\s*[:\-].*)?$/i, "")
-    .replace(/\s+part\s*\d+(?:\s*[:\-].*)?$/i, "")
-    .replace(/\s+\d+(?:st|nd|rd|th)\s+part(?:\s*[:\-].*)?$/i, "")
-    .replace(/\s+(?:movie|film|ova|oad|specials?|special|prologue)\b.*$/i, "")
-    .replace(/\s+final\s+season\b.*$/i, "")
-    .trim();
-
-  // Common numbered sequel naming used by AniSakura.
-  value = value
-    .replace(/\s+\d+(?:st|nd|rd|th)\s+season\b.*$/i, "")
-    .replace(/\s+\d+(?:st|nd|rd|th)\s+season$/i, "")
-    .trim();
-
-  return normalizeAnimeTitle(value);
 }
 
 function titlesAreClose(a,b){
@@ -5536,10 +5505,7 @@ async function loadAnime(){
   }
 
 
-  animeList = (data || []).map(anime => ({
-    ...anime,
-    _aniSakuraGroupKey: getAniSakuraGroupKey(anime.title)
-  }));
+  animeList = data || [];
 
   const importedNow = await importAniSakuraWatchlist(user, animeList);
 
@@ -5550,12 +5516,7 @@ async function loadAnime(){
       .select("*")
       .eq("user_id",user.id)
       .order("id",{ascending:false});
-    if(!refreshError){
-      animeList = (refreshed || []).map(anime => ({
-        ...anime,
-        _aniSakuraGroupKey: getAniSakuraGroupKey(anime.title)
-      }));
-    }
+    if(!refreshError) animeList = refreshed || [];
   }
 
   // AniSakura itself does not provide the episode count in the imported watchlist.
@@ -5967,93 +5928,47 @@ function showAnimeTypeGroup(kind,button){
 
 function renderAnimeListOnly(list){
 
-  const grid =
-    document.getElementById("animeGrid");
-
+  const grid=document.getElementById("animeGrid");
   if(!grid) return;
 
   if(!list.length){
-
-    grid.innerHTML = `
-      <div class="empty">
-        No anime in this group yet.
-      </div>
-    `;
-
+    grid.innerHTML=`<div class="empty">No anime in this group yet.</div>`;
     return;
   }
 
-  grid.innerHTML =
-    list.map((anime,index)=>{
+  const groups=getSeriesGroups(list);
 
-      const poster =
-        anime.poster
-        ? `
-          <img
-          src="${escapeHtml(anime.poster)}"
-          alt="${escapeHtml(anime.title)}"
-          onerror="this.style.display='none'">
-        `
-        : "No Poster";
+  grid.innerHTML=groups.map((group,index)=>{
+    const main=getMainSeriesItem(group.items);
+    const poster=main.poster
+      ? `<img src="${escapeHtml(main.poster)}" alt="${escapeHtml(main.title)}" onerror="this.style.display='none'">`
+      : "No Poster";
 
-      const background = "";
+    const totalEpisodes=group.items.reduce(
+      (sum,a)=>sum+(Number(a.episodes)||0),0
+    );
 
-      const statusClass =
-        getStatusClass(anime.status);
-
-      const rating =
-        anime.rating != null
-        ? `${anime.rating}/10`
-        : "-";
-
-      return `
-        <div
-        class="card"
-        style="animation-delay:${index*.04}s"
-        onclick="openDetails(${anime.id})">
-
-          <div class="card-bg" ${background}></div>
-          <div class="card-overlay"></div>
-
-          <div class="card-content">
-
-            <div class="card-poster">
-              ${poster}
+    return `
+      <div class="card" style="animation-delay:${index*.04}s"
+           onclick="openDetails(${main.id})">
+        <div class="card-bg"></div>
+        <div class="card-overlay"></div>
+        <div class="card-content">
+          <div class="card-poster">${poster}</div>
+          <div class="card-info">
+            <div class="card-title">${escapeHtml(main.title)}</div>
+            <div class="card-meta">
+              <span class="rating-box">★ ${main.rating ?? "-"}</span>
+              <span class="media-type">${group.items.length>1 ? `${group.items.length} Parts` : escapeHtml(main.media_type||"Episode")}</span>
+              <span>${totalEpisodes||main.episodes||"-"} eps</span>
             </div>
-
-            <div class="card-info">
-
-              <div class="card-title">
-                ${escapeHtml(anime.title)}
-              </div>
-
-              <div class="card-meta">
-
-                <span class="rating-box">
-                  ★ ${rating}
-                </span>
-
-                <span class="media-type">
-                  ${escapeHtml(anime.media_type || "Episode")}
-                </span>
-
-                <span>
-                  ${anime.episodes ?? "-"} eps
-                </span>
-
-              </div>
-
-              <div class="status ${statusClass}">
-                ${escapeHtml(anime.status || "")}
-              </div>
-
+            <div class="status ${getStatusClass(getSeriesStatus(group.items))}">
+              ${escapeHtml(getSeriesStatus(group.items)||"")}
             </div>
-
           </div>
         </div>
-      `;
-
-    }).join("");
+      </div>`;
+  }).join("");
 }
 
 
@@ -6321,44 +6236,120 @@ function getStatusClass(status){
 
 
 /* =========================
-   ANI SAKURA MAIN GROUPING
+   SERIES / SEASON GROUPING
 ========================= */
 
-function getMainAnimeGroupKey(title){
-  return getAniSakuraGroupKey(title);
+const SERIES_ALIAS_RULES = [
+  [/^dragon ball\b/i, "dragon ball"],
+  [/^naruto\b/i, "naruto"],
+  [/^one piece\b/i, "one piece"],
+  [/^bleach\b/i, "bleach"],
+  [/^black clover\b/i, "black clover"],
+  [/^my hero academia\b/i, "my hero academia"],
+  [/^demon slayer\b/i, "demon slayer"],
+  [/^jujutsu kaisen\b/i, "jujutsu kaisen"],
+  [/^attack on titan\b/i, "attack on titan"],
+  [/^that time i got reincarnated as a slime\b/i, "that time i got reincarnated as a slime"],
+  [/^tsukimichi\b/i, "tsukimichi moonlit fantasy"],
+  [/^dan da dan\b/i, "dan da dan"],
+  [/^the beginning after the end\b/i, "the beginning after the end"],
+  [/^the rising of the shield hero\b/i, "the rising of the shield hero"],
+  [/^the eminence in shadow\b/i, "the eminence in shadow"],
+  [/^blue exorcist\b/i, "blue exorcist"],
+  [/^code geass\b/i, "code geass"],
+  [/^d gray man\b/i, "d gray man"],
+  [/^ushio and tora\b/i, "ushio and tora"]
+];
+
+function getSeriesGroupKey(title){
+  let t = normalizeAnimeTitle(title)
+    .replace(/\b2nd\b/g, "second")
+    .replace(/\b3rd\b/g, "third")
+    .replace(/\b4th\b/g, "fourth")
+    .replace(/\b5th\b/g, "fifth");
+
+  for(const [rule,key] of SERIES_ALIAS_RULES){
+    if(rule.test(t)) return key;
+  }
+
+  t = t
+    .replace(/\b(?:season|series)\s+\d+\b.*$/i,"")
+    .replace(/\b(?:part)\s+\d+\b.*$/i,"")
+    .replace(/\b(?:second|third|fourth|fifth)\s+season\b.*$/i,"")
+    .replace(/\b(?:ova|oad|special|specials|movie|film)\b.*$/i,"")
+    .trim();
+
+  return t;
 }
 
-function groupMainAnimeList(list){
+function isMovieOrExtra(anime){
+  const type = String(anime.media_type || "Episode").toLowerCase();
+  const title = String(anime.title || "");
+  return type === "movie" || type === "ova" ||
+    /\b(?:movie|film|ova|oad|special|specials)\b/i.test(title);
+}
+
+function getSeriesGroups(list){
   const groups = new Map();
-
-  list.forEach(anime => {
-    const key = anime._aniSakuraGroupKey || getAniSakuraGroupKey(anime.title);
-
-    if(!groups.has(key)){
-      groups.set(key, {
-        ...anime,
-        _groupKey:key,
-        _groupItems:[anime]
-      });
-    }else{
-      groups.get(key)._groupItems.push(anime);
-    }
+  list.forEach(anime=>{
+    const key=getSeriesGroupKey(anime.title);
+    if(!groups.has(key)) groups.set(key,{key,items:[]});
+    groups.get(key).items.push(anime);
   });
-
-  return Array.from(groups.values());
+  return [...groups.values()];
 }
 
-function getGroupedMainStatus(items){
-  const statuses = items.map(a =>
-    String(a.status || "").trim().toLowerCase()
-  );
+function getMainSeriesItem(items){
+  return items.find(a=>{
+    const title=String(a.title||"");
+    const type=String(a.media_type||"Episode").toLowerCase();
+    return type==="episode" &&
+      !/\b(?:season|series|part|movie|film|ova|oad|special|specials)\b/i.test(title) &&
+      !/\b(?:2nd|3rd|4th|5th)\s+season\b/i.test(title);
+  }) || items.find(a=>!isMovieOrExtra(a)) || items[0];
+}
 
-  if(statuses.includes("watching")) return "Watching";
-  if(statuses.includes("plan to watch")) return "Plan to Watch";
-  if(statuses.length && statuses.every(s => s === "completed")) return "Completed";
+function getSeriesStatus(items){
+  const main=getMainSeriesItem(items);
+  return main?.status || items[0]?.status || "";
+}
 
-  const first = items.find(a => a.status);
-  return first ? first.status : "";
+function getSeriesSeasonOrder(anime, items){
+  const title=String(anime.title||"").toLowerCase();
+  const main=getMainSeriesItem(items);
+  const mainTitle=String(main?.title||"").toLowerCase();
+
+  if(anime.id===main?.id) return 1;
+
+  const explicit =
+    title.match(/\bseason\s*(\d+)\b/i) ||
+    title.match(/\b(\d+)(?:st|nd|rd|th)\s+season\b/i) ||
+    title.match(/\bpart\s*(\d+)\b/i);
+
+  if(explicit) return Number(explicit[1]);
+
+  const key=getSeriesGroupKey(anime.title);
+
+  if(key==="dragon ball"){
+    if(/\bdragon ball z kai\b/.test(title)) return 6;
+    if(/\bdragon ball z\b/.test(title)) return 2;
+    if(/\bdragon ball gt\b/.test(title)) return 3;
+    if(/\bdragon ball super\b/.test(title)) return 4;
+    if(/\bdragon ball daima\b/.test(title)) return 5;
+  }
+
+  if(mainTitle && title.includes("second season")) return 2;
+  if(mainTitle && title.includes("third season")) return 3;
+  if(mainTitle && title.includes("fourth season")) return 4;
+  if(mainTitle && title.includes("fifth season")) return 5;
+
+  return 100000 + Number(anime.id || 0);
+}
+
+function getSeriesSeasons(items){
+  return items
+    .filter(a=>!isMovieOrExtra(a))
+    .sort((a,b)=>getSeriesSeasonOrder(a,items)-getSeriesSeasonOrder(b,items));
 }
 
 /* =========================
@@ -6367,164 +6358,64 @@ function getGroupedMainStatus(items){
 
 function renderAnime(){
 
-  document
-  .querySelectorAll(".anime-type-tab")
-  .forEach((tab,index)=>{
+  document.querySelectorAll(".anime-type-tab").forEach((tab,index)=>{
     tab.classList.toggle("active",index===0);
   });
 
-  const grid =
-  document.getElementById("animeGrid");
+  const grid=document.getElementById("animeGrid");
+  if(!grid) return;
 
+  const search=(document.getElementById("search")?.value||"")
+    .toLowerCase().trim();
 
-  const search =
-  document
-  .getElementById("search")
-  .value
-  .toLowerCase()
-  .trim();
-
-
-  const filtered =
-  animeList.filter(anime=>
-    (anime.title || "")
-    .toLowerCase()
-    .includes(search)
+  const filtered=animeList.filter(anime=>
+    String(anime.title||"").toLowerCase().includes(search)
   );
 
-  const grouped = groupMainAnimeList(filtered);
-
-  if(!grouped.length){
-
-    grid.innerHTML = `
-      <div class="empty">
-        No anime in your collection yet.
-      </div>
-    `;
-
+  if(!filtered.length){
+    grid.innerHTML=`<div class="empty">No anime in your collection yet.</div>`;
     updateStats();
-
     return;
-
   }
 
+  const groups=getSeriesGroups(filtered);
 
-  grid.innerHTML =
-  grouped
-  .map((anime,index)=>{
-    const groupItems = anime._groupItems || [anime];
-    const mainStatus = getGroupedMainStatus(groupItems);
-    const totalEpisodes = groupItems.reduce(
-      (sum, item) => sum + (Number(item.episodes) || 0),
-      0
+  grid.innerHTML=groups.map((group,index)=>{
+    const main=getMainSeriesItem(group.items);
+    const poster=main?.poster
+      ? `<img src="${escapeHtml(main.poster)}" alt="${escapeHtml(main.title)}" onerror="this.style.display='none'">`
+      : "No Poster";
+
+    const totalEpisodes=group.items.reduce(
+      (sum,a)=>sum+(Number(a.episodes)||0),0
     );
 
-
-    const poster =
-    anime.poster
-    ? `
-      <img
-      src="${escapeHtml(anime.poster)}"
-      alt="${escapeHtml(anime.title)}"
-      onerror="this.style.display='none'">
-    `
-    : "No Poster";
-
-
-    const background = "";
-
-
-    const statusClass =
-    getStatusClass(anime.status);
-
-
     return `
-
-      <div
-      class="card"
-      style="animation-delay:${index*.04}s"
-      onclick="openDetails(${anime.id})">
-
-
-        <div
-        class="card-bg"
-        ${background}>
-        </div>
-
-
+      <div class="card" style="animation-delay:${index*.04}s"
+           onclick="openDetails(${main.id})">
+        <div class="card-bg"></div>
         <div class="card-overlay"></div>
-
-
         <div class="card-content">
-
-
-          <div class="card-poster">
-
-            ${poster}
-
-          </div>
-
-
+          <div class="card-poster">${poster}</div>
           <div class="card-info">
-
-
-            <div class="card-title">
-
-              ${escapeHtml(anime.title)}
-
-            </div>
-
-
+            <div class="card-title">${escapeHtml(main.title)}</div>
             <div class="card-meta">
-
-              <span class="rating-box">
-
-                ★ ${anime.rating ?? "-"}
-
-              </span>
-
-
+              <span class="rating-box">★ ${main.rating ?? "-"}</span>
               <span class="media-type">
-
-                ${escapeHtml(
-                  anime.media_type || "Episode"
-                )}
-
+                ${group.items.length>1 ? `${group.items.length} Parts` : escapeHtml(main.media_type||"Episode")}
               </span>
-
-
-              <span>
-
-                ${anime.episodes ?? "-"} eps
-
-              </span>
-
+              <span>${totalEpisodes||main.episodes||"-"} eps</span>
             </div>
-
-
-            <div class="status ${statusClass}">
-
-              ${escapeHtml(anime.status || "")}
-
+            <div class="status ${getStatusClass(getSeriesStatus(group.items))}">
+              ${escapeHtml(getSeriesStatus(group.items)||"")}
             </div>
-
-
           </div>
-
         </div>
-
-      </div>
-
-    `;
-
-  })
-  .join("");
-
+      </div>`;
+  }).join("");
 
   updateStats();
-
 }
-
 
 /* =========================
    STATS
@@ -6532,73 +6423,40 @@ function renderAnime(){
 
 function updateStats(){
 
-  const getStatus = (anime) =>
-    String(anime?.status || "")
-      .trim()
-      .toLowerCase()
-      .replace(/\\s+/g, " ");
+  const groups=getSeriesGroups(animeList);
+  const groupStatus=group=>String(getSeriesStatus(group.items)||"").trim().toLowerCase();
 
-  const watching =
-    animeList.filter(a => getStatus(a) === "watching").length;
+  const watching=groups.filter(g=>groupStatus(g)==="watching").length;
+  const completed=groups.filter(g=>groupStatus(g)==="completed").length;
+  const plan=groups.filter(g=>groupStatus(g)==="plan to watch").length;
 
-  const completed =
-    animeList.filter(a => getStatus(a) === "completed").length;
-
-  const plan =
-    animeList.filter(a => getStatus(a) === "plan to watch").length;
-
-  const total = animeList.length;
-
-  const values = {
-    watchingCount: watching,
-    planCount: plan,
-    completedCount: completed,
-    totalCount: total
+  const setCount=(id,value)=>{
+    const el=document.getElementById(id);
+    if(el) el.textContent=value;
   };
 
-  Object.entries(values).forEach(([id, value]) => {
-    const el = document.getElementById(id);
-    if(el) el.textContent = value;
-  });
+  setCount("watchingCount",watching);
+  setCount("planCount",plan);
+  setCount("completedCount",completed);
+  setCount("totalCount",groups.length);
 
-  const watchEpisodeCount = animeList.reduce(
-    (total, anime) => total + (Number(anime.episodes) || 0),
-    0
+  const watchEpisodeCount=animeList.reduce(
+    (total,anime)=>total+(Number(anime.episodes)||0),0
   );
 
-  const watchEpisodeEl =
-    document.getElementById("watchEpisodeCount");
+  setCount("watchEpisodeCount",watchEpisodeCount);
 
-  if(watchEpisodeEl){
-    watchEpisodeEl.textContent = watchEpisodeCount;
-  }
-
-  const watchHours = (watchEpisodeCount * 20) / 60;
-
-  const watchHoursEl =
-    document.getElementById("watchHoursCount");
+  const watchHours=(watchEpisodeCount*20)/60;
+  const watchHoursEl=document.getElementById("watchHoursCount");
 
   if(watchHoursEl){
-    watchHoursEl.textContent =
-      Number.isInteger(watchHours)
+    watchHoursEl.textContent=Number.isInteger(watchHours)
       ? watchHours
       : watchHours.toFixed(1);
   }
 
-  const profileValues = {
-    profileWatchingCount: watching,
-    profileCompletedCount: completed,
-    profilePlanCount: plan,
-    profileTotalCount: total
-  };
-
-  Object.entries(profileValues).forEach(([id, value]) => {
-    const el = document.getElementById(id);
-    if(el) el.textContent = value;
-  });
-
+  if(typeof updateProfileStats==="function") updateProfileStats();
 }
-
 
 /* =========================
    STATUS LIST
@@ -6640,20 +6498,15 @@ function showStatusList(status,clickedElement){
 
   let filtered;
 
-
   if(status === "All"){
-
     filtered = [...animeList];
-
   }else{
-
-    filtered =
-    animeList.filter(
+    filtered = animeList.filter(
       anime => anime.status === status
     );
-
   }
 
+  const groupedStatusItems = getSeriesGroups(filtered);
 
   const list =
   document.createElement("div");
@@ -6674,8 +6527,9 @@ function showStatusList(status,clickedElement){
   }else{
 
     list.innerHTML =
-    filtered
-    .map(anime=>{
+    groupedStatusItems
+    .map(group=>{
+      const anime = getMainSeriesItem(group.items);
 
       const poster =
       anime.poster
@@ -6831,7 +6685,9 @@ function renderFeatured(){
 
     return `
 
-      <div class="featured-card">
+      <div class="featured-card"
+           onclick="openDetails(${anime.id})"
+           style="cursor:pointer">
 
         ${
           poster
@@ -7197,118 +7053,96 @@ function closeFeaturedEditor(){
    DETAILS
 ========================= */
 
-function openDetails(id){
+function openDetails(id,selectedId=null){
 
-  currentAnime = animeList.find(anime => anime.id === id);
-  if(!currentAnime) return;
+  const clicked=animeList.find(anime=>anime.id===id);
+  if(!clicked) return;
 
-  const groupKey =
-    currentAnime._aniSakuraGroupKey ||
-    getAniSakuraGroupKey(currentAnime.title);
-
-  const groupItems = animeList.filter(anime =>
-    (anime._aniSakuraGroupKey || getAniSakuraGroupKey(anime.title)) === groupKey
+  const groupKey=getSeriesGroupKey(clicked.title);
+  const groupItems=animeList.filter(
+    anime=>getSeriesGroupKey(anime.title)===groupKey
   );
 
-  const mainAnime =
-    groupItems.find(anime =>
-      !/\b(?:season|series|part|movie|ova|oad|special|specials|final)\b|\b\d+(?:st|nd|rd|th)\b/i
-        .test(String(anime.title || ""))
-    ) || currentAnime;
+  const seasons=getSeriesSeasons(groupItems);
+  const extras=groupItems.filter(isMovieOrExtra);
 
-  currentAnime = mainAnime;
+  const selected=selectedId
+    ? groupItems.find(a=>a.id===selectedId)||clicked
+    : getMainSeriesItem(groupItems);
 
-  document.getElementById("detailsTitle").textContent = mainAnime.title;
-  document.getElementById("detailsType").textContent =
-    "Type: " + (mainAnime.media_type || "Episode");
-  document.getElementById("detailsStatus").textContent =
-    "Status: " + (getGroupedMainStatus(groupItems) || "-");
+  currentAnime=selected;
 
-  const totalEpisodes = groupItems.reduce(
-    (sum, anime) => sum + (Number(anime.episodes) || 0),
-    0
-  );
+  document.getElementById("detailsTitle").textContent=selected.title;
+  document.getElementById("detailsType").textContent="Type: "+(selected.media_type||"Episode");
+  document.getElementById("detailsStatus").textContent="Status: "+(selected.status||"-");
+  document.getElementById("detailsEpisodes").textContent="Episodes: "+(selected.episodes??"-");
+  document.getElementById("detailsRating").textContent="Rating: "+(selected.rating??"-");
+  document.getElementById("detailsNotes").textContent=selected.notes||"No notes.";
 
-  document.getElementById("detailsEpisodes").textContent =
-    "Episodes: " + (totalEpisodes || "-");
-
-  document.getElementById("detailsRating").textContent =
-    "Rating: " + (mainAnime.rating ?? "-");
-
-  document.getElementById("detailsNotes").textContent =
-    mainAnime.notes || "No notes.";
-
-  const poster = document.getElementById("detailsPoster");
-
-  if(mainAnime.poster){
-    poster.innerHTML = `
-      <img src="${escapeHtml(mainAnime.poster)}"
-           alt=""
-           onerror="this.style.display='none'">
-    `;
+  const poster=document.getElementById("detailsPoster");
+  if(selected.poster){
+    poster.innerHTML=`<img src="${escapeHtml(selected.poster)}" alt="" onerror="this.style.display='none'">`;
   }else{
-    poster.textContent = "No Poster";
+    poster.textContent="No Poster";
   }
 
-  const detailsLayout = document.getElementById("detailsLayout");
-
-  if(mainAnime.poster){
-    detailsLayout.style.backgroundImage = `
-      linear-gradient(
-        rgba(6,11,22,.82),
-        rgba(6,11,22,.92)
-      ),
-      url("${escapeHtml(mainAnime.poster)}")
-    `;
-    detailsLayout.style.backgroundSize = "cover";
-    detailsLayout.style.backgroundPosition = "center";
+  const layout=document.getElementById("detailsLayout");
+  if(selected.poster){
+    layout.style.backgroundImage=`
+      linear-gradient(rgba(6,11,22,.82),rgba(6,11,22,.92)),
+      url("${escapeHtml(selected.poster)}")`;
+    layout.style.backgroundSize="cover";
+    layout.style.backgroundPosition="center";
   }else{
-    detailsLayout.style.backgroundImage = "none";
+    layout.style.backgroundImage="none";
   }
 
-  const partsBox = document.getElementById("detailsParts");
-
-  if(partsBox){
-    if(groupItems.length > 1){
-      partsBox.innerHTML = `
-        <div class="details-parts-title">Seasons & Parts</div>
-
-        ${groupItems.map(item => {
-          const partPoster = item.poster
-            ? `<img src="${escapeHtml(item.poster)}"
-                    alt=""
-                    onerror="this.style.display='none'">`
-            : "No Poster";
-
-          return `
-            <div class="detail-part-card">
-              <div class="detail-part-poster">${partPoster}</div>
-
-              <div>
-                <div class="detail-part-name">
-                  ${escapeHtml(item.title || "Untitled")}
-                </div>
-                <div class="detail-part-type">
-                  ${escapeHtml(item.media_type || "Episode")}
-                </div>
-              </div>
-
-              <div class="detail-part-episodes">
-                ${item.media_type === "Movie"
-                  ? "Movie"
-                  : `${item.episodes ?? "-"} eps`}
-              </div>
-            </div>
-          `;
-        }).join("")}
-      `;
+  const seasonBox=document.getElementById("seriesSeasons");
+  if(seasonBox){
+    if(seasons.length>1){
+      seasonBox.innerHTML=`
+        <div class="series-section-title">Seasons</div>
+        <div class="series-season-row">
+          ${seasons.map((anime,i)=>`
+            <button type="button"
+              class="series-season-btn ${anime.id===selected.id?"active":""}"
+              onclick="openDetails(${clicked.id},${anime.id})">
+              <span class="series-season-number">SEASON ${i+1}</span>
+              <span class="series-season-name">${escapeHtml(anime.title)}</span>
+              <span class="series-season-eps">${anime.episodes??"-"} EPS</span>
+            </button>
+          `).join("")}
+        </div>`;
     }else{
-      partsBox.innerHTML = "";
+      seasonBox.innerHTML="";
     }
   }
 
-  const detailsModal = document.getElementById("detailsModal");
-  const profilePage = document.getElementById("profilePageModal");
+  const extrasBox=document.getElementById("seriesExtras");
+  if(extrasBox){
+    extrasBox.innerHTML=extras.length ? `
+      <div class="series-section-title">OVA / Movies / Specials</div>
+      <div class="series-extra-list">
+        ${extras.map(anime=>`
+          <div class="series-extra-item"
+               onclick="openDetails(${clicked.id},${anime.id})">
+            ${anime.poster
+              ? `<img class="series-extra-poster" src="${escapeHtml(anime.poster)}" alt="" onerror="this.style.display='none'">`
+              : `<div class="series-extra-poster"></div>`}
+            <div>
+              <div class="series-extra-title">${escapeHtml(anime.title)}</div>
+              <div class="series-extra-type">${escapeHtml(anime.media_type||"Extra")}</div>
+            </div>
+            <div class="series-extra-eps">
+              ${String(anime.media_type||"").toLowerCase()==="movie" ? "Movie" : `${anime.episodes??"-"} eps`}
+            </div>
+          </div>
+        `).join("")}
+      </div>` : "";
+  }
+
+  const detailsModal=document.getElementById("detailsModal");
+  const profilePage=document.getElementById("profilePageModal");
 
   if(profilePage && profilePage.classList.contains("show")){
     profilePage.classList.remove("show");
@@ -7319,7 +7153,6 @@ function openDetails(id){
 
   detailsModal.classList.add("show");
 }
-
 
 /* =========================
    CLOSE DETAILS
