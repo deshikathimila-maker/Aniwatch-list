@@ -5343,36 +5343,41 @@ async function fetchAniMetadata(title){
   }
 }
 
-async function enrichAniSakuraEpisodes(){
-  const imported = animeList.filter(a =>
-    a.episodes == null &&
-    ANISAKURA_WATCHLIST_IMPORT.some(x =>
-      normalizeAnimeTitle(x.title) === normalizeAnimeTitle(a.title)
+async function enrichMissingAnimeMetadata(){
+  // Fill missing total episode counts/types for BOTH imported and manually-added anime.
+  // This does not change ratings, history, notes, featured state, or editor behavior.
+  const missing = animeList.filter(a =>
+    a && (
+      a.episodes == null ||
+      a.episodes === "" ||
+      a.media_type == null ||
+      a.media_type === ""
     )
   );
 
-  for(const anime of imported){
+  for(const anime of missing){
     const meta = await fetchAniMetadata(anime.title);
     if(meta){
       const update = {
-        episodes: Number.isFinite(meta.episodes) ? meta.episodes : null,
+        episodes: Number.isFinite(meta.episodes) ? meta.episodes : anime.episodes,
         media_type: meta.media_type || anime.media_type || "Episode"
       };
 
       const {error} = await supabaseClient
         .from("anime")
         .update(update)
-        .eq("id", anime.id);
+        .eq("id", anime.id)
+        .eq("user_id", anime.user_id);
 
       if(!error){
         anime.episodes = update.episodes;
         anime.media_type = update.media_type;
       }
     }
-    // Keep Jikan requests gentle so the public API is not hammered.
-    await new Promise(resolve => setTimeout(resolve, 500));
+    await new Promise(resolve => setTimeout(resolve, 900));
   }
 }
+
 
 /* =========================
    LOAD
@@ -5435,7 +5440,7 @@ async function loadAnime(){
 
   // AniSakura itself does not provide the episode count in the imported watchlist.
   // Fill missing episode counts/types from the same Jikan source used by the Add Anime search.
-  await enrichAniSakuraEpisodes();
+  await enrichMissingAnimeMetadata();
 
   renderAnime();
 
