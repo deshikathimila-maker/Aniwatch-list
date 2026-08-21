@@ -1170,79 +1170,6 @@ textarea{
   gap:9px;
   margin-top:18px;
 }
- .details-seasons{
-  margin-top:18px;
-  display:grid;
-  gap:10px;
-}
-
-.details-season-buttons{
-  display:flex;
-  gap:7px;
-  flex-wrap:wrap;
-}
-
-.details-season-button{
-  border:1px solid rgba(255,255,255,.10);
-  background:rgba(255,255,255,.06);
-  color:#cbd5e1;
-  padding:7px 10px;
-  border-radius:8px;
-  font-size:10px;
-  cursor:pointer;
-}
-
-.details-season-button.active{
-  background:rgba(255,255,255,.14);
-  color:#fff;
-}
-
-.details-season-preview{
-  display:grid;
-  grid-template-columns:64px 1fr;
-  gap:10px;
-  align-items:center;
-  padding:9px;
-  border-radius:10px;
-  background:rgba(255,255,255,.04);
-}
-
-.details-season-preview-poster{
-  width:64px;
-  height:86px;
-  border-radius:7px;
-  overflow:hidden;
-  background:#101c30;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  color:#66758d;
-  font-size:8px;
-  text-align:center;
-}
-
-.details-season-preview-poster img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
-
-.details-season-preview-title{
-  font-size:12px;
-  font-weight:700;
-}
-
-.details-season-preview-meta{
-  margin-top:4px;
-  color:#8d9bb0;
-  font-size:9px;
-}
-
-.details-actions{
-  display:flex;
-  gap:9px;
-  margin-top:18px;
-}
 
 .details-actions button{
   flex:1;
@@ -3735,12 +3662,6 @@ input[placeholder="Search anime..."]:not(#search){
   border-radius:10px;
   font-size:11px;
 }
-
-/* Imported AniSakura cards: slightly smaller posters */
-.card-poster{height:175px !important;}
-/* Use the poster only once; do not show the same image again as a card background. */
-.card-bg{display:none !important;}
-@media(max-width:600px){.card-poster{height:150px !important;}}
 </style>
 
 </head>
@@ -4269,7 +4190,7 @@ id="statusList">
       class="watch-episode-number"
       id="watchEpisodeCount">0</span>
 
-    <span class="watch-episode-label">Episodes</span>
+    <span class="watch-episode-label">Watch Episode</span>
   </div>
 
   <div class="watch-hours-info">
@@ -4612,8 +4533,6 @@ No notes.
 
 </div>
 
-
-<div class="details-seasons" id="detailsSeasons"></div>
 
 <div class="details-actions">
 
@@ -5320,140 +5239,6 @@ function updateProfileStats(){
 }
 
 
-
-/* =========================================================
-   AniSakura watchlist import
-   Imports watchlist status + poster only. No ratings/history.
-========================================================= */
-const ANISAKURA_WATCHLIST_IMPORT = [{"title":"A Certain Scientific Accelerator","poster":"https://cdn.anizara.store/cover/dc960c46c38bd16e953d97cdeefdbc68.webp","status":"Completed"},{"title":"A Journey Through Another World: Raising Kids While Adventuring","poster":"https://cdn.anizara.store/cover/95323660ed2124450caaac2c46b5ed90.webp","status":"Completed"},{"title":"A Wild Last Boss Appeared!","poster":"https://cdn.anizara.store/cover/cf5530d9e441e0d78574353214373569.webp","status":"Completed"},{"title":"Angels of Death","poster":"https://cdn.anizara.store/cover/e8fd4a8a5bab2b3785d794ab51fef55c.webp","status":"Completed"},{"title":"Apocalypse Bringer Mynoghra","poster":"https://cdn.anizara.store/cover/ad68473a64305626a27c32a5408552d7.webp","status":"Completed"},{"title":"Arifureta: From Commonplace to World's Strongest","poster":"https://cdn.anizara.store/cover/43351f7bf9a215be70c2c2caa7555002.webp","status":"Completed"},{"title":"Arifureta Shokugyou de Sekai Saikyou 2nd Season","poster":"https://cdn.anizara.store/cover/e9fb2eda3d9c55a0d89c98d6c54b5b3e.webp","status":"Completed"},{"title":"Arms Alchemy","poster":"https://cdn.anizara.store/cover/692f93be8c7a41525c0baf2076aecfb4.webp","status":"Plan to Watch"},{"title":"B.King","poster":"https://cdn.anizara.store/cover/b9937273f2b46912b56d09c8faa7da23.webp","status":"Completed"},{"title":"Beast Tamer","poster":"https://cdn.anizara.store/cover/5421e013565f7f1afa0cfe8ad87a99ab.webp","status":"Completed"},{"title":"Beelzebub","poster":"https://cdn.anizara.store/cover/18d8042386b79e2c279fd162df0205c8.webp","status":"Plan to Watch"},{"title":"Berserk of Gluttony","poster":"https://cdn.anizara.store/cover/2bf283c05b601f21364d052ca0ec798d.webp","status":"Completed"},{"title":"Beyond the Boundary","poster":"https://cdn.anizara.store/cover/7380ad8a673226ae47fce7bff88e9c33.webp","status":"Plan to Watch"},{"title":"Black Butler","poster":"https://cdn.anizara.store/cover/3cf166c6b73f030b4f67eeaeba301103.webp","status":"Plan to Watch"},{"title":"Black Clover","poster":"https://cdn.anizara.store/cover/c60d060b946d6dd6145dcbad5c4ccf6f.webp","status":"Completed"},{"title":"Black Clover: Sword of the Wizard King","poster":"https://cdn.anizara.store/cover/358f9e7be09177c17d0d17ff73584307.webp","status":"Completed"},{"title":"Black Summoner","poster":"https://cdn.anizara.store/cover/e8a642ed6a9ad20fb159472950db3d65.webp","status":"Completed"},{"title":"BLACK TORCH","poster":"https://cdn.anizara.store/cover/f90bebdc692f68ebf8f1dee68a01a8e0.webp","status":"Plan to Watch"},{"title":"Blade of the Immortal","poster":"https://cdn.anizara.store/cover/1f1baa5b8edac74eb4eaa329f14a0361.webp","status":"Plan to Watch"},{"title":"Bleach","poster":"https://cdn.anizara.store/cover/49ae49a23f67c759bf4fc791ba842aa2.webp","status":"Completed"},{"title":"Blood Blockade Battlefront","poster":"https://cdn.anizara.store/cover/26dd0dbc6e3f4c8043749885523d6a25.webp","status":"Plan to Watch"},{"title":"Blue Exorcist","poster":"https://cdn.anizara.store/cover/9f396fe44e7c05c16873b05ec425cbad.webp","status":"Completed"},{"title":"Blue Exorcist: Kyoto Saga","poster":"https://cdn.anizara.store/cover/e0cf1f47118daebc5b16269099ad7347.webp","status":"Completed"},{"title":"Campione!","poster":"https://cdn.anizara.store/cover/e816c635cad85a60fabd6b97b03cbcc9.webp","status":"Plan to Watch"},{"title":"Castlevania","poster":"https://cdn.anizara.store/cover/d7aab42e6b85c49c0f1d3a115e939c74.webp","status":"Plan to Watch"},{"title":"Chainsaw Man","poster":"https://cdn.anizara.store/cover/563ca5e068bc78b807910338bb4d4279.webp","status":"Completed"},{"title":"Claymore","poster":"https://cdn.anizara.store/cover/fccb60fb512d13df5083790d64c4d5dd.webp","status":"Plan to Watch"},{"title":"Clevatess","poster":"https://cdn.anizara.store/cover/aec851e565646f6835e915293381e20a.webp","status":"Plan to Watch"},{"title":"Code Geass: Lelouch of the Rebellion","poster":"https://cdn.anizara.store/cover/9f61408e3afb633e50cdf1b20de6f466.webp","status":"Plan to Watch"},{"title":"Combatants Will Be Dispatched!","poster":"https://cdn.anizara.store/cover/2bd235c31c97855b7ef2dc8b414779af.webp","status":"Plan to Watch"},{"title":"Crowned in a Hundred Days","poster":"https://cdn.anizara.store/cover/55063089b08df5797d3eebca7c087ed4.webp","status":"Plan to Watch"},{"title":"D.Gray-man","poster":"https://cdn.anizara.store/cover/9fd81843ad7f202f26c1a174c7357585.webp","status":"Plan to Watch"},{"title":"D.Gray-man HALLOW","poster":"https://cdn.anizara.store/cover/598b3e71ec378bd83e0a727608b5db01.webp","status":"Plan to Watch"},{"title":"Daemons of the Shadow Realm","poster":"https://cdn.anizara.store/cover/e834cb114d33f729dbc9c7fb0c6bb607.webp","status":"Plan to Watch"},{"title":"Dan Da Dan","poster":"https://cdn.anizara.store/cover/ea9268cb43f55d1d12380fb6ea5bf572.webp","status":"Completed"},{"title":"Dan Da Dan Season 2","poster":"https://cdn.anizara.store/cover/9529fbba677729d3206b3b9073d1e9ca.webp","status":"Completed"},{"title":"Darker than Black","poster":"https://cdn.anizara.store/cover/b1a59b315fc9a3002ce38bbe070ec3f5.webp","status":"Plan to Watch"},{"title":"Dead Account","poster":"https://cdn.anizara.store/cover/8cd7775f9129da8b5bf787a063d8426e.webp","status":"Plan to Watch"},{"title":"Death March to the Parallel World Rhapsody","poster":"https://cdn.anizara.store/cover/9f44e956e3a2b7b5598c625fcc802c36.webp","status":"Completed"},{"title":"Demon Slayer: Kimetsu no Yaiba Infinity Castle","poster":"https://cdn.anizara.store/cover/82f292a22966b857d968fb578ccbead9.webp","status":"Completed"},{"title":"Devilman: Crybaby","poster":"https://cdn.anizara.store/cover/3891b14b5d8cce2fdd8dcdb4ded28f6d.webp","status":"Plan to Watch"},{"title":"Devils and Realist","poster":"https://cdn.anizara.store/cover/ad71c82b22f4f65b9398f76d8be4c615.webp","status":"Plan to Watch"},{"title":"Didn't I Say to Make My Abilities Average in the Next Life?!","poster":"https://cdn.anizara.store/cover/418ef6127e44214882c61e372e866691.webp","status":"Completed"},{"title":"Dimension W","poster":"https://cdn.anizara.store/cover/4f284803bd0966cc24fa8683a34afc6e.webp","status":"Plan to Watch"},{"title":"Dororo","poster":"https://cdn.anizara.store/cover/13fe9d84310e77f13a6d184dbf1232f3.webp","status":"Completed"},{"title":"Dragon Ball","poster":"https://cdn.anizara.store/cover/cd00692c3bfe59267d5ecfac5310286c.webp","status":"Completed"},{"title":"Dragon Ball Daima","poster":"https://cdn.anizara.store/cover/67974233917cea0e42a49a2fb7eb4cf4.webp","status":"Watching"},{"title":"Dragon Ball GT","poster":"https://cdn.anizara.store/cover/3147da8ab4a0437c15ef51a5cc7f2dc4.webp","status":"Completed"},{"title":"Dragon Ball Movie 01: Curse of the Blood Rubies","poster":"https://cdn.anizara.store/cover/b52340b4de4566b804c9880aa0b4af5f.webp","status":"Watching"},{"title":"Dragon Ball Movie 02: Sleeping Princess in Devil's Castle","poster":"https://cdn.anizara.store/cover/c4414e538a5475ec0244673b7f2f7dbb.webp","status":"Watching"},{"title":"Dragon Ball Movie 03: Mystical Adventure","poster":"https://cdn.anizara.store/cover/13d7dc096493e1f77fb4ccf3eaf79df1.webp","status":"Watching"},{"title":"Dragon Ball Movie 04: The Path to Power","poster":"https://cdn.anizara.store/cover/f58c9875ac84dfe1fbe91b918773d050.webp","status":"Watching"},{"title":"Dragon Ball Super","poster":"https://cdn.anizara.store/cover/2a084e55c87b1ebcdaad1f62fdbbac8e.webp","status":"Completed"},{"title":"Dragon Ball Super: Broly","poster":"https://cdn.anizara.store/cover/1558417b096b5d8e7cbe0183ea9cbf26.webp","status":"Completed"},{"title":"Dragon Ball Super: Super Hero","poster":"https://cdn.anizara.store/cover/d903e9608cfbf08910611e4346a0ba44.webp","status":"Plan to Watch"},{"title":"Dragon Ball Z","poster":"https://cdn.anizara.store/cover/060ad92489947d410d897474079c1477.webp","status":"Completed"},{"title":"Dragon Ball Z: Battle of Gods","poster":"https://cdn.anizara.store/cover/d2b15c75c0c389b49c2efbea79cdc946.webp","status":"Plan to Watch"},{"title":"Dragon Ball Z: Bio-Broly","poster":"https://cdn.anizara.store/cover/4f164cf233807fc02da06599a1264dee.webp","status":"Plan to Watch"},{"title":"Dragon Ball Z: Bojack Unbound","poster":"https://cdn.anizara.store/cover/ddac1f6f13bb372a177804adcd3b8a31.webp","status":"Plan to Watch"},{"title":"Dragon Ball Z: Broly – Second Coming","poster":"https://cdn.anizara.store/cover/a78e17c964d3593d89cde3fb678f6a14.webp","status":"Plan to Watch"},{"title":"Dragon Ball Z: Broly – The Legendary Super Saiyan","poster":"https://cdn.anizara.store/cover/a4d3af69a34ee0822adcbfc50bf1ded5.webp","status":"Plan to Watch"},{"title":"Dragon Ball Z: Cooler's Revenge","poster":"https://cdn.anizara.store/cover/d630553e32ae21fb1a6df39c702d2c5c.webp","status":"Plan to Watch"},{"title":"Dragon Ball Z: Dead Zone","poster":"https://cdn.anizara.store/cover/a5585a4d4b12277fee5cad0880611bc6.webp","status":"Plan to Watch"},{"title":"Dragon Ball Z: Fusion Reborn","poster":"https://cdn.anizara.store/cover/0d27688c61c5a172e8e45956cd70cba2.webp","status":"Plan to Watch"},{"title":"Dragon Ball Z Kai","poster":"https://cdn.anizara.store/cover/8e6b42f1644ecb1327dc03ab345e618b.webp","status":"Completed"},{"title":"Dragon Ball Z Kai: The Final Chapters","poster":"https://cdn.anizara.store/cover/38913e1d6a7b94cb0f55994f679f5956.webp","status":"Completed"},{"title":"Dragon Ball Z: Lord Slug","poster":"https://cdn.anizara.store/cover/04c6906524cd877e833fe26ddaddc62f.webp","status":"Plan to Watch"},{"title":"Dragon Ball Z: Resurrection 'F'","poster":"https://cdn.anizara.store/cover/f89394c979b34a25cc4ff8e11234fbfb.webp","status":"Completed"},{"title":"Dragon Ball Z Special 1: Bardock, The Father of Goku","poster":"https://cdn.anizara.store/cover/8900faaaf2290df7971ce903cd11ebda.webp","status":"Plan to Watch"},{"title":"Dragon Ball Z Special 2: The History of Trunks","poster":"https://cdn.anizara.store/cover/6a130f1dc6f0c829f874e92e5458dced.webp","status":"Plan to Watch"},{"title":"Dragon Ball Z: The Return of Cooler","poster":"https://cdn.anizara.store/cover/bb181e83b9ac6be1b28b2a2b26dcd73e.webp","status":"Plan to Watch"},{"title":"Dragon Ball Z: The Tree of Might","poster":"https://cdn.anizara.store/cover/91299a41773c667d2ee8cddc3f6eeb64.webp","status":"Plan to Watch"},{"title":"Dragon Ball Z: The World's Strongest","poster":"https://cdn.anizara.store/cover/adf7ee2dcf142b0e11888e72b43fcb75.webp","status":"Plan to Watch"},{"title":"Dragon Ball Z: Wrath of the Dragon","poster":"https://cdn.anizara.store/cover/4607f7fff0dce694258e1c637512aa9d.webp","status":"Plan to Watch"},{"title":"Drifters","poster":"https://cdn.anizara.store/cover/138bb0696595b338afbab333c555292a.webp","status":"Plan to Watch"},{"title":"Even Given the Worthless “Appraiser” Class, I’m Actually the Strongest","poster":"https://cdn.anizara.store/cover/6df182582740607da754e4515b70e32d.webp","status":"Completed"},{"title":"Failure Frame: I Became the Strongest and Annihilated Everything With Low-Level Spells","poster":"https://cdn.anizara.store/cover/e73fecc08ee9b0e1a876614ec3178bac.webp","status":"Completed"},{"title":"Fairy Tail","poster":"https://cdn.anizara.store/cover/f4be00279ee2e0a53eafdaa94a151e2c.webp","status":"Watching"},{"title":"Fate/stay night: Unlimited Blade Works","poster":"https://cdn.anizara.store/cover/31fefc0e570cb3860f2a6d4b38c6490d.webp","status":"Completed"},{"title":"Fate/stay night: Unlimited Blade Works 2nd Season","poster":"https://cdn.anizara.store/cover/bd4c9ab730f5513206b999ec0d90d1fb.webp","status":"Completed"},{"title":"Fate/stay night: Unlimited Blade Works - Prologue","poster":"https://cdn.anizara.store/cover/6a30e32e56fce5cf381895dfe6ca7b6f.webp","status":"Completed"},{"title":"Fire Force","poster":"https://cdn.anizara.store/cover/e2230b853516e7b05d79744fbd4c9c13.webp","status":"Completed"},{"title":"Fog Hill of Five Elements","poster":"https://cdn.anizara.store/cover/bf764716fe1a58cb07f8a377ec25c16d.webp","status":"Plan to Watch"},{"title":"Fog Hill of Five Elements 2nd Season","poster":"https://cdn.anizara.store/cover/4c9d1fbce4890fc2731b6a61262313b1.webp","status":"Plan to Watch"},{"title":"Four-Panel Heroes","poster":"https://cdn.anizara.store/cover/98baeb82b676b662e12a7af8ad9212f6.webp","status":"Plan to Watch"},{"title":"From Old Country Bumpkin to Master Swordsman","poster":"https://cdn.anizara.store/cover/4f5a9bf135f285358a4a74b08f8121f8.webp","status":"Completed"},{"title":"From Overshadowed to Overpowered: Second Reincarnation of a Talentless Sage","poster":"https://cdn.anizara.store/cover/f7fa6aca028e7ff4ef62d75ed025fe76.webp","status":"Plan to Watch"},{"title":"Fullmetal Alchemist","poster":"https://cdn.anizara.store/cover/006f52e9102a8d3be2fe5614f42ba989.webp","status":"Plan to Watch"},{"title":"Gachiakuta","poster":"https://cdn.anizara.store/cover/7d97667a3e056acab9aaf653807b4a03.webp","status":"Completed"},{"title":"Gantz","poster":"https://cdn.anizara.store/cover/ebd6d2f5d60ff9afaeda1a81fc53e2d0.webp","status":"Plan to Watch"},{"title":"Gantz: Second Stage","poster":"https://cdn.anizara.store/cover/a8f8f60264024dca151f164729b76c0b.webp","status":"Plan to Watch"},{"title":"Gintama","poster":"https://cdn.anizara.store/cover/1f0e3dad99908345f7439f8ffabdffc4.webp","status":"Watching"},{"title":"Goblin Slayer","poster":"https://cdn.anizara.store/cover/ab88b15733f543179858600245108dd8.webp","status":"Completed"},{"title":"Goblin Slayer 2nd Season","poster":"https://cdn.anizara.store/cover/aac61539fd1fb209b44b9f9d0d8d28ac.webp","status":"Completed"},{"title":"Goblin Slayer: Goblin","poster":"https://cdn.anizara.store/cover/fa131721954c3ddae16ee67620ffb2e0.webp","status":"Completed"},{"title":"Gokushufudou Part 2","poster":"https://cdn.anizara.store/cover/4722176876d0b766e2ce8328108416b9.webp","status":"Completed"},{"title":"Good Bye, Dragon Life.","poster":"https://cdn.anizara.store/cover/2ed80f6311c1825feb854d78fa969d34.webp","status":"Plan to Watch"},{"title":"Handyman Saitou in Another World","poster":"https://cdn.anizara.store/cover/7d2be41b1bde6ff8fe45150c37488ebb.webp","status":"Plan to Watch"},{"title":"Hell's Paradise","poster":"https://cdn.anizara.store/cover/a8166da05c5a094f7dc03724b41886e5.webp","status":"Completed"},{"title":"Hell's Paradise Season 2","poster":"https://cdn.anizara.store/cover/b93f11867481fc6d77908aea58ba6198.webp","status":"Plan to Watch"},{"title":"Hellsing","poster":"https://cdn.anizara.store/cover/02a32ad2669e6fe298e607fe7cc0e1a0.webp","status":"Completed"},{"title":"Hellsing Ultimate","poster":"https://cdn.anizara.store/cover/4c7958ae576e324677837d348a133102.webp","status":"Completed"},{"title":"Hinamatsuri","poster":"https://cdn.anizara.store/cover/cedebb6e872f539bef8c3f919874e9d7.webp","status":"Completed"},{"title":"Hoshina's Day Off","poster":"https://cdn.anizara.store/cover/1e0feeaff84a19bf3936e693311fa66d.webp","status":"Completed"},{"title":"Hunter x Hunter","poster":"https://cdn.anizara.store/cover/4e732ced3463d06de0ca9a15b6153677.webp","status":"Plan to Watch"},{"title":"I Got a Cheat Skill in Another World and Became Unrivaled in The Real World, Too","poster":"https://cdn.anizara.store/cover/1458e7509aa5f47ecfb92536e7dd1dc7.webp","status":"Completed"},{"title":"I Parry Everything","poster":"https://cdn.anizara.store/cover/58521e4e2bd3d4b988cbd17d7365df3c.webp","status":"Completed"},{"title":"I Was Reincarnated as the 7th Prince so I Can Take My Time Perfecting My Magical Ability","poster":"https://cdn.anizara.store/cover/5c151c2a9b76f9ef26d7e0f0d00c9a89.webp","status":"Completed"},{"title":"I Was Reincarnated as the 7th Prince so I Can Take My Time Perfecting My Magical Ability Season 2","poster":"https://cdn.anizara.store/cover/23755432da68528f115c9633c0d7834f.webp","status":"Completed"},{"title":"I'm Quitting Heroing","poster":"https://cdn.anizara.store/cover/f2bff080785c76aa81dbaffce7dea0ad.webp","status":"Completed"},{"title":"I'm standing on 1,000,000 lives.","poster":"https://cdn.anizara.store/cover/90aef91f0d9e7c3be322bd7bae41617d.webp","status":"Completed"},{"title":"I'm the Evil Lord of an Intergalactic Empire!","poster":"https://cdn.anizara.store/cover/db9ad56c71619aeed9723314d1456037.webp","status":"Plan to Watch"},{"title":"I've Somehow Gotten Stronger When I Improved My Farm-Related Skills","poster":"https://cdn.anizara.store/cover/14c879f3f5d8ed93a09f6090d77c2cc3.webp","status":"Plan to Watch"},{"title":"Jujutsu Kaisen 0 Movie","poster":"https://cdn.anizara.store/cover/197838c579c3b78927e0cd15ba4c9689.webp","status":"Completed"},{"title":"Jujutsu Kaisen 2nd Season","poster":"https://cdn.anizara.store/cover/77c493ec14246d748db3ee8fce0092db.webp","status":"Completed"},{"title":"Jujutsu Kaisen 3rd Season: The Culling Game Part 1","poster":"https://cdn.anizara.store/cover/fdad3b5b2200b598dfde9517e5b426a8.webp","status":"Plan to Watch"},{"title":"Jujutsu Kaisen (TV)","poster":"https://cdn.anizara.store/cover/158f3069a435b314a80bdcb024f8e422.webp","status":"Completed"},{"title":"K-Project","poster":"https://cdn.anizara.store/cover/5f0f5e5f33945135b874349cfbed4fb9.webp","status":"Plan to Watch"},{"title":"Kaiju No. 8","poster":"https://cdn.anizara.store/cover/cbf22ab286e2ad4900bdf5d6a2e47009.webp","status":"Completed"},{"title":"Kaiju No. 8 Movie","poster":"https://cdn.anizara.store/cover/2cc73b24083105c3d488cc61b606d4f0.webp","status":"Completed"},{"title":"Kaiju No. 8 Season 2","poster":"https://cdn.anizara.store/cover/4b04b0dcd2ade339a3d7ce13252a29d4.webp","status":"Completed"},{"title":"Katsugeki Touken Ranbu","poster":"https://cdn.anizara.store/cover/6be5336db2c119736cf48f475e051bfe.webp","status":"Plan to Watch"},{"title":"Kemono Jihen","poster":"https://cdn.anizara.store/cover/c6a01432c8138d46ba39957a8250e027.webp","status":"Plan to Watch"},{"title":"KonoSuba: God's Blessing on This Wonderful World!","poster":"https://cdn.anizara.store/cover/eb163727917cbba1eea208541a643e74.webp","status":"Completed"},{"title":"Loner Life in Another World","poster":"https://cdn.anizara.store/cover/8dcf2420e78a64333a59674678fb283b.webp","status":"Completed"},{"title":"Lord of Mysteries","poster":"https://cdn.anizara.store/cover/fe04e05fbe48920b8ba90bea2ddfe60b.webp","status":"Plan to Watch"},{"title":"Magi: The Labyrinth of Magic","poster":"https://cdn.anizara.store/cover/539fd53b59e3bb12d203f45a912eeaf2.webp","status":"Plan to Watch"},{"title":"Mashle: Magic and Muscles","poster":"https://cdn.anizara.store/cover/196f5641aa9dc87067da4ff90fd81e7b.webp","status":"Completed"},{"title":"Mashle: Magic and Muscles Season 2","poster":"https://cdn.anizara.store/cover/39ea40e164f970c54b0530436d5a9f7a.webp","status":"Completed"},{"title":"Mashle: Magic and Muscles (Specials)","poster":"https://cdn.anizara.store/cover/00430c0c1fae276c9713ab5f21167882.webp","status":"Completed"},{"title":"Mob Psycho 100","poster":"https://cdn.anizara.store/cover/9778d5d219c5080b9a6a17bef029331c.webp","status":"Completed"},{"title":"Mob Psycho 100 II","poster":"https://cdn.anizara.store/cover/aab3238922bcc25a6f606eb525ffdc56.webp","status":"Completed"},{"title":"Mob Psycho 100 III","poster":"https://cdn.anizara.store/cover/f34185c4ca5d58e781d4f14173d41e5d.webp","status":"Plan to Watch"},{"title":"Mushoku Tensei: Jobless Reincarnation","poster":"https://cdn.anizara.store/cover/976abf49974d4686f87192efa0513ae0.webp","status":"Completed"},{"title":"Mushoku Tensei: Jobless Reincarnation Part 2","poster":"https://cdn.anizara.store/cover/52edc4a5890adc59cec82cb60f8af691.webp","status":"Completed"},{"title":"My Gift Lvl 9999 Unlimited Gacha: Backstabbed in a Backwater Dungeon, I'm Out for Revenge!","poster":"https://cdn.anizara.store/cover/8dd291cbea8f231982db0fb1716dfc55.webp","status":"Completed"},{"title":"My Hero Academia","poster":"https://cdn.anizara.store/cover/115f89503138416a242f40fb7d7f338e.webp","status":"Completed"},{"title":"My Hero Academia 2","poster":"https://cdn.anizara.store/cover/ec5decca5ed3d6b8079e2e7e7bacc9f2.webp","status":"Completed"},{"title":"My Hero Academia 3","poster":"https://cdn.anizara.store/cover/26657d5ff9020d2abefe558796b99584.webp","status":"Watching"},{"title":"My Hero Academia 4","poster":"https://cdn.anizara.store/cover/0e65972dce68dad4d52d063967f0a705.webp","status":"Plan to Watch"},{"title":"My Hero Academia 5th Season","poster":"https://cdn.anizara.store/cover/62f91ce9b820a491ee78c108636db089.webp","status":"Plan to Watch"},{"title":"My Hero Academia Final Season","poster":"https://cdn.anizara.store/cover/a4a8a31750a23de2da88ef6a491dfd5c.webp","status":"Plan to Watch"},{"title":"My Hero Academia Season 6","poster":"https://cdn.anizara.store/cover/c2f32522a84d5e6357e6abac087f1b0b.webp","status":"Plan to Watch"},{"title":"My Hero Academia Season 7","poster":"https://cdn.anizara.store/cover/27e8e17134dd7083b050476733207ea1.webp","status":"Plan to Watch"},{"title":"My Instant Death Ability is So Overpowered, No One in This Other World Stands a Chance Against Me!","poster":"https://cdn.anizara.store/cover/a18630ab1c3b9f14454cf70dc7114834.webp","status":"Plan to Watch"},{"title":"My Isekai Life: I Gained a Second Character Class and Became the Strongest Sage in the World","poster":"https://cdn.anizara.store/cover/c12706a7c6e8d6476c3d2b6ae0042a82.webp","status":"Completed"},{"title":"My Status as an Assassin Obviously Exceeds the Hero's","poster":"https://cdn.anizara.store/cover/cbc462e27100dad71cdbf606d396ddad.webp","status":"Completed"},{"title":"Needless","poster":"https://cdn.anizara.store/cover/3a15c7d0bbe60300a39f76f8a5ba6896.webp","status":"Completed"},{"title":"Needless+: The Secret of Saint Lily Academy","poster":"https://cdn.anizara.store/cover/aa85e45da94cb0d78853c50ba636a15a.webp","status":"Completed"},{"title":"Ningen Fushin: Adventurers Who Don't Believe in Humanity Will Save the World","poster":"https://cdn.anizara.store/cover/86a1793f65aeef4aeef4b479fc9b2bca.webp","status":"Completed"},{"title":"Ninja Hattori (2012)","poster":"https://cdn.anizara.store/cover/e58aea67b01fa747687f038dfde066f6.webp","status":"Completed"},{"title":"Ninja Hattori-kun","poster":"https://cdn.anizara.store/cover/f4a4da9aa7eadfd23c7bdb7cf57b3112.webp","status":"Completed"},{"title":"No Longer Allowed In Another World","poster":"https://cdn.anizara.store/cover/4f5a97cf06cf69028997db51d8726d28.webp","status":"Completed"},{"title":"Noragami","poster":"https://cdn.anizara.store/cover/06138bc5af6023646ede0e1f7c1eac75.webp","status":"Completed"},{"title":"Nura: Rise of the Yokai Clan","poster":"https://cdn.anizara.store/cover/a9a1d5317a33ae8cef33961c34144f84.webp","status":"Plan to Watch"},{"title":"Ojisan in Another World","poster":"https://cdn.anizara.store/cover/57f04bb2975420e3b4c73920c687cad7.webp","status":"Completed"},{"title":"One Piece","poster":"https://cdn.anizara.store/cover/fe9fc289c3ff0af142b6d3bead98a923.webp","status":"Completed"},{"title":"One Punch Man","poster":"https://cdn.anizara.store/cover/a1d0c6e83f027327d8461063f4ac58a6.webp","status":"Completed"},{"title":"One Punch Man 2nd Season","poster":"https://cdn.anizara.store/cover/430c3626b879b4005d41b8a46172e0c0.webp","status":"Completed"},{"title":"One Punch Man 2nd Season Specials","poster":"https://cdn.anizara.store/cover/82674fc29bc0d9895cee346548c2cb5c.webp","status":"Completed"},{"title":"One-Punch Man Season 3","poster":"https://cdn.anizara.store/cover/3a2a9aef4cbed81244820a091667c0bd.webp","status":"Plan to Watch"},{"title":"One Punch Man Specials","poster":"https://cdn.anizara.store/cover/475cc020a2dc98e1bd061ddfdf162fdc.webp","status":"Completed"},{"title":"Orient","poster":"https://cdn.anizara.store/cover/38811c5285e34e2e3319ab7d9f2cfa5b.webp","status":"Plan to Watch"},{"title":"Orient Part 2","poster":"https://cdn.anizara.store/cover/477b02d99dd6c00c5ba852bb9a9e1f6c.webp","status":"Plan to Watch"},{"title":"Overlord","poster":"https://cdn.anizara.store/cover/b2eb7349035754953b57a32e2841bda5.webp","status":"Completed"},{"title":"Overlord II","poster":"https://cdn.anizara.store/cover/0353ab4cbed5beae847a7ff6e220b5cf.webp","status":"Completed"},{"title":"Overlord III","poster":"https://cdn.anizara.store/cover/11b9842e0a271ff252c1903e7132cd68.webp","status":"Completed"},{"title":"Overlord IV","poster":"https://cdn.anizara.store/cover/32fdab6559cdfa4f167f8c31b9199643.webp","status":"Completed"},{"title":"Plunderer","poster":"https://cdn.anizara.store/cover/98e6f17209029f4ae6dc9d88ec8eac2c.webp","status":"Completed"},{"title":"Radiant","poster":"https://cdn.anizara.store/cover/7137debd45ae4d0ab9aa953017286b20.webp","status":"Plan to Watch"},{"title":"Rage of Bahamut: Genesis","poster":"https://cdn.anizara.store/cover/5ea1649a31336092c05438df996a3e59.webp","status":"Plan to Watch"},{"title":"Ragna Crimson","poster":"https://cdn.anizara.store/cover/2668a7105966cae6e23901495176b8f9.webp","status":"Completed"},{"title":"Sanda","poster":"https://cdn.anizara.store/cover/caa89215e67b35d504b99a0b22f1c56d.webp","status":"Plan to Watch"},{"title":"Scissor Seven","poster":"https://cdn.anizara.store/cover/d3e2e8f631bd9336ed25b8162aef8782.webp","status":"Completed"},{"title":"Scissor Seven 2nd season","poster":"https://cdn.anizara.store/cover/6b5ce5a5aa1b506c66ece16c4cd9138d.webp","status":"Completed"},{"title":"Scissor Seven 3rd Season","poster":"https://cdn.anizara.store/cover/a3bf6e4db673b6449c2f7d13ee6ec9c0.webp","status":"Completed"},{"title":"Scissor Seven: Fragments of Memory","poster":"https://cdn.anizara.store/cover/7dab099bfda35ad14715763b75487b47.webp","status":"Completed"},{"title":"Scissor Seven Season 4","poster":"https://cdn.anizara.store/cover/5a378f8490c8d6af8647a753812f6e31.webp","status":"Completed"},{"title":"Sentenced to Be a Hero","poster":"https://cdn.anizara.store/cover/4ef42b32bccc9485b10b8183507e5d82.webp","status":"Completed"},{"title":"Skeleton Knight in Another World","poster":"https://cdn.anizara.store/cover/88855547570f7ff053fff7c54e5148cc.webp","status":"Completed"},{"title":"Sky Wizards Academy","poster":"https://cdn.anizara.store/cover/43e4e6a6f341e00671e123714de019a8.webp","status":"Completed"},{"title":"So I'm a Spider, So What?","poster":"https://cdn.anizara.store/cover/019f8b946a256d9357eadc5ace2c8678.webp","status":"Completed"},{"title":"Solo Leveling","poster":"https://cdn.anizara.store/cover/6915849303a3fe93657587cb9c469f00.webp","status":"Completed"},{"title":"Spare Me, Great Lord!","poster":"https://cdn.anizara.store/cover/d9909824688daaad46d441eefd81eb38.webp","status":"Plan to Watch"},{"title":"Spirit Chronicles","poster":"https://cdn.anizara.store/cover/0aae0fede9a4d278e2f9a171e62fc76b.webp","status":"Completed"},{"title":"Spy x Family","poster":"https://cdn.anizara.store/cover/6e16656a6ee1de7232164767ccfa7920.webp","status":"Completed"},{"title":"Spy x Family, Part 2","poster":"https://cdn.anizara.store/cover/4fa91c19016cb1f807ea47b5a959d518.webp","status":"Completed"},{"title":"Spy x Family Season 2","poster":"https://cdn.anizara.store/cover/cff02a74da64d145a4aed3a577a106ab.webp","status":"Plan to Watch"},{"title":"Stigma of the Wind","poster":"https://cdn.anizara.store/cover/c21002f464c5fc5bee3b98ced83963b8.webp","status":"Plan to Watch"},{"title":"Super Dragon Ball Heroes","poster":"https://cdn.anizara.store/cover/18903e4430783a191b0cfab439daaef8.webp","status":"Completed"},{"title":"Supernatural The Animation","poster":"https://cdn.anizara.store/cover/836a0dcbf5d22652569dc3a708274c16.webp","status":"Plan to Watch"},{"title":"Suppose a Kid from the Last Dungeon Boonies moved to a starter town?","poster":"https://cdn.anizara.store/cover/a2186aa7c086b46ad4e8bf81e2a3a19b.webp","status":"Completed"},{"title":"Tatsuki Fujmoto 17-26","poster":"https://cdn.anizara.store/cover/af3b6a54e9e9338abc54258e3406e485.webp","status":"Completed"},{"title":"That Time I Got Reincarnated as a Slime","poster":"https://cdn.anizara.store/cover/01161aaa0b6d1345dd8fe4e481144d84.webp","status":"Completed"},{"title":"That Time I Got Reincarnated as a Slime 2nd Season Part 2","poster":"https://cdn.anizara.store/cover/bb073f2855d769be5bf191f6378f7150.webp","status":"Completed"},{"title":"That Time I Got Reincarnated as a Slime Season 2","poster":"https://cdn.anizara.store/cover/c8cd63e1bf13c5016881652983fb615a.webp","status":"Completed"},{"title":"That Time I Got Reincarnated as a Slime Season 3","poster":"https://cdn.anizara.store/cover/cb16b8498f74ba6b6a6873518624168c.webp","status":"Plan to Watch"},{"title":"That Time I Got Reincarnated as a Slime: The Movie - Scarlet Bond","poster":"https://cdn.anizara.store/cover/58155fc7f528a19b9fc3599b65047290.webp","status":"Plan to Watch"},{"title":"The All-devouring Whale: Homecoming","poster":"https://cdn.anizara.store/cover/1fe46a07a9ba5f05129cab882582d907.webp","status":"Plan to Watch"},{"title":"The Aristocrat's Otherworldly Adventure: Serving Gods Who Go Too Far","poster":"https://cdn.anizara.store/cover/0e4f5cc9f4f3f7f1651a6b9f9214e5b1.webp","status":"Completed"},{"title":"The Asterisk War","poster":"https://cdn.anizara.store/cover/2cb6b10338a7fc4117a80da24b582060.webp","status":"Completed"},{"title":"The Beginning After the End","poster":"https://cdn.anizara.store/cover/a58616464d14208b2677a084f5d7456f.webp","status":"Completed"},{"title":"The Beginning After the End Season 2","poster":"https://cdn.anizara.store/cover/2d4027d6df9c0256b8d4474ce88f8c88.webp","status":"Plan to Watch"},{"title":"The Brilliant Healer's New Life in the Shadows","poster":"https://cdn.anizara.store/cover/678004486c119599ed7d199f47da043a.webp","status":"Completed"},{"title":"The Daily Life of a Middle-Aged Online Shopper in Another World","poster":"https://cdn.anizara.store/cover/74c407e263578d03d02c1123aa730b52.webp","status":"Plan to Watch"},{"title":"The Eminence in Shadow","poster":"https://cdn.anizara.store/cover/032dd17b77fab7d51a476c5ff2b5659c.webp","status":"Completed"},{"title":"The Exiled Heavy Knight Knows How to Game the System","poster":"https://cdn.anizara.store/cover/3f9e3767ef3b10a0de4c256d7ef9805d.webp","status":"Plan to Watch"},{"title":"The Faraway Paladin","poster":"https://cdn.anizara.store/cover/69f268fb2ba1068615b3219c6e8f57e8.webp","status":"Completed"},{"title":"The Faraway Paladin (Special): The Path Taken","poster":"https://cdn.anizara.store/cover/247d87b085efdb305fa6583ccf1a9f54.webp","status":"Completed"},{"title":"The Faraway Paladin: The Lord of Rust Mountains","poster":"https://cdn.anizara.store/cover/b5a1d925221b37e2e399f7b319038ba0.webp","status":"Completed"},{"title":"The God of High School","poster":"https://cdn.anizara.store/cover/6e7d2da6d3953058db75714ac400b584.webp","status":"Completed"},{"title":"The Great Cleric","poster":"https://cdn.anizara.store/cover/db98dc0dbafde48e8f74c0de001d35e4.webp","status":"Completed"},{"title":"The Greatest Demon Lord Is Reborn as a Typical Nobody","poster":"https://cdn.anizara.store/cover/706608cfdbcc1886bb7eea5513f90133.webp","status":"Completed"},{"title":"The Healer Who Was Banished From His Party, Is, in Fact, the Strongest","poster":"https://cdn.anizara.store/cover/ccc81a97c1535f9a631b9db584a264e4.webp","status":"Completed"},{"title":"The Iceblade Sorcerer Shall Rule the World","poster":"https://cdn.anizara.store/cover/2a3d6d6cc4b5e77238c1fc1bb6cdd681.webp","status":"Plan to Watch"},{"title":"The Irregular at Magic High School","poster":"https://cdn.anizara.store/cover/df263d996281d984952c07998dc54358.webp","status":"Plan to Watch"},{"title":"The Last Summoner","poster":"https://cdn.anizara.store/cover/a9e18cb5dd9d3ab420946fa19ebbbf52.webp","status":"Plan to Watch"},{"title":"The Law of Ueki","poster":"https://cdn.anizara.store/cover/6ea2ef7311b482724a9b7b0bc0dd85c6.webp","status":"Plan to Watch"},{"title":"The Legend of Hei","poster":"https://cdn.anizara.store/cover/18a9042b3fc5b02fe3d57fea87d6992f.webp","status":"Completed"},{"title":"The Legend of Hei 2","poster":"https://cdn.anizara.store/cover/6804c9bca0a615bdb9374d00a9fcba59.webp","status":"Plan to Watch"},{"title":"The Legendary Hero Is Dead!","poster":"https://cdn.anizara.store/cover/ead81fe8cfe9fda9e4c2093e17e4d024.webp","status":"Plan to Watch"},{"title":"The Misfit of Demon King Academy","poster":"https://cdn.anizara.store/cover/a64c94baaf368e1840a1324e839230de.webp","status":"Plan to Watch"},{"title":"The Most Notorious ","poster":"https://cdn.anizara.store/cover/8e54d6b523b279543ac12a0f7333cd3c.webp","status":"Plan to Watch"},{"title":"The New Gate","poster":"https://cdn.anizara.store/cover/9d068c869fd3e03fc606ec297fcd00be.webp","status":"Completed"},{"title":"The Rising of the Shield Hero","poster":"https://cdn.anizara.store/cover/320722549d1751cf3f247855f937b982.webp","status":"Plan to Watch"},{"title":"The Sacred Blacksmith","poster":"https://cdn.anizara.store/cover/958adb57686c2fdec5796398de5f317a.webp","status":"Plan to Watch"},{"title":"The Slime Diaries: That Time I Got Reincarnated as a Slime","poster":"https://cdn.anizara.store/cover/6917ff2a7b53421ff4066020e2d89eec.webp","status":"Completed"},{"title":"The Strongest Job is Apparently Not a Hero or a Sage, but an Appraiser (Provisional)!","poster":"https://cdn.anizara.store/cover/1fb36c4ccf88f7e67ead155496f02338.webp","status":"Plan to Watch"},{"title":"The Strongest Tank's Labyrinth Raids: A Tank with a Rare 9999 Resistance Skill Got Kicked from the Hero's Party","poster":"https://cdn.anizara.store/cover/a22d33b4a00c165507a61f3bed4b5149.webp","status":"Plan to Watch"},{"title":"The Unwanted Undead Adventurer","poster":"https://cdn.anizara.store/cover/87ae6fb631f7c8a627e8e28785d9992d.webp","status":"Completed"},{"title":"The Water Magician","poster":"https://cdn.anizara.store/cover/3b9be7e15b46c42911f39a4a9e861022.webp","status":"Completed"},{"title":"The Way of the Househusband","poster":"https://cdn.anizara.store/cover/ecb287ff763c169694f682af52c1f309.webp","status":"Completed"},{"title":"The Wrong Way to Use Healing Magic","poster":"https://cdn.anizara.store/cover/f92586a25bb3145facd64ab20fd554ff.webp","status":"Completed"},{"title":"Tokyo Ghoul","poster":"https://cdn.anizara.store/cover/51d92be1c60d1db1d2e5e7a07da55b26.webp","status":"Completed"},{"title":"Tokyo Ravens","poster":"https://cdn.anizara.store/cover/fb89705ae6d743bf1e848c206e16a1d7.webp","status":"Completed"},{"title":"Toriko","poster":"https://cdn.anizara.store/cover/5487315b1286f907165907aa8fc96619.webp","status":"Plan to Watch"},{"title":"Tougen Anki","poster":"https://cdn.anizara.store/cover/d01eeca8b24321cd2fe89dd85b9beb51.webp","status":"Completed"},{"title":"Trapped in a Dating Sim: The World of Otome Games is Tough for Mobs","poster":"https://cdn.anizara.store/cover/2e2c080d5490760af59d0baf5acbb84e.webp","status":"Plan to Watch"},{"title":"Tsukimichi -Moonlit Fantasy-","poster":"https://cdn.anizara.store/cover/98b17f068d5d9b7668e19fb8ae470841.webp","status":"Completed"},{"title":"Tsukimichi -Moonlit Fantasy- Season 2","poster":"https://cdn.anizara.store/cover/d880067f879409df09ac50ba315707aa.webp","status":"Completed"},{"title":"Twin Star Exorcists","poster":"https://cdn.anizara.store/cover/6c340f25839e6acdc73414517203f5f0.webp","status":"Completed"},{"title":"Uglymug, Epicfighter","poster":"https://cdn.anizara.store/cover/7f5fc754c7af0a6370c9bf91314e79f4.webp","status":"Plan to Watch"},{"title":"Unlimited Psychic Squad","poster":"https://cdn.anizara.store/cover/3a835d3215755c435ef4fe9965a3f2a0.webp","status":"Plan to Watch"},{"title":"Ushio and Tora","poster":"https://cdn.anizara.store/cover/303ed4c69846ab36c2904d3ba8573050.webp","status":"Watching"},{"title":"Ushio & Tora: 2nd Season","poster":"https://cdn.anizara.store/cover/e7b24b112a44fdd9ee93bdf998c6ca0e.webp","status":"Plan to Watch"},{"title":"War God System! I’m Counting On You!","poster":"https://cdn.anizara.store/cover/a5d42e4024cc540befb48f466820e25f.webp","status":"Plan to Watch"},{"title":"Wind Breaker","poster":"https://cdn.anizara.store/cover/4625d8e31dad7d1c4c83399a6eb62f0c.webp","status":"Completed"},{"title":"World Break: Aria of Curse for a Holy Swordsman","poster":"https://cdn.anizara.store/cover/21fe5b8ba755eeaece7a450849876228.webp","status":"Completed"},{"title":"Yao Jing Zhong Zhi Shou Ce","poster":"https://cdn.anizara.store/cover/c460dc0f18fc309ac07306a4a55d2fd6.webp","status":"Plan to Watch"},{"title":"Yu Yu Hakusho: Ghost Files","poster":"https://cdn.anizara.store/cover/ad61ab143223efbc24c7d2583be69251.webp","status":"Plan to Watch"}];
-
-function normalizeAnimeTitle(title){
-  return String(title || "").toLowerCase().replace(/[^a-z0-9]+/g," ").trim();
-}
-
-async function importAniSakuraWatchlist(user, existingList){
-  const importKey = "aniwatch_anisakura_import_v4_" + user.id;
-  if(localStorage.getItem(importKey) === "done") return false;
-
-  const existingTitles = new Set(
-    (existingList || []).map(a => normalizeAnimeTitle(a.title)).filter(Boolean)
-  );
-
-  const rows = ANISAKURA_WATCHLIST_IMPORT
-    .filter(a => !existingTitles.has(normalizeAnimeTitle(a.title)))
-    .map(a => ({
-      user_id: user.id,
-      title: a.title,
-      status: a.status,
-      media_type: inferAniSakuraMediaType(a.title),
-      episodes: null,
-      rating: null,
-      poster: a.poster || null,
-      notes: null,
-      featured: false,
-      featured_note: null
-    }));
-
-  if(!rows.length){
-    localStorage.setItem(importKey,"done");
-    return false;
-  }
-
-  for(let i=0;i<rows.length;i+=50){
-    const batch = rows.slice(i,i+50);
-    const {error} = await supabaseClient.from("anime").insert(batch);
-    if(error){
-      console.error("AniSakura import failed:", error);
-      alert("AniSakura watchlist import failed: " + error.message);
-      return false;
-    }
-  }
-
-  localStorage.setItem(importKey,"done");
-  return true;
-}
-
-function inferAniSakuraMediaType(title){
-  const t = String(title || "").toLowerCase();
-  if(/\b(ova|oad)\b/.test(t)) return "OVA";
-  if(/\b(movie|film)\b/.test(t)) return "Movie";
-  return "Episode";
-}
-
-function titlesAreClose(a,b){
-  const na = normalizeAnimeTitle(a);
-  const nb = normalizeAnimeTitle(b);
-  return na === nb || na.includes(nb) || nb.includes(na);
-}
-
-async function fetchAniMetadata(title){
-  try{
-    const response = await fetch(
-      "https://api.jikan.moe/v4/anime?q=" +
-      encodeURIComponent(title) +
-      "&limit=5&sfw=true",
-      {headers:{"Accept":"application/json"}}
-    );
-    if(!response.ok) return null;
-    const json = await response.json();
-    const items = Array.isArray(json.data) ? json.data : [];
-    if(!items.length) return null;
-
-    const exact = items.find(item => titlesAreClose(
-      title,
-      item.title || item.title_english || item.title_japanese || ""
-    ));
-    const item = exact || items[0];
-    return {
-      episodes: item.episodes != null ? Number(item.episodes) : null,
-      media_type: item.type === "Movie"
-        ? "Movie"
-        : item.type === "OVA"
-          ? "OVA"
-          : "Episode"
-    };
-  }catch(error){
-    console.warn("AniSakura metadata lookup failed:", title, error);
-    return null;
-  }
-}
-
-async function enrichMissingAnimeMetadata(){
-  // Fill missing total episode counts/types for BOTH imported and manually-added anime.
-  // This does not change ratings, history, notes, featured state, or editor behavior.
-  const missing = animeList.filter(a =>
-    a && (
-      a.episodes == null ||
-      a.episodes === "" ||
-      a.media_type == null ||
-      a.media_type === ""
-    )
-  );
-
-  for(const anime of missing){
-    const meta = await fetchAniMetadata(anime.title);
-    if(meta){
-      const update = {
-        episodes: Number.isFinite(meta.episodes) ? meta.episodes : anime.episodes,
-        media_type: meta.media_type || anime.media_type || "Episode"
-      };
-
-      const {error} = await supabaseClient
-        .from("anime")
-        .update(update)
-        .eq("id", anime.id)
-        .eq("user_id", anime.user_id);
-
-      if(!error){
-        anime.episodes = update.episodes;
-        anime.media_type = update.media_type;
-      }
-    }
-    await new Promise(resolve => setTimeout(resolve, 900));
-  }
-}
-
-
 /* =========================
    LOAD
 ========================= */
@@ -5500,22 +5285,6 @@ async function loadAnime(){
 
 
   animeList = data || [];
-
-  const importedNow = await importAniSakuraWatchlist(user, animeList);
-
-  // Reload after import so the newly inserted cards are immediately visible.
-  if(importedNow){
-    const {data: refreshed, error: refreshError} = await supabaseClient
-      .from("anime")
-      .select("*")
-      .eq("user_id",user.id)
-      .order("id",{ascending:false});
-    if(!refreshError) animeList = refreshed || [];
-  }
-
-  // AniSakura itself does not provide the episode count in the imported watchlist.
-  // Fill missing episode counts/types from the same Jikan source used by the Add Anime search.
-  await enrichMissingAnimeMetadata();
 
   renderAnime();
 
@@ -5951,7 +5720,10 @@ function renderAnimeListOnly(list){
         `
         : "No Poster";
 
-      const background = "";
+      const background =
+        anime.poster
+        ? `style="background-image:url('${escapeHtml(anime.poster)}')"`
+        : "";
 
       const statusClass =
         getStatusClass(anime.status);
@@ -6276,170 +6048,6 @@ function getStatusClass(status){
 
 
 /* =========================
-   MAIN SERIES / SEASON HELPERS
-   Only groups records when they clearly belong to the same series.
-========================= */
-
-function getMainSeriesKey(title){
-  let t = String(title || "")
-    .toLowerCase()
-    .replace(/[–—]/g,"-")
-    .replace(/\s+/g," ")
-    .trim();
-
-  const franchiseMap = [
-    {key:"dragon ball", names:[
-      "dragon ball","dragon ball z","dragon ball gt",
-      "dragon ball super","dragon ball daima",
-      "dragon ball kai","dragon ball kai (2009)"
-    ]},
-    {key:"naruto", names:[
-      "naruto","naruto: shippuden","boruto: naruto next generations",
-      "boruto: naruto next generations - the movie"
-    ]},
-    {key:"one piece", names:["one piece"]},
-    {key:"bleach", names:[
-      "bleach","bleach: thousand-year blood war"
-    ]},
-    {key:"my hero academia", names:[
-      "my hero academia","boku no hero academia"
-    ]},
-    {key:"attack on titan", names:[
-      "attack on titan","shingeki no kyojin"
-    ]},
-    {key:"demon slayer", names:[
-      "demon slayer","kimetsu no yaiba"
-    ]},
-    {key:"jujutsu kaisen", names:[
-      "jujutsu kaisen"
-    ]},
-    {key:"one punch man", names:[
-      "one punch man","one-punch man"
-    ]},
-    {key:"that time i got reincarnated as a slime", names:[
-      "that time i got reincarnated as a slime",
-      "tensei shitara slime datta ken"
-    ]}
-  ];
-
-  for(const group of franchiseMap){
-    if(group.names.some(name => t === name || t.startsWith(name + " "))){
-      return group.key;
-    }
-  }
-
-  // Same-title seasons/parts are grouped; unrelated single anime stay alone.
-  const cleaned = t
-    .replace(/\s*[:\-]\s*(the movie|movie|film|ova|oad|special|specials)\b.*$/i,"")
-    .replace(/\s+\((?:tv|movie|ova|oad|specials?)\)\s*$/i,"")
-    .replace(/\s+(?:season|series)\s*\d+.*$/i,"")
-    .replace(/\s+\d+(?:st|nd|rd|th)\s+season.*$/i,"")
-    .replace(/\s+part\s*\d+.*$/i,"")
-    .trim();
-
-  return cleaned;
-}
-
-function getSeriesGroups(list){
-  const map = new Map();
-
-  list.forEach(anime=>{
-    const key = getMainSeriesKey(anime.title);
-    if(!map.has(key)) map.set(key,[]);
-    map.get(key).push(anime);
-  });
-
-  return Array.from(map.values()).map(items=>{
-    // Keep the original database order, but put the plain/base title first
-    // when one exists. No records are deleted or changed.
-    const main = items.find(a=>{
-      const t = String(a.title || "").toLowerCase();
-      return !/\b(?:season|series|part)\s*\d+\b/i.test(t) &&
-             !/\b(?:movie|ova|oad|special|specials)\b/i.test(t);
-    });
-
-    if(main){
-      return [
-        main,
-        ...items.filter(a=>a.id !== main.id)
-      ];
-    }
-
-    return items;
-  });
-}
-
-function getSeriesStatus(items){
-  const statuses = items.map(a=>String(a.status || "").trim().toLowerCase());
-
-  if(statuses.includes("watching")) return "Watching";
-  if(statuses.includes("plan to watch")) return "Plan to Watch";
-  if(statuses.length && statuses.every(s=>s === "completed")) return "Completed";
-
-  return items[0]?.status || "";
-}
-
-function getSeasonLabel(item,index){
-  const title = String(item.title || "");
-  const match =
-    title.match(/\bseason\s*(\d+)\b/i) ||
-    title.match(/\b(\d+)(?:st|nd|rd|th)\s+season\b/i);
-
-  if(match) return "Season " + match[1];
-
-  return "Season " + (index + 1);
-}
-
-function showSeasonDetails(index){
-  if(!currentAnime || !currentAnime._seriesItems) return;
-
-  const item = currentAnime._seriesItems[index];
-  if(!item) return;
-
-  const buttons =
-    document.querySelectorAll(".details-season-button");
-
-  buttons.forEach((button,i)=>{
-    button.classList.toggle("active",i === index);
-  });
-
-  const preview = document.getElementById("detailsSeasonPreview");
-  if(!preview) return;
-
-  const poster = item.poster
-    ? `<img src="${escapeHtml(item.poster)}"
-            alt=""
-            onerror="this.style.display='none'">`
-    : "No Poster";
-
-  preview.innerHTML = `
-    <div class="details-season-preview-poster">
-      ${poster}
-    </div>
-
-    <div>
-      <div class="details-season-preview-title">
-        ${escapeHtml(item.title || "Untitled")}
-      </div>
-
-      <div class="details-season-preview-meta">
-        ${escapeHtml(getSeasonLabel(item,index))}
-        · ${item.episodes ?? "-"} Episodes
-      </div>
-
-      <div class="details-season-preview-meta">
-        ${escapeHtml(item.media_type || "Episode")}
-      </div>
-    </div>
-  `;
-}
-
-function featuredBackToHome(){
-  const modal = document.getElementById("featuredModal");
-  if(modal) modal.classList.remove("show");
-}
-
-/* =========================
    RENDER ANIME
 ========================= */
 
@@ -6452,27 +6060,26 @@ function renderAnime(){
   });
 
   const grid =
-    document.getElementById("animeGrid");
+  document.getElementById("animeGrid");
 
-  if(!grid) return;
 
   const search =
-    document
-    .getElementById("search")
-    .value
-    .toLowerCase()
-    .trim();
+  document
+  .getElementById("search")
+  .value
+  .toLowerCase()
+  .trim();
+
 
   const filtered =
-    animeList.filter(anime=>
-      (anime.title || "")
-      .toLowerCase()
-      .includes(search)
-    );
+  animeList.filter(anime=>
+    (anime.title || "")
+    .toLowerCase()
+    .includes(search)
+  );
 
-  const groups = getSeriesGroups(filtered);
 
-  if(!groups.length){
+  if(!filtered.length){
 
     grid.innerHTML = `
       <div class="empty">
@@ -6481,82 +6088,128 @@ function renderAnime(){
     `;
 
     updateStats();
+
     return;
+
   }
 
+
   grid.innerHTML =
-    groups
-    .map((items,index)=>{
+  filtered
+  .map((anime,index)=>{
 
-      const anime = items[0];
 
-      const poster =
-        anime.poster
-        ? `
-          <img
-          src="${escapeHtml(anime.poster)}"
-          alt="${escapeHtml(anime.title)}"
-          onerror="this.style.display='none'">
-        `
-        : "No Poster";
+    const poster =
+    anime.poster
+    ? `
+      <img
+      src="${escapeHtml(anime.poster)}"
+      alt="${escapeHtml(anime.title)}"
+      onerror="this.style.display='none'">
+    `
+    : "No Poster";
 
-      const statusClass =
-        getStatusClass(getSeriesStatus(items));
 
-      return `
+    const background =
+    anime.poster
+    ? `
+      style="
+      background-image:
+      url('${escapeHtml(anime.poster)}')
+      "
+    `
+    : "";
+
+
+    const statusClass =
+    getStatusClass(anime.status);
+
+
+    return `
+
+      <div
+      class="card"
+      style="animation-delay:${index*.04}s"
+      onclick="openDetails(${anime.id})">
+
+
         <div
-        class="card"
-        style="animation-delay:${index*.04}s"
-        onclick="openDetails(${anime.id})">
-
-          <div class="card-bg"></div>
-
-          <div class="card-overlay"></div>
-
-          <div class="card-content">
-
-            <div class="card-poster">
-              ${poster}
-            </div>
-
-            <div class="card-info">
-
-              <div class="card-title">
-                ${escapeHtml(anime.title)}
-              </div>
-
-              <div class="card-meta">
-
-                <span class="rating-box">
-                  ★ ${anime.rating ?? "-"}
-                </span>
-
-                <span class="media-type">
-                  ${escapeHtml(
-                    anime.media_type || "Episode"
-                  )}
-                </span>
-
-                <span>
-                  ${items.length > 1
-                    ? `${items.length} seasons`
-                    : `${anime.episodes ?? "-"} eps`}
-                </span>
-
-              </div>
-
-              <div class="status ${statusClass}">
-                ${escapeHtml(getSeriesStatus(items) || "")}
-              </div>
-
-            </div>
-          </div>
+        class="card-bg"
+        ${background}>
         </div>
-      `;
-    })
-    .join("");
+
+
+        <div class="card-overlay"></div>
+
+
+        <div class="card-content">
+
+
+          <div class="card-poster">
+
+            ${poster}
+
+          </div>
+
+
+          <div class="card-info">
+
+
+            <div class="card-title">
+
+              ${escapeHtml(anime.title)}
+
+            </div>
+
+
+            <div class="card-meta">
+
+              <span class="rating-box">
+
+                ★ ${anime.rating ?? "-"}
+
+              </span>
+
+
+              <span class="media-type">
+
+                ${escapeHtml(
+                  anime.media_type || "Episode"
+                )}
+
+              </span>
+
+
+              <span>
+
+                ${anime.episodes ?? "-"} eps
+
+              </span>
+
+            </div>
+
+
+            <div class="status ${statusClass}">
+
+              ${escapeHtml(anime.status || "")}
+
+            </div>
+
+
+          </div>
+
+        </div>
+
+      </div>
+
+    `;
+
+  })
+  .join("");
+
 
   updateStats();
+
 }
 
 
@@ -6566,51 +6219,63 @@ function renderAnime(){
 
 function updateStats(){
 
-  const groups = getSeriesGroups(animeList);
+  document
+  .getElementById("watchingCount")
+  .textContent =
+  animeList.filter(
+    a=>a.status==="Watching"
+  ).length;
 
-  const getStatus = items =>
-    String(getSeriesStatus(items) || "")
-      .trim()
-      .toLowerCase();
 
-  const watching =
-    groups.filter(items=>getStatus(items)==="watching").length;
+  document
+  .getElementById("completedCount")
+  .textContent =
+  animeList.filter(
+    a=>a.status==="Completed"
+  ).length;
 
-  const completed =
-    groups.filter(items=>getStatus(items)==="completed").length;
 
-  const plan =
-    groups.filter(items=>getStatus(items)==="plan to watch").length;
+  document
+  .getElementById("planCount")
+  .textContent =
+  animeList.filter(
+    a=>a.status==="Plan to Watch"
+  ).length;
 
-  const setText = (id,value)=>{
-    const el = document.getElementById(id);
-    if(el) el.textContent = value;
-  };
 
-  setText("watchingCount",watching);
-  setText("completedCount",completed);
-  setText("planCount",plan);
-  setText("totalCount",groups.length);
+  document
+  .getElementById("totalCount")
+  .textContent =
+  animeList.length;
 
   const watchEpisodeCount = animeList.reduce(
-    (total, anime) =>
-      total + (Number(anime.episodes) || 0),
+    (total, anime) => total + (Number(anime.episodes) || 0),
     0
   );
 
-  setText("watchEpisodeCount",watchEpisodeCount);
+  const watchEpisodeEl =
+    document.getElementById("watchEpisodeCount");
 
+  if(watchEpisodeEl){
+    watchEpisodeEl.textContent = watchEpisodeCount;
+  }
+
+  /* Each counted episode is calculated as 20 minutes of watch time. */
   const watchHours =
     (watchEpisodeCount * 20) / 60;
 
-  setText(
-    "watchHoursCount",
-    Number.isInteger(watchHours)
+  const watchHoursEl =
+    document.getElementById("watchHoursCount");
+
+  if(watchHoursEl){
+    watchHoursEl.textContent =
+      Number.isInteger(watchHours)
       ? watchHours
-      : watchHours.toFixed(1)
-  );
+      : watchHours.toFixed(1);
+  }
 
   updateProfileStats();
+
 }
 
 
@@ -6803,14 +6468,10 @@ function renderFeatured(){
   .getElementById("featuredTrack");
 
 
-  const featuredRaw =
+  const featured =
   animeList.filter(
     anime=>anime.featured === true
   );
-
-  const featured =
-    getSeriesGroups(featuredRaw)
-    .map(items=>items[0]);
 
 
   if(!featured.length){
@@ -6849,10 +6510,7 @@ function renderFeatured(){
 
     return `
 
-      <div
-        class="featured-card"
-        onclick="openDetails(${anime.id})"
-        style="cursor:pointer;">
+      <div class="featured-card">
 
         ${
           poster
@@ -7220,91 +6878,86 @@ function closeFeaturedEditor(){
 
 function openDetails(id){
 
-  const selected =
-    animeList.find(anime=>anime.id===id);
-
-  if(!selected)return;
-
-  const groupKey =
-    getMainSeriesKey(selected.title);
-
-  const items =
-    animeList.filter(anime=>
-      getMainSeriesKey(anime.title) === groupKey
-    );
-
-  const main =
-    items.find(anime=>anime.id===id) ||
-    items[0];
-
-  currentAnime = {
-    ...main,
-    _seriesItems:items
-  };
-
-  document
-    .getElementById("detailsTitle")
-    .textContent =
-    main.title;
-
-  document
-    .getElementById("detailsType")
-    .textContent =
-    "Type: " +
-    (main.media_type || "Episode");
-
-  document
-    .getElementById("detailsStatus")
-    .textContent =
-    "Status: " +
-    (getSeriesStatus(items) || "-");
-
-  const totalEpisodes = items.reduce(
-    (sum,anime)=>
-      sum + (Number(anime.episodes) || 0),
-    0
+  currentAnime =
+  animeList.find(
+    anime=>anime.id===id
   );
 
-  document
-    .getElementById("detailsEpisodes")
-    .textContent =
-    "Episodes: " +
-    (totalEpisodes || "-");
+
+  if(!currentAnime)return;
+
 
   document
-    .getElementById("detailsRating")
-    .textContent =
-    "Rating: " +
-    (main.rating ?? "-");
+  .getElementById("detailsTitle")
+  .textContent =
+  currentAnime.title;
+
 
   document
-    .getElementById("detailsNotes")
-    .textContent =
-    main.notes ||
-    "No notes.";
+  .getElementById("detailsType")
+  .textContent =
+  "Type: " +
+  (currentAnime.media_type || "Episode");
+
+
+  document
+  .getElementById("detailsStatus")
+  .textContent =
+  "Status: " +
+  (currentAnime.status || "-");
+
+
+  document
+  .getElementById("detailsEpisodes")
+  .textContent =
+  "Episodes: " +
+  (currentAnime.episodes ?? "-");
+
+
+  document
+  .getElementById("detailsRating")
+  .textContent =
+  "Rating: " +
+  (currentAnime.rating ?? "-");
+
+
+  document
+  .getElementById("detailsNotes")
+  .textContent =
+  currentAnime.notes ||
+  "No notes.";
+
 
   const poster =
-    document.getElementById("detailsPoster");
+  document
+  .getElementById("detailsPoster");
 
-  if(main.poster){
+
+  if(currentAnime.poster){
 
     poster.innerHTML = `
+
       <img
-      src="${escapeHtml(main.poster)}"
+      src="${escapeHtml(currentAnime.poster)}"
       alt=""
       onerror="this.style.display='none'">
+
     `;
 
   }else{
 
     poster.textContent =
-      "No Poster";
+    "No Poster";
+
   }
 
-  const detailsLayout =
-    document.getElementById("detailsLayout");
 
-  if(main.poster){
+  const detailsLayout =
+  document
+  .getElementById("detailsLayout");
+
+
+  if(currentAnime.poster){
 
     detailsLayout.style.backgroundImage =
     `
@@ -7312,48 +6965,22 @@ function openDetails(id){
         rgba(6,11,22,.82),
         rgba(6,11,22,.92)
       ),
-      url("${escapeHtml(main.poster)}")
+      url("${escapeHtml(currentAnime.poster)}")
     `;
 
     detailsLayout.style.backgroundSize =
-      "cover";
+    "cover";
 
     detailsLayout.style.backgroundPosition =
-      "center";
+    "center";
 
   }else{
 
     detailsLayout.style.backgroundImage =
-      "none";
+    "none";
+
   }
 
-  const seasonBox =
-    document.getElementById("detailsSeasons");
-
-  if(seasonBox){
-
-    seasonBox.innerHTML = `
-      <div class="details-season-buttons">
-
-        ${items.map((item,index)=>`
-          <button
-            type="button"
-            class="details-season-button"
-            onclick="showSeasonDetails(${index})">
-            ${escapeHtml(getSeasonLabel(item,index))}
-          </button>
-        `).join("")}
-
-      </div>
-
-      <div
-        class="details-season-preview"
-        id="detailsSeasonPreview">
-      </div>
-    `;
-
-    showSeasonDetails(0);
-  }
 
   const detailsModal =
     document.getElementById("detailsModal");
@@ -7372,6 +6999,7 @@ function openDetails(id){
   }
 
   detailsModal.classList.add("show");
+
 }
 
 
