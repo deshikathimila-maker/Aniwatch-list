@@ -1111,7 +1111,63 @@ textarea{
 ========================= */
 
 .details-box{
-  max-width:650px;
+  width:min(1100px,96vw);
+  max-width:1100px;
+  max-height:92vh;
+  overflow:auto;
+  padding:26px;
+  border-radius:22px;
+  background:rgba(10,18,32,.88);
+  border:1px solid rgba(170,205,255,.18);
+  box-shadow:0 24px 80px rgba(0,0,0,.42);
+  backdrop-filter:blur(22px);
+  -webkit-backdrop-filter:blur(22px);
+}
+
+.details-box .details-layout{
+  min-height:460px;
+  grid-template-columns:280px 1fr;
+  gap:28px;
+  padding:0;
+  border-radius:18px;
+}
+
+.details-box .details-poster{
+  height:430px;
+  border-radius:16px;
+}
+
+.details-box .details-content{
+  padding:24px 24px 24px 4px;
+}
+
+.details-box .details-content h2{
+  font-size:32px;
+  line-height:1.15;
+  margin-bottom:16px;
+}
+
+@media(max-width:700px){
+  .details-box{
+    width:96vw;
+    max-height:94vh;
+    padding:14px;
+    border-radius:18px;
+  }
+  .details-box .details-layout{
+    grid-template-columns:1fr;
+    min-height:0;
+    gap:14px;
+  }
+  .details-box .details-poster{
+    height:380px;
+  }
+  .details-box .details-content{
+    padding:8px 10px 16px;
+  }
+  .details-box .details-content h2{
+    font-size:26px;
+  }
 }
 
 .details-layout{
@@ -5461,7 +5517,7 @@ function showProfileCategory(status,clickedElement){
         <div
         class="profile-anime-card"
         style="animation-delay:${Math.min(index*35,350)}ms"
-        onclick="openDetails(${anime.id})">
+        onclick="openDetails('${anime.id}')">
 
           <img
           class="profile-anime-poster"
@@ -6070,7 +6126,7 @@ function renderAnimeListOnly(list){
         <div
         class="card"
         style="animation-delay:${index*.04}s"
-        onclick="openDetails(${anime.id})">
+        onclick="openDetails('${anime.id}')">
 
           <div class="card-bg" ${background}></div>
           <div class="card-overlay"></div>
@@ -6636,7 +6692,7 @@ function renderAnime(){
       <div
       class="card"
       style="animation-delay:${index*.04}s"
-      onclick="openDetails(${anime.id})">
+      onclick="openDetails('${anime.id}')">
 
 
         <div
@@ -6877,7 +6933,7 @@ function showStatusList(status,clickedElement){
 
         <div
         class="status-list-item"
-        onclick="openDetails(${anime.id})">
+        onclick="openDetails('${anime.id}')">
 
 
           <div class="status-list-poster">
@@ -7390,7 +7446,7 @@ function openDetails(id){
 
   currentAnime =
   animeList.find(
-    anime=>anime.id===id
+    anime=>String(anime.id)===String(id)
   );
 
 
