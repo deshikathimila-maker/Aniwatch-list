@@ -3664,18 +3664,6 @@ input[placeholder="Search anime..."]:not(#search){
 }
 </style>
 
-
-<style id="anisakura-related-anime-ui">
-.related-anime-area{margin-top:16px;padding:12px;border-radius:14px;background:rgba(255,255,255,.045);border:1px solid rgba(160,193,235,.14);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);}
-.related-anime-title{font-size:11px;color:#aab8cc;margin-bottom:9px;letter-spacing:.3px;}
-.related-anime-group{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:8px;}
-.related-anime-group:last-child{margin-bottom:0;}
-.related-anime-btn{border:1px solid rgba(160,193,235,.24);background:rgba(255,255,255,.075);color:#eef6ff;border-radius:12px;padding:7px 10px;font-size:10px;cursor:pointer;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 7px 18px rgba(0,0,0,.14),inset 0 1px 0 rgba(255,255,255,.06);transition:.2s ease;}
-.related-anime-btn:hover{background:rgba(255,255,255,.12);border-color:rgba(145,194,255,.42);transform:translateY(-1px);}
-.related-anime-btn.add{border-style:dashed;opacity:.9;}
-.related-anime-back{width:100%;margin-bottom:9px;}
-@media(max-width:520px){.related-anime-area{padding:10px;}.related-anime-btn{font-size:9px;padding:7px 9px;}}
-</style>
 </head>
 
 
@@ -4314,15 +4302,6 @@ Episode
 
 <div
 class="type-option"
-data-type="Season"
-onclick="selectType('Season')">
-
-Season
-
-</div>
-
-<div
-class="type-option"
 data-type="Movie"
 onclick="selectType('Movie')">
 
@@ -4548,11 +4527,6 @@ id="detailsNotes">
 
 No notes.
 
-</div>
-
-<div
-class="related-anime-area"
-id="relatedAnimeArea">
 </div>
 
 </div>
@@ -5133,14 +5107,14 @@ function showProfileCategory(status,clickedElement){
     ? "All Anime"
     : status;
 
-  const mainAnimeList = getMainAnimeList();
-
   const list =
-    status === "All"
-    ? mainAnimeList
-    : mainAnimeList.filter(
-        anime=>anime.status===status
-      );
+    getUniqueAnimeList(
+      status === "All"
+      ? animeList
+      : animeList.filter(
+          anime=>anime.status===status
+        )
+    );
 
   document
   .getElementById("profileCategoryTitle")
@@ -5217,25 +5191,23 @@ function showProfileCategory(status,clickedElement){
 
 function updateProfileStats(){
 
-  const mainAnimeList = getMainAnimeList();
-
   const watching =
-  mainAnimeList.filter(
+  animeList.filter(
     a=>a.status==="Watching"
   ).length;
 
   const completed =
-  mainAnimeList.filter(
+  animeList.filter(
     a=>a.status==="Completed"
   ).length;
 
   const plan =
-  mainAnimeList.filter(
+  animeList.filter(
     a=>a.status==="Plan to Watch"
   ).length;
 
   const total =
-  mainAnimeList.length;
+  animeList.length;
 
   const values = {
     profileWatchingCount:watching,
@@ -5673,6 +5645,30 @@ function queueAnimeLiveSearch(){
     },420);
 }
 
+function getUniqueAnimeList(list){
+
+  const seen = new Set();
+
+  return (list || []).filter(anime=>{
+
+    const title = String(anime?.title || "")
+      .trim()
+      .toLowerCase();
+
+    const poster = String(anime?.poster || "")
+      .trim();
+
+    const key = title + "\u001f" + poster;
+
+    if(seen.has(key)){
+      return false;
+    }
+
+    seen.add(key);
+    return true;
+  });
+}
+
 function showAnimeTypeGroup(kind,button){
 
   document
@@ -5696,7 +5692,7 @@ function showAnimeTypeGroup(kind,button){
     .trim();
 
   let list =
-    getMainAnimeList().filter(anime=>
+    animeList.filter(anime=>
       (anime.title || "")
       .toLowerCase()
       .includes(search)
@@ -5720,6 +5716,8 @@ function showAnimeTypeGroup(kind,button){
 }
 
 function renderAnimeListOnly(list){
+
+  list = getUniqueAnimeList(list);
 
   const grid =
     document.getElementById("animeGrid");
@@ -5815,124 +5813,85 @@ function renderAnimeListOnly(list){
 
 
 /* =========================
-   RELATED ANIME / SEASONS
-   The relationship is stored inside the existing notes field,
-   so no new Supabase column is required.
-========================= */
-
-const ANISAKURA_RELATION_TAG = "<!--ANISAKURA_REL:";
-let pendingRelation = null;
-let editingRelation = null;
-
-function getAnimeRelation(anime){
-  if(!anime || !anime.notes) return null;
-  const match = String(anime.notes).match(/<!--ANISAKURA_REL:(\{.*?\})-->/);
-  if(!match) return null;
-  try{
-    const relation = JSON.parse(match[1]);
-    if(!relation || relation.parentId == null || !relation.type) return null;
-    return {parentId:Number(relation.parentId),type:String(relation.type)};
-  }catch(error){
-    return null;
-  }
-}
-
-function stripAnimeRelation(notes){
-  return String(notes || "").replace(/\s*<!--ANISAKURA_REL:\{.*?\}-->\s*/g, "").trim();
-}
-
-function makeAnimeRelationNotes(notes,relation){
-  const clean = stripAnimeRelation(notes);
-  if(!relation) return clean || null;
-  const marker = ANISAKURA_RELATION_TAG + JSON.stringify({parentId:Number(relation.parentId),type:String(relation.type)}) + "-->";
-  return clean ? clean + "\n" + marker : marker;
-}
-
-function getMainAnimeList(){
-  return animeList.filter(anime=>!getAnimeRelation(anime));
-}
-
-function getRelatedAnime(parentId,type){
-  return animeList.filter(anime=>{
-    const relation = getAnimeRelation(anime);
-    return relation && Number(relation.parentId)===Number(parentId) && String(relation.type).toLowerCase()===String(type).toLowerCase();
-  });
-}
-
-function relatedTypeLabel(type){
-  const value = String(type || "").toLowerCase();
-  if(value === "movie") return "Movie";
-  if(value === "ova") return "OVA";
-  return "Season";
-}
-
-function renderRelatedAnime(parentAnime){
-  const area = document.getElementById("relatedAnimeArea");
-  if(!area || !parentAnime) return;
-
-  const groups = ["Season","Movie","OVA"];
-  let html = '<div class="related-anime-title">Seasons / Movies / OVA</div>';
-
-  const parentRelation = getAnimeRelation(parentAnime);
-  if(parentRelation){
-    const parent = animeList.find(anime=>Number(anime.id)===Number(parentRelation.parentId));
-    if(parent){
-      html = `<button type="button" class="related-anime-btn related-anime-back" onclick="openDetails(${parent.id})">← ${escapeHtml(parent.title)}</button>` + html;
-    }
-  }
-
-  groups.forEach(type=>{
-    const items = getRelatedAnime(parentAnime.id,type);
-    const label = relatedTypeLabel(type);
-    html += `<div class="related-anime-group">`;
-    items.forEach((anime,index)=>{
-      const buttonLabel = `${label} ${index+1}`;
-      html += `<button type="button" class="related-anime-btn" title="${escapeHtml(anime.title || buttonLabel)}" onclick="openDetails(${anime.id})">${escapeHtml(buttonLabel)}</button>`;
-    });
-    html += `<button type="button" class="related-anime-btn add" onclick="addRelatedAnime('${type}')">+ ${escapeHtml(label)}</button>`;
-    html += `</div>`;
-  });
-
-  area.innerHTML = html;
-}
-
-function addRelatedAnime(type){
-  if(!currentAnime) return;
-  pendingRelation = {parentId:Number(currentAnime.id),type:String(type)};
-  closeDetails();
-  openAnimeModal();
-}
-
-
-/* =========================
    OPEN ADD / EDIT
 ========================= */
 
 function openAnimeModal(anime=null){
 
-  editingId = anime ? anime.id : null;
-  editingRelation = anime ? getAnimeRelation(anime) : null;
+  editingId =
+  anime
+  ? anime.id
+  : null;
 
-  document.getElementById("animeModalTitle").textContent =
-    anime
-    ? "Edit Anime"
-    : pendingRelation
-      ? "Add " + relatedTypeLabel(pendingRelation.type)
-      : "Add Anime";
 
-  const animeSearchArea = document.getElementById("animeSearchArea");
-  if(animeSearchArea) animeSearchArea.style.display = anime ? "none" : "block";
-  if(!anime) resetAnimeSearch();
+  document
+  .getElementById("animeModalTitle")
+  .textContent =
+  anime
+  ? "Edit Anime"
+  : "Add Anime";
 
-  document.getElementById("animeTitle").value = anime?.title || "";
-  document.getElementById("animeStatus").value = anime?.status || "Watching";
-  document.getElementById("animeEpisodes").value = anime?.episodes ?? "";
-  document.getElementById("animeRating").value = anime?.rating ?? "";
-  document.getElementById("animePoster").value = anime?.poster || "";
-  document.getElementById("animeNotes").value = stripAnimeRelation(anime?.notes || "");
+  const animeSearchArea =
+    document.getElementById("animeSearchArea");
 
-  selectType(pendingRelation?.type || anime?.media_type || "Episode");
-  document.getElementById("animeModal").classList.add("show");
+  if(animeSearchArea){
+
+    animeSearchArea.style.display =
+      anime
+      ? "none"
+      : "block";
+  }
+
+  if(!anime){
+    resetAnimeSearch();
+  }
+
+
+  document
+  .getElementById("animeTitle")
+  .value =
+  anime?.title || "";
+
+
+  document
+  .getElementById("animeStatus")
+  .value =
+  anime?.status || "Watching";
+
+
+  document
+  .getElementById("animeEpisodes")
+  .value =
+  anime?.episodes ?? "";
+
+
+  document
+  .getElementById("animeRating")
+  .value =
+  anime?.rating ?? "";
+
+
+  document
+  .getElementById("animePoster")
+  .value =
+  anime?.poster || "";
+
+
+  document
+  .getElementById("animeNotes")
+  .value =
+  anime?.notes || "";
+
+
+  selectType(
+    anime?.media_type || "Episode"
+  );
+
+
+  document
+  .getElementById("animeModal")
+  .classList.add("show");
+
 }
 
 
@@ -5947,8 +5906,6 @@ function closeAnimeModal(){
   .classList.remove("show");
 
   editingId = null;
-  editingRelation = null;
-  pendingRelation = null;
 
 }
 
@@ -5990,9 +5947,6 @@ async function saveAnime(){
   }
 
 
-  const relationForSave = editingRelation || pendingRelation || null;
-  const selectedType = relationForSave?.type || document.getElementById("animeType").value;
-
   const animeData = {
 
     title:title,
@@ -6002,7 +5956,10 @@ async function saveAnime(){
     .getElementById("animeStatus")
     .value,
 
-    media_type:selectedType,
+    media_type:
+    document
+    .getElementById("animeType")
+    .value,
 
     episodes:
     document
@@ -6032,12 +5989,11 @@ async function saveAnime(){
     .value
     .trim() || null,
 
-    notes:makeAnimeRelationNotes(
-      document
-      .getElementById("animeNotes")
-      .value,
-      relationForSave
-    )
+    notes:
+    document
+    .getElementById("animeNotes")
+    .value
+    .trim() || null
 
   };
 
@@ -6067,9 +6023,7 @@ async function saveAnime(){
       user_id:user.id,
       featured:false,
       featured_note:null
-    })
-    .select()
-    .single();
+    });
 
   }
 
@@ -6146,10 +6100,12 @@ function renderAnime(){
 
 
   const filtered =
-  getMainAnimeList().filter(anime=>
-    (anime.title || "")
-    .toLowerCase()
-    .includes(search)
+  getUniqueAnimeList(
+    animeList.filter(anime=>
+      (anime.title || "")
+      .toLowerCase()
+      .includes(search)
+    )
   );
 
 
@@ -6293,12 +6249,10 @@ function renderAnime(){
 
 function updateStats(){
 
-  const mainAnimeList = getMainAnimeList();
-
   document
   .getElementById("watchingCount")
   .textContent =
-  mainAnimeList.filter(
+  animeList.filter(
     a=>a.status==="Watching"
   ).length;
 
@@ -6306,7 +6260,7 @@ function updateStats(){
   document
   .getElementById("completedCount")
   .textContent =
-  mainAnimeList.filter(
+  animeList.filter(
     a=>a.status==="Completed"
   ).length;
 
@@ -6314,7 +6268,7 @@ function updateStats(){
   document
   .getElementById("planCount")
   .textContent =
-  mainAnimeList.filter(
+  animeList.filter(
     a=>a.status==="Plan to Watch"
   ).length;
 
@@ -6322,9 +6276,9 @@ function updateStats(){
   document
   .getElementById("totalCount")
   .textContent =
-  mainAnimeList.length;
+  animeList.length;
 
-  const watchEpisodeCount = getMainAnimeList().reduce(
+  const watchEpisodeCount = animeList.reduce(
     (total, anime) => total + (Number(anime.episodes) || 0),
     0
   );
@@ -6398,12 +6352,12 @@ function showStatusList(status,clickedElement){
 
   if(status === "All"){
 
-    filtered = [...getMainAnimeList()];
+    filtered = [...animeList];
 
   }else{
 
     filtered =
-    getMainAnimeList().filter(
+    animeList.filter(
       anime => anime.status === status
     );
 
@@ -7000,10 +6954,8 @@ function openDetails(id){
   document
   .getElementById("detailsNotes")
   .textContent =
-  stripAnimeRelation(currentAnime.notes) ||
+  currentAnime.notes ||
   "No notes.";
-
-  renderRelatedAnime(currentAnime);
 
 
   const poster =
@@ -7096,9 +7048,6 @@ function closeDetails(){
   );
 
   currentAnime = null;
-
-  const relatedArea = document.getElementById("relatedAnimeArea");
-  if(relatedArea) relatedArea.innerHTML = "";
 
 }
 
