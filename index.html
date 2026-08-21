@@ -3505,7 +3505,9 @@ input[placeholder="Search anime..."]:not(#search){
 /* When a poster is opened FROM the Profile page, keep the Profile page
    underneath instead of making it look like the main-page detail screen. */
 #detailsModal.profile-details-mode{
-  background:rgba(2,6,15,.42) !important;
+  z-index:80 !important;
+  display:flex !important;
+  background:rgba(2,6,15,.58) !important;
   backdrop-filter:blur(6px) !important;
   -webkit-backdrop-filter:blur(6px) !important;
 }
@@ -7558,8 +7560,9 @@ function openDetails(id){
     profilePage &&
     profilePage.classList.contains("show")
   ){
-    profilePage.classList.remove("show");
-    detailsModal.classList.remove("profile-details-mode");
+    /* Keep the Profile page open underneath. The details card must open
+       on top of the same page, exactly like the normal card-open behavior. */
+    detailsModal.classList.add("profile-details-mode");
   }else{
     detailsModal.classList.remove("profile-details-mode");
   }
