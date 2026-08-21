@@ -5519,7 +5519,7 @@ function showProfileCategory(status,clickedElement){
         <div
         class="profile-anime-card"
         style="animation-delay:${Math.min(index*35,350)}ms"
-        onclick="openDetails('${anime.id}')">
+        onclick="event.stopPropagation(); openDetailsFromProfile('${anime.id}')">
 
           <img
           class="profile-anime-poster"
@@ -7444,7 +7444,11 @@ function closeFeaturedEditor(){
    DETAILS
 ========================= */
 
-function openDetails(id){
+function openDetailsFromProfile(id){
+  openDetails(id, true);
+}
+
+function openDetails(id, fromProfile = false){
 
   currentAnime =
   animeList.find(
@@ -7556,12 +7560,11 @@ function openDetails(id){
   const profilePage =
     document.getElementById("profilePageModal");
 
-  if(
-    profilePage &&
-    profilePage.classList.contains("show")
-  ){
-    /* Keep the Profile page open underneath. The details card must open
-       on top of the same page, exactly like the normal card-open behavior. */
+  const profileIsOpen =
+    !!profilePage &&
+    profilePage.classList.contains("show");
+
+  if(fromProfile || profileIsOpen){
     detailsModal.classList.add("profile-details-mode");
   }else{
     detailsModal.classList.remove("profile-details-mode");
@@ -7734,3 +7737,10 @@ checkUser();
 
 </body>
 </html>
+
+<style id="profile-card-details-final-fix">
+#detailsModal.profile-details-mode{z-index:10000 !important;display:flex !important;}
+#detailsModal.profile-details-mode .details-box{position:relative;z-index:10001 !important;}
+#profilePageModal{z-index:60 !important;}
+.profile-anime-card{cursor:pointer;}
+</style>
