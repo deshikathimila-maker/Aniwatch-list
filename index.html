@@ -1118,45 +1118,19 @@ textarea{
   box-shadow:0 24px 80px rgba(0,0,0,.42);
   backdrop-filter:blur(22px);
   -webkit-backdrop-filter:blur(22px);
-  position:relative;
-  isolation:isolate;
-  overflow:hidden;
-}
-
-/* Soft blurred glass copy of the anime poster behind the details. */
-.details-box::before{
-  content:"";
-  position:absolute;
-  inset:-28px;
-  background-image:var(--detail-bg);
-  background-size:cover;
-  background-position:center;
-  filter:blur(24px);
-  opacity:.30;
-  transform:scale(1.08);
-  z-index:-2;
-}
-.details-box::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:linear-gradient(135deg,rgba(7,12,24,.62),rgba(8,15,28,.86));
-  z-index:-1;
-  pointer-events:none;
 }
 
 .details-box .details-layout{
-  min-height:400px;
-  grid-template-columns:230px 1fr;
-  gap:24px;
+  min-height:460px;
+  grid-template-columns:280px 1fr;
+  gap:28px;
   padding:0;
   border-radius:18px;
 }
 
 .details-box .details-poster{
-  height:350px;
+  height:430px;
   border-radius:16px;
-  box-shadow:0 18px 45px rgba(0,0,0,.30);
 }
 
 .details-box .details-content{
@@ -1176,16 +1150,13 @@ textarea{
     padding:14px;
     border-radius:18px;
   }
- .details-box .details-layout{
+  .details-box .details-layout{
     grid-template-columns:1fr;
     min-height:0;
     gap:14px;
   }
   .details-box .details-poster{
-    height:300px;
-    max-width:210px;
-    width:100%;
-    margin:0 auto;
+    height:380px;
   }
   .details-box .details-content{
     padding:8px 10px 16px;
@@ -4171,6 +4142,34 @@ input[placeholder="Search anime..."]:not(#search){
 }
 
 </style>
+
+<style id="anime-details-glass-background">
+#detailsModal .details-box{
+  position:relative;
+  overflow:hidden;
+  isolation:isolate;
+}
+#detailsModal .details-box::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:-2;
+  background:inherit;
+  background-size:cover;
+  background-position:center;
+  filter:blur(18px) saturate(115%);
+  transform:scale(1.08);
+  opacity:.55;
+}
+#detailsModal .details-box::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:-1;
+  background:linear-gradient(180deg,rgba(5,8,18,.35),rgba(5,8,18,.78));
+  pointer-events:none;
+}
+</style>
 </head>
 <body>
 <header class="header">
@@ -5119,15 +5118,13 @@ function showProfileCategory(status,clickedElement){
     ? "All Anime"
     : status;
 
-  /* Related Season/Movie/OVA records are shown through the parent
-     anime's details page, not as separate Profile cards. */
-  const topLevelAnime = animeList.filter(anime => !readRelationMeta(anime));
-
+  /* Saved Season/Movie/OVA records are also real cards.
+     Opening any one of them shows the same related-anime navigation. */
   const list =
     getUniqueAnimeList(
       status === "All"
-      ? topLevelAnime
-      : topLevelAnime.filter(
+      ? animeList
+      : animeList.filter(
           anime=>anime.status===status
         )
     );
@@ -5387,8 +5384,27 @@ async function searchAnimeAPI(){
 
     let items = [];
 
-    /* Primary source: Jikan / MyAnimeList */
-    try{
+    /* Primary source: the user's saved Supabase anime list.
+       If nothing saved matches, fall back to the existing external search. */
+    const localMatches = getUniqueAnimeList(
+      animeList.filter(anime =>
+        String(anime?.title || "").toLowerCase().includes(q.toLowerCase())
+      )
+    ).slice(0,8).map(anime => ({
+      _source:"local",
+      _localId:String(anime.id),
+      title:anime.title || "Unknown title",
+      images:{jpg:{image_url:anime.poster || ""}},
+      score:anime.rating != null ? Number(anime.rating) : null,
+      episodes:anime.episodes ?? null,
+      year:anime.year ?? null
+    }));
+
+    items = localMatches;
+
+    /* External source: Jikan / MyAnimeList, only if the saved table has no match. */
+    if(!items.length){
+      try{
 
       const response =
         await fetch(
@@ -5409,11 +5425,12 @@ async function searchAnimeAPI(){
           : [];
       }
 
-    }catch(primaryError){
-      console.warn("Jikan search failed:", primaryError);
+      }catch(primaryError){
+        console.warn("Jikan search failed:", primaryError);
+      }
     }
 
-    /* Fallback source: Kitsu, only if Jikan returned nothing. */
+    /* Fallback source: Kitsu, only if neither the saved table nor Jikan returned anything. */
     if(!items.length){
 
       try{
@@ -6328,13 +6345,11 @@ function renderAnime(){
   .trim();
 
 
-  /* Related Season/Movie/OVA records belong inside their parent
-     details page. They must NOT appear as separate main-page cards. */
-  const topLevelAnime = animeList.filter(anime => !readRelationMeta(anime));
-
+  /* Show saved Season/Movie/OVA records as their own cards too.
+     When one is opened, its related seasons are still shown in details. */
   const filtered =
   getUniqueAnimeList(
-    topLevelAnime.filter(anime=>
+    animeList.filter(anime=>
       (anime.title || "")
       .toLowerCase()
       .includes(search)
@@ -7273,10 +7288,6 @@ function openDetails(id, fromProfile = false){
       `linear-gradient(rgba(3,7,14,.52),rgba(3,7,14,.84)),url("${escapeHtml(currentAnime.poster)}")`;
       detailsBox.style.backgroundSize = "cover";
       detailsBox.style.backgroundPosition = "center";
-      detailsBox.style.setProperty(
-        "--detail-bg",
-        `url("${escapeHtml(currentAnime.poster)}")`
-      );
     }
 
   }else{
@@ -7286,7 +7297,6 @@ function openDetails(id, fromProfile = false){
 
     if(detailsBox){
       detailsBox.style.backgroundImage = "none";
-      detailsBox.style.removeProperty("--detail-bg");
     }
 
   }
